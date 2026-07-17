@@ -6,16 +6,20 @@ import { cn } from "@/lib/utils";
 /**
  * Wraps children so they fade-and-rise into view on scroll. Content is present
  * in the server-rendered HTML (SEO-safe); only the animation is client-side.
+ * `variant` picks the entrance direction; `once` keeps it revealed after first
+ * intersection so scrolling stays calm.
  */
 export function Reveal({
   children,
   className,
   delay = 0,
+  variant = "up",
   as: Tag = "div",
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  variant?: "up" | "left" | "right" | "scale";
   as?: keyof JSX.IntrinsicElements;
 }) {
   const ref = useRef<HTMLElement | null>(null);
@@ -39,11 +43,20 @@ export function Reveal({
     return () => io.disconnect();
   }, []);
 
+  const variantClass =
+    variant === "left"
+      ? "reveal-left"
+      : variant === "right"
+        ? "reveal-right"
+        : variant === "scale"
+          ? "reveal-scale"
+          : undefined;
+
   const Component = Tag as any;
   return (
     <Component
       ref={ref}
-      className={cn("reveal", shown && "in", className)}
+      className={cn("reveal", variantClass, shown && "in", className)}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}

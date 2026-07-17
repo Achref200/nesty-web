@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ImagePlus, X } from "lucide-react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
@@ -13,13 +13,31 @@ import { cn } from "@/lib/utils";
  *   - `cover`   → the first photo (listing cover)
  *   - `gallery` → all photos, comma-separated (also feeds the 3D tour)
  */
-export function ImageUpload() {
+export function ImageUpload({
+  initialUrls = [],
+  editable = true,
+  onChange,
+}: {
+  initialUrls?: string[];
+  editable?: boolean;
+  onChange?: (urls: string[]) => void;
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [urls, setUrls] = useState<string[]>([]);
+  const seed = useMemo(() => initialUrls.join("|"), [initialUrls]);
+  const [urls, setUrls] = useState<string[]>(initialUrls);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setUrls(initialUrls);
+  }, [seed, initialUrls]);
+
+  useEffect(() => {
+    onChange?.(urls);
+  }, [urls, onChange]);
+
   async function handleFiles(files: FileList | null) {
+    if (!editable) return;
     if (!files || files.length === 0) return;
     setUploading(true);
     setError(null);
@@ -39,6 +57,7 @@ export function ImageUpload() {
   }
 
   function removeAt(i: number) {
+    if (!editable) return;
     setUrls((prev) => prev.filter((_, idx) => idx !== i));
   }
 
@@ -64,14 +83,16 @@ export function ImageUpload() {
               unoptimized
               className="object-cover"
             />
-            <button
-              type="button"
-              onClick={() => removeAt(i)}
-              className="absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white"
-              aria-label="Remove photo"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
+            {editable && (
+              <button
+                type="button"
+                onClick={() => removeAt(i)}
+                className="absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white"
+                aria-label="Remove photo"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
             {i === 0 && (
               <span className="absolute bottom-1 left-1 rounded-md bg-ink px-1.5 py-0.5 text-[10px] font-bold text-paper">
                 Cover
@@ -80,32 +101,37 @@ export function ImageUpload() {
           </div>
         ))}
 
-        <button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          disabled={uploading}
-          className="grid h-24 w-24 place-items-center rounded-2xl border border-dashed border-separator bg-card text-muted transition-colors hover:border-ink hover:text-ink"
-        >
-          {uploading ? (
-            <Dots />
-          ) : (
-            <ImagePlus className="h-6 w-6" />
-          )}
-        </button>
+        {editable && (
+          <button
+            type="button"
+            onClick={() => inputRef.current?.click()}
+            disabled={uploading}
+            className="grid h-24 w-24 place-items-center rounded-2xl border border-dashed border-separator bg-card text-muted transition-colors hover:border-ink hover:text-ink"
+          >
+            {uploading ? (
+              <Dots />
+            ) : (
+              <ImagePlus className="h-6 w-6" />
+            )}
+          </button>
+        )}
       </div>
 
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        multiple
-        hidden
-        onChange={(e) => handleFiles(e.target.files)}
-      />
+      {editable && (
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          hidden
+          onChange={(e) => handleFiles(e.target.files)}
+        />
+      )}
 
       <p className="text-[13px] text-muted">
-        Upload from your desktop — the first photo is the cover, all photos feed
-        the 3D tour.
+        {editable
+          ? "Upload from your desktop — the first photo is the cover, all photos feed the 3D tour."
+          : "Photos are locked in view mode. Switch to edit mode to add, remove, or reorder by re-uploading."}
       </p>
       {error && <p className="text-sm text-danger">{error}</p>}
     </div>

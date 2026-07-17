@@ -1,229 +1,223 @@
 import {
-  Box,
-  CalendarCheck,
-  ShieldCheck,
-  Search,
-  Building2,
-  BadgeCheck,
-  MapPin,
-  LineChart,
-  CalendarDays,
-  Check,
-  X,
-  Mail,
   ArrowRight,
+  BadgeCheck,
+  Building2,
+  ChartNoAxesCombined,
+  Check,
+  ChevronDown,
+  Layers,
+  Mail,
+  Plus,
+  Users,
 } from "lucide-react";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Reveal } from "./reveal";
 
 function SectionHead({
   kicker,
   title,
   sub,
+  center = false,
 }: {
   kicker: string;
   title: string;
   sub?: string;
+  center?: boolean;
 }) {
   return (
-    <Reveal>
-      <span className="text-[13px] font-bold uppercase tracking-[0.08em] text-muted-soft">
+    <Reveal className={center ? "mx-auto max-w-2xl text-center" : undefined}>
+      <span className="text-[13px] font-bold uppercase tracking-[0.1em] text-brand">
         {kicker}
       </span>
       <h2 className="mt-3 text-3xl font-bold md:text-[42px]">{title}</h2>
-      {sub && <p className="mt-3 max-w-xl text-[17px] text-muted">{sub}</p>}
+      {sub && (
+        <p
+          className={
+            center
+              ? "mx-auto mt-3 max-w-2xl text-[17px] text-muted"
+              : "mt-3 max-w-2xl text-[17px] text-muted"
+          }
+        >
+          {sub}
+        </p>
+      )}
     </Reveal>
   );
 }
 
+const PIPELINE_ROWS = [
+  { name: "Le Kram Marina Loft", status: "3D complete", owner: "Atlas Realty" },
+  { name: "Menzah Park Residence", status: "Visit booked", owner: "Medina Keys" },
+  { name: "Hammamet Summer Villa", status: "Reserved", owner: "Cap Bon Living" },
+  { name: "Lac 2 Smart Office", status: "Lead review", owner: "Lac Business" },
+];
+
 const STEPS = [
   {
-    icon: Box,
+    icon: Layers,
     n: "01",
-    title: "Tour in 3D",
-    body: "Walk through every room from your couch, day or night. What you see is what you get.",
+    title: "We set up your portfolio",
+    body: "Send us what you have — we migrate your listings, photos, and availability into one tidy workspace for you.",
   },
   {
-    icon: CalendarCheck,
+    icon: Users,
     n: "02",
-    title: "Book a visit or reserve",
-    body: "Pick a viewing slot, or hold your summer dates with a check-in and check-out.",
+    title: "Your team works as one",
+    body: "Agents, managers, and marketing share a single timeline, so no request ever slips between inboxes.",
   },
   {
-    icon: ShieldCheck,
+    icon: ChartNoAxesCombined,
     n: "03",
-    title: "Move in with confidence",
-    body: "Every listing is verified and tracked, so there are no surprises when you arrive.",
+    title: "Go live, city by city",
+    body: "Launch when your inventory looks great, then open discovery to seekers on the app — one market at a time.",
   },
 ];
 
-export function Steps() {
-  return (
-    <section id="how" className="py-20">
-      <div className="mx-auto max-w-content px-6">
-        <SectionHead
-          kicker="How it works"
-          title="Three steps to a home you trust."
-          sub="The whole point of Nesty: only visit the place you already believe in."
-        />
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {STEPS.map((s, i) => (
-            <Reveal key={s.n} delay={i * 70}>
-              <Card hover className="h-full">
-                <div className="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-fill">
-                  <s.icon className="h-5 w-5" />
-                </div>
-                <span className="font-display text-sm font-extrabold text-muted-soft">
-                  {s.n}
-                </span>
-                <h3 className="mt-1 text-lg font-bold">{s.title}</h3>
-                <p className="mt-2 text-[15px] text-muted">{s.body}</p>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Audience() {
-  return (
-    <section id="who" className="py-20">
-      <div className="mx-auto max-w-content px-6">
-        <SectionHead
-          kicker="Who it's for"
-          title="Two sides, one calm marketplace."
-        />
-        <div className="mt-9 grid gap-4 md:grid-cols-2">
-          <Reveal>
-            <div className="h-full rounded-3xl border border-separator p-8">
-              <Badge variant="soft">
-                <Search className="h-3.5 w-3.5" /> For seekers
-              </Badge>
-              <h3 className="mt-4 font-display text-2xl font-bold">
-                Find a home without the guesswork
-              </h3>
-              <p className="mt-2.5 text-[15px] text-muted">
-                Students and young professionals who want to tour, compare and
-                shortlist homes &mdash; then book a visit or reserve their dates
-                in a couple of taps.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={70}>
-            <div className="h-full rounded-3xl border border-ink bg-ink p-8 text-paper">
-              <Badge className="bg-white/15 text-paper">
-                <Building2 className="h-3.5 w-3.5" /> For agencies
-              </Badge>
-              <h3 className="mt-4 font-display text-2xl font-bold">
-                See your whole portfolio at a glance
-              </h3>
-              <p className="mt-2.5 text-[15px] text-white/70">
-                List properties, and track visits, reservations and requests on
-                a live calendar &mdash; know instantly what&rsquo;s reserved and
-                what&rsquo;s free.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-const FEATURES = [
-  { icon: Box, title: "Immersive 3D tours", body: "Every room, navigable in 360° — a real walkthrough, not a slideshow." },
-  { icon: CalendarDays, title: "Visits & reservations", body: "A full booking flow with a live calendar for both sides." },
-  { icon: BadgeCheck, title: "Trust & verification", body: "Verified listings and owners — confidence before you commit." },
-  { icon: LineChart, title: "Agency insights", body: "Views, saves and tour attention — see how people react to a place." },
-  { icon: MapPin, title: "Neighbourhood intel", body: "Transport, schools and lifestyle scores around every home." },
-  { icon: CalendarCheck, title: "Summer rentals", body: "Hold your vacation dates with a clear check-in and check-out." },
+export const FAQS = [
+  {
+    q: "Is there a mobile app for renters?",
+    a: "Yes. Agencies publish on the web workspace; seekers browse, tour homes in 3D, and book a visit or reserve in the Nesty app. The two stay in sync in real time.",
+  },
+  {
+    q: "Is Nesty a B2B platform first?",
+    a: "Yes. Agencies and property teams onboard first and publish inventory, then discovery opens to seekers once the content quality is high.",
+  },
+  {
+    q: "How do the 3D tours work?",
+    a: "Our Tour3D engine turns ordinary room photos into an immersive walkthrough — no special camera or hardware required.",
+  },
+  {
+    q: "Can multiple agents collaborate in one workspace?",
+    a: "Absolutely. Teams share listing ownership, request handling, and booking follow-up on one timeline, without switching tools.",
+  },
+  {
+    q: "Can we launch city by city?",
+    a: "Yes. Inventory can go live in phases, so your marketing and sponsorship always match the homes that are actually ready.",
+  },
 ];
 
 export function Features() {
   return (
-    <section id="features" className="py-20">
-      <div className="mx-auto max-w-content px-6">
-        <SectionHead kicker="What's inside" title="Built to feel effortless." />
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {FEATURES.map((f, i) => (
-            <Reveal key={f.title} delay={(i % 3) * 70}>
-              <Card hover className="h-full">
-                <div className="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-fill">
-                  <f.icon className="h-5 w-5" />
+    <section id="platform" className="py-20">
+      <div className="mx-auto max-w-wide px-6">
+        <SectionHead
+          kicker="Agency workspace"
+          title="A soft interface with serious operational depth."
+          sub="From the first photo to the final signature, every module is built for clarity and speed — the calm on the surface is doing real work underneath."
+        />
+        <div className="mt-10 grid gap-5 lg:grid-cols-[1.35fr_1fr]">
+          <Reveal variant="left">
+            <Card className="h-full p-7">
+              <div className="mb-5 flex items-center justify-between">
+                <h3 className="text-xl font-bold">Listing pipeline board</h3>
+                <Badge variant="soft">
+                  <span className="shimmer-line mr-1 inline-flex h-1.5 w-1.5 rounded-pill bg-brand" />
+                  Live simulation
+                </Badge>
+              </div>
+              <div className="space-y-2.5">
+                {PIPELINE_ROWS.map((row) => (
+                  <div
+                    key={row.name}
+                    className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-separator bg-card px-4 py-3 transition-colors hover:border-ink/20"
+                  >
+                    <div>
+                      <p className="font-semibold text-ink">{row.name}</p>
+                      <p className="text-xs text-muted">{row.owner}</p>
+                    </div>
+                    <span className="self-center rounded-pill bg-fill px-2.5 py-1 text-xs font-semibold text-ink-soft">
+                      {row.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </Reveal>
+
+          <div className="grid gap-5">
+            <Reveal delay={70} variant="right">
+              <Card className="p-7">
+                <h3 className="text-lg font-bold">Occupancy pulse</h3>
+                <p className="mt-1.5 text-sm text-muted">Q3 forecast by segment</p>
+                <div className="mt-5 space-y-3">
+                  {([
+                    ["Family homes", 74],
+                    ["Summer rentals", 61],
+                    ["Corporate units", 83],
+                  ] as const).map(([label, pct]) => (
+                    <div key={label}>
+                      <div className="mb-1 flex justify-between text-xs text-muted-soft">
+                        <span>{label}</span>
+                        <span>{pct}%</span>
+                      </div>
+                      <div className="h-2 rounded-pill bg-fill">
+                        <div
+                          className="h-full rounded-pill bg-brand"
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <h3 className="text-lg font-bold">{f.title}</h3>
-                <p className="mt-2 text-[15px] text-muted">{f.body}</p>
               </Card>
             </Reveal>
-          ))}
+
+            <Reveal delay={120} variant="right">
+              <Card className="p-7">
+                <h3 className="text-lg font-bold">Cross-team handoff</h3>
+                <p className="mt-1.5 text-sm text-muted">
+                  Marketing to sales handoff in one timeline.
+                </p>
+                <div className="mt-4 flex items-center gap-2">
+                  {["AM", "SK", "YR", "HB"].map((person) => (
+                    <span
+                      key={person}
+                      className="grid h-9 w-9 place-items-center rounded-pill border border-separator bg-fill text-xs font-bold text-ink"
+                    >
+                      {person}
+                    </span>
+                  ))}
+                  <span className="ml-1 text-xs text-muted">+8 teammates</span>
+                </div>
+              </Card>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-const PROBLEMS = [
-  "Listings live in Facebook groups and blurry photos.",
-  "You lose whole Saturdays visiting places that don't match.",
-  "No way to know if an owner — or a listing — is real.",
-  "Agencies have zero visibility into who's interested.",
-];
-
-const SOLUTIONS = [
-  "Every home is a real 3D walkthrough you tour from your couch.",
-  "Book a visit or reserve your dates in a couple of taps.",
-  "Verified listings and owners, with trust built in.",
-  "Agencies get a live dashboard of visits and reservations.",
-];
-
-export function ProblemSolution() {
+export function Steps() {
   return (
-    <section id="why" className="py-20">
-      <div className="mx-auto max-w-content px-6">
+    <section id="how" className="py-20">
+      <div className="mx-auto max-w-wide px-6">
         <SectionHead
-          kicker="Why we built it"
-          title="Renting shouldn't feel like a gamble."
-          sub="In Tunisia, finding a home means scrolling groups, guessing from photos and hoping for the best. Nesty replaces the guesswork with confidence — for seekers and agencies alike."
+          kicker="Getting started"
+          title="Live in days, not quarters."
+          sub="A calm rollout that respects your market timing — deploy cleanly, launch confidently, and open access when your inventory already looks its best."
         />
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          <Reveal>
-            <div className="h-full rounded-3xl border border-separator p-8">
-              <span className="text-[13px] font-bold uppercase tracking-[0.08em] text-muted-soft">
-                The problem
-              </span>
-              <ul className="mt-4 flex flex-col gap-3">
-                {PROBLEMS.map((p) => (
-                  <li key={p} className="flex items-start gap-3 text-[15px]">
-                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-pill bg-fill">
-                      <X className="h-3 w-3 text-muted" />
-                    </span>
-                    <span className="text-muted">{p}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-          <Reveal delay={70}>
-            <div className="h-full rounded-3xl border border-ink bg-ink p-8 text-paper">
-              <span className="text-[13px] font-bold uppercase tracking-[0.08em] text-white/50">
-                How Nesty solves it
-              </span>
-              <ul className="mt-4 flex flex-col gap-3">
-                {SOLUTIONS.map((s) => (
-                  <li key={s} className="flex items-start gap-3 text-[15px]">
-                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-pill bg-white/15">
-                      <Check className="h-3 w-3 text-paper" />
-                    </span>
-                    <span className="text-white/85">{s}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
+        <div className="relative mt-10 grid gap-5 md:grid-cols-3">
+          <div
+            aria-hidden="true"
+            className="absolute left-[16%] right-[16%] top-[38px] hidden h-px bg-separator md:block"
+          />
+          {STEPS.map((step, i) => (
+            <Reveal key={step.n} delay={i * 90} variant="up">
+              <Card hover className="relative h-full p-7">
+                <div className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-ink text-paper">
+                  <step.icon className="h-5 w-5" />
+                </div>
+                <span className="font-display text-sm font-extrabold text-muted-soft">
+                  {step.n}
+                </span>
+                <h3 className="mt-1 text-lg font-bold">{step.title}</h3>
+                <p className="mt-2 text-[15px] text-muted">{step.body}</p>
+              </Card>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -233,51 +227,99 @@ export function ProblemSolution() {
 export function Contact() {
   return (
     <section id="contact" className="py-20">
+      <div className="mx-auto max-w-wide px-6">
+        <Reveal variant="scale">
+          <div className="relative overflow-hidden rounded-[32px] border border-separator bg-paper p-8 md:p-12">
+            <div aria-hidden="true" className="aura-blob aura-brand -right-16 -top-16 h-72 w-72 opacity-70" />
+            <div className="relative grid items-center gap-8 md:grid-cols-2">
+              <div>
+                <h2 className="font-display text-3xl font-bold md:text-[40px]">
+                  Ready to run your agency on Nesty?
+                </h2>
+                <p className="mt-3 max-w-md text-[17px] text-muted">
+                  We configure your portfolio, team roles, and launch sequence to
+                  match your market plan — then open discovery when you&rsquo;re ready.
+                </p>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <Button asChild variant="brand" size="lg">
+                    <a href="mailto:hello@nesty.tn?subject=Nesty%20Agency%20Access">
+                      <Mail className="h-4 w-4" /> Request agency access
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" size="lg">
+                    <a href="/login">
+                      Agency login <ArrowRight className="h-4 w-4" />
+                    </a>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid gap-3">
+                {[
+                  {
+                    icon: Building2,
+                    t: "Dedicated agency workspace",
+                    s: "Portfolio, roles, and branding configured for your team.",
+                  },
+                  {
+                    icon: Check,
+                    t: "Verified-first rollout",
+                    s: "Launch city by city with content ready before traffic.",
+                  },
+                  {
+                    icon: BadgeCheck,
+                    t: "Guided onboarding",
+                    s: "We migrate your listings and media for you.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.t}
+                    className="flex items-start gap-3 rounded-2xl border border-separator bg-card p-4 shadow-card"
+                  >
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-fill">
+                      <item.icon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-bold text-ink">{item.t}</p>
+                      <p className="text-[13px] text-muted">{item.s}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+export function Faq() {
+  return (
+    <section id="faq" className="py-20">
       <div className="mx-auto max-w-content px-6">
-        <div className="grid gap-4 md:grid-cols-2">
-          <Reveal>
-            <Card className="flex h-full flex-col justify-between gap-6 p-8">
-              <div>
-                <div className="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-fill">
-                  <Search className="h-5 w-5" />
-                </div>
-                <h3 className="font-display text-2xl font-bold">
-                  Looking for a home?
-                </h3>
-                <p className="mt-2 text-[15px] text-muted">
-                  Join the waitlist above and we&rsquo;ll bring you into the
-                  Nesty app the moment it&rsquo;s ready.
+        <SectionHead
+          kicker="FAQ"
+          title="Answers for product, growth, and deployment teams."
+          center
+        />
+        <div className="mx-auto mt-8 max-w-3xl divide-y divide-separator rounded-3xl border border-separator bg-card">
+          {FAQS.map((faq, i) => (
+            <Reveal key={faq.q} delay={i * 50}>
+              <details className="group px-6 py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink marker:hidden">
+                  {faq.q}
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-pill bg-fill text-ink transition-transform group-open:rotate-45">
+                    <Plus className="h-4 w-4 group-open:hidden" />
+                    <ChevronDown className="hidden h-4 w-4 group-open:block" />
+                  </span>
+                </summary>
+                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
+                  {faq.a}
                 </p>
-              </div>
-              <Button asChild variant="secondary" className="w-fit">
-                <a href="#waitlist">
-                  Join the waitlist <ArrowRight className="h-4 w-4" />
-                </a>
-              </Button>
-            </Card>
-          </Reveal>
-          <Reveal delay={70}>
-            <Card className="flex h-full flex-col justify-between gap-6 p-8">
-              <div>
-                <div className="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-fill">
-                  <Building2 className="h-5 w-5" />
-                </div>
-                <h3 className="font-display text-2xl font-bold">
-                  Are you an agency?
-                </h3>
-                <p className="mt-2 text-[15px] text-muted">
-                  Nesty sets your dashboard up for you — listings, visits,
-                  reservations and offers, all in one place. Reach out and
-                  we&rsquo;ll get you access.
-                </p>
-              </div>
-              <Button asChild className="w-fit">
-                <a href="mailto:hello@nesty.tn">
-                  <Mail className="h-4 w-4" /> hello@nesty.tn
-                </a>
-              </Button>
-            </Card>
-          </Reveal>
+              </details>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

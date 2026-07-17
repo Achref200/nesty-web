@@ -45,6 +45,17 @@ const AUDIENCE = [
   { key: "pets", label: "Pets" },
 ];
 
+const TAGS = [
+  "Furnished",
+  "Sea view",
+  "Balcony",
+  "Parking",
+  "Pets ok",
+  "Wifi",
+  "New",
+  "Renovated",
+];
+
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="flex flex-col gap-1.5">
@@ -75,6 +86,7 @@ export default function NewListingPage() {
   const [type, setType] = useState("entirePlace");
   const [term, setTerm] = useState("longTerm");
   const [audience, setAudience] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [state, formAction] = useFormState<CreateListingState, FormData>(
     createListing,
     {},
@@ -83,6 +95,11 @@ export default function NewListingPage() {
   const toggleAudience = (key: string) =>
     setAudience((prev) =>
       prev.includes(key) ? prev.filter((a) => a !== key) : [...prev, key],
+    );
+
+  const toggleTag = (key: string) =>
+    setTags((prev) =>
+      prev.includes(key) ? prev.filter((t) => t !== key) : [...prev, key],
     );
 
   return (
@@ -111,6 +128,7 @@ export default function NewListingPage() {
         <input type="hidden" name="type" value={type} />
         <input type="hidden" name="rentalTerm" value={term} />
         <input type="hidden" name="audience" value={audience.join(",")} />
+        <input type="hidden" name="tags" value={tags.join(",")} />
         <Card className="flex flex-col gap-5">
           <Field label="Title">
             <Input name="title" placeholder="Bright T3 near Lac 2" required />
@@ -185,6 +203,26 @@ export default function NewListingPage() {
                   )}
                 >
                   {a.label}
+                </button>
+              ))}
+            </div>
+          </Field>
+
+          <Field label="Tags (optional)">
+            <div className="flex flex-wrap gap-2">
+              {TAGS.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => toggleTag(t)}
+                  className={cn(
+                    "rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors",
+                    tags.includes(t)
+                      ? "bg-ink text-paper"
+                      : "bg-fill text-ink hover:bg-separator",
+                  )}
+                >
+                  {t}
                 </button>
               ))}
             </div>

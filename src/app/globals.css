@@ -42,6 +42,21 @@
     opacity: 1;
     transform: none;
   }
+  /* Directional reveal variants — set on the wrapper, cleared on .in. */
+  .reveal-left {
+    transform: translateX(-28px);
+  }
+  .reveal-right {
+    transform: translateX(28px);
+  }
+  .reveal-scale {
+    transform: scale(0.94);
+  }
+  .reveal-left.in,
+  .reveal-right.in,
+  .reveal-scale.in {
+    transform: none;
+  }
 
   .caret {
     display: inline-block;
@@ -79,6 +94,126 @@
   .dot {
     animation: dotFlash 1.4s infinite both;
   }
+
+  .landing-rings {
+    background-image:
+      radial-gradient(circle at 50% 10%, rgba(20, 20, 20, 0.08), transparent 45%),
+      repeating-radial-gradient(
+        circle at 50% 18%,
+        transparent 0,
+        transparent 24px,
+        rgba(20, 20, 20, 0.04) 24px,
+        rgba(20, 20, 20, 0.04) 25px
+      );
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 80%);
+  }
+
+  .float-slow {
+    animation: floatY 9s ease-in-out infinite;
+  }
+
+  .float-medium {
+    animation: floatY 7s ease-in-out infinite;
+  }
+
+  .float-fast {
+    animation: floatY 5.5s ease-in-out infinite;
+  }
+
+  /* Edge-fading marquee track for the agency trust strip. */
+  .marquee-mask {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+  .marquee-pause:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* Horizontal listing carousel — two rows drifting opposite ways. */
+  .rail-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 66s linear infinite;
+  }
+  .rail-track-rev {
+    display: flex;
+    width: max-content;
+    animation: marquee-reverse 66s linear infinite;
+  }
+  .rail-pause:hover .rail-track,
+  .rail-pause:hover .rail-track-rev {
+    animation-play-state: paused;
+  }
+
+  /* Soft scroll-hint chevron under the hero. */
+  .scroll-cue {
+    animation: bob 2.4s ease-in-out infinite;
+  }
+
+  /* Soft floating aura blobs used behind hero / CTA sections. */
+  .aura-blob {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(60px);
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(20, 20, 20, 0.1),
+      transparent 70%
+    );
+    animation: floatY 12s ease-in-out infinite;
+  }
+
+  /* Warm variant — a gentle terracotta glow. */
+  .aura-brand {
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(236, 94, 42, 0.2),
+      transparent 70%
+    );
+  }
+
+  /* Gentle pointer-follow tilt on showcase cards. */
+  .tilt {
+    transform: perspective(1000px) rotateX(0) rotateY(0);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-style: preserve-3d;
+  }
+
+  /* Shimmer sweep for "live" chips. */
+  .shimmer-line {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.55),
+      transparent
+    );
+    animation: shimmer 2.6s ease-in-out infinite;
+  }
 }
 
 @keyframes dotFlash {
@@ -92,6 +227,16 @@
   }
 }
 
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1 !important;
@@ -99,5 +244,19 @@
   }
   .caret {
     animation: none;
+  }
+  .float-slow,
+  .float-medium,
+  .float-fast,
+  .aura-blob,
+  .marquee-track,
+  .rail-track,
+  .rail-track-rev,
+  .scroll-cue {
+    animation: none;
+  }
+  .shimmer-line::after {
+    animation: none;
+    display: none;
   }
 }

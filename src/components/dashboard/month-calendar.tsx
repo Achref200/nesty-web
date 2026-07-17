@@ -46,15 +46,32 @@ export function MonthCalendar({
 
   const active = reservations.filter((r) => r.status !== "cancelled");
   const marked = useMemo(() => {
-    const set = new Set<string>();
-    active.forEach((r) => occupiedKeys(r).forEach((k) => set.add(k)));
-    return set;
+    const map = new Map<string, { stay: boolean; visit: boolean }>();
+    active.forEach((r) => {
+      const isStay = r.type === "stay";
+      occupiedKeys(r).forEach((k) => {
+        const cur = map.get(k) ?? { stay: false, visit: false };
+        if (isStay) cur.stay = true;
+        else cur.visit = true;
+        map.set(k, cur);
+      });
+    });
+    return map;
   }, [active]);
 
   const year = month.getFullYear();
   const m = month.getMonth();
   const daysInMonth = new Date(year, m + 1, 0).getDate();
   const firstDow = (new Date(year, m, 1).getDay() + 6) % 7; // Monday-first
+
+  const monthPrefix = `${year}-${m}-`;
+  const monthCount = useMemo(() => {
+    const ids = new Set<string>();
+    active.forEach((r) => {
+      if (occupiedKeys(r).some((k) => k.startsWith(monthPrefix))) ids.add(r.id);
+    });
+    return ids.size;
+  }, [active, monthPrefix]);
 
   const selKey = dayKey(selected);
   const dayItems = active.filter((r) => occupiedKeys(r).includes(selKey));
@@ -105,7 +122,7 @@ export function MonthCalendar({
             const k = dayKey(date);
             const isToday = k === dayKey(today);
             const isSelected = k === selKey;
-            const isMarked = marked.has(k);
+            const types = marked.get(k);
             return (
               <button
                 key={k}
@@ -113,26 +130,44 @@ export function MonthCalendar({
                 onClick={() => setSelected(date)}
                 className={cn(
                   "flex aspect-square flex-col items-center justify-center rounded-pill text-sm font-semibold transition-colors",
-                  isSelected
-                    ? "bg-ink text-paper"
-                    : "text-ink hover:bg-fill",
-                  isToday && !isSelected && "ring-1 ring-inset ring-ink",
+                  isSelected ? "bg-ink text-paper" : "text-ink hover:bg-fill",
+                  isToday && !isSelected && "ring-1 ring-inset ring-brand",
                 )}
               >
                 {d}
-                <span
-                  className={cn(
-                    "mt-0.5 h-1 w-1 rounded-pill",
-                    isMarked
-                      ? isSelected
-                        ? "bg-paper"
-                        : "bg-ink"
-                      : "bg-transparent",
+                <span className="mt-0.5 flex h-1.5 items-center justify-center gap-0.5">
+                  {types?.stay && (
+                    <span
+                      className={cn(
+                        "h-1.5 w-1.5 rounded-pill",
+                        isSelected ? "bg-paper" : "bg-ink",
+                      )}
+                    />
                   )}
-                />
+                  {types?.visit && (
+                    <span
+                      className={cn(
+                        "h-1.5 w-1.5 rounded-pill",
+                        isSelected ? "bg-paper/80" : "bg-brand",
+                      )}
+                    />
+                  )}
+                </span>
               </button>
             );
           })}
+        </div>
+
+        <div className="mt-4 flex items-center gap-4 border-t border-separator pt-3 text-xs text-muted">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-pill bg-ink" /> Stay
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-pill bg-brand" /> Visit
+          </span>
+          <span className="ml-auto font-semibold text-ink-soft">
+            {monthCount} booking{monthCount === 1 ? "" : "s"} this month
+          </span>
         </div>
       </Card>
 

@@ -24,6 +24,7 @@ export interface Listing {
   bathrooms: number;
   areaSqm: number;
   cover: string | null;
+  gallery: string[];
   rating: number;
   reviewCount: number;
   state: ListingState;

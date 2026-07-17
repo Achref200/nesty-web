@@ -55,7 +55,7 @@ export function ReservationItem({
       const res = await setReservationStatus(reservation.id, next);
       if (res && "error" in res && res.error) {
         setStatus(prev); // revert on failure
-        toast.error("Couldn't update the reservation. Please try again.");
+        toast.error(res.error);
       } else {
         toast.success(
           next === "confirmed"

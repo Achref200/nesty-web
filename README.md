@@ -30,7 +30,8 @@ src/
     page.tsx                # landing page (+ JSON-LD structured data)
     globals.css             # design tokens + base styles
     sitemap.ts / robots.ts / manifest.ts   # SEO routes
-    api/waitlist/route.ts   # waitlist capture endpoint
+    opengraph-image.tsx / icon.tsx          # social card + favicon
+    api/cloudinary-sign/route.ts   # signed media upload endpoint
     dashboard/
       layout.tsx            # sidebar + topbar shell (noindex)
       page.tsx              # overview: stats + next up + portfolio
@@ -40,7 +41,7 @@ src/
   components/
     ui/                     # Button, Card, Badge, Input, Separator (shadcn-style)
     brand/logo.tsx          # house mark + wordmark
-    landing/                # nav, hero, sections, waitlist, footer, motion
+    landing/                # nav, hero, showcase, sections, footer, motion
     dashboard/              # sidebar, topbar, stat card, reservation/listing items, calendar
   data/                     # types + demo dataset (swap for Supabase/Postgres)
   lib/                      # cn(), formatters, site/SEO config
@@ -50,14 +51,15 @@ src/
 
 - Per-route Metadata API (title template, OpenGraph, Twitter, canonical).
 - `sitemap.xml`, `robots.txt`, and a web manifest as first-class routes.
-- JSON-LD (`Organization` + `WebSite` + `SoftwareApplication`) on the landing page.
+- JSON-LD (`Organization` + `WebSite` + `SoftwareApplication` + `Service` +
+  `FAQPage`) on the landing page, plus a dynamic OpenGraph share card.
 - Landing content is server-rendered; only motion is client-side, so crawlers
   see the full copy. The dashboard is `noindex`.
 
 ## Going live
 
-- **Waitlist:** replace the marked block in `src/app/api/waitlist/route.ts`
-  with a real store (Supabase table, Postgres, or Resend/Mailchimp).
 - **Data:** swap `src/data/mock.ts` for a real client behind the same types in
   `src/data/types.ts` — the UI won't change.
+- **Showcase:** the public landing inventory lives in `src/data/showcase.ts`;
+  swap it for verified listings as agencies onboard.
 - Set the canonical URL in `src/lib/site.ts`.

@@ -16,7 +16,7 @@ export type Database = {
           id: string;
           email: string | null;
           full_name: string | null;
-          role: "seeker" | "host";
+          role: "seeker" | "host" | "partner";
           avatar_url: string | null;
           created_at: string;
           updated_at: string;
@@ -25,13 +25,13 @@ export type Database = {
           id: string;
           email?: string | null;
           full_name?: string | null;
-          role?: "seeker" | "host";
+          role?: "seeker" | "host" | "partner";
           avatar_url?: string | null;
         };
         Update: {
           email?: string | null;
           full_name?: string | null;
-          role?: "seeker" | "host";
+          role?: "seeker" | "host" | "partner";
           avatar_url?: string | null;
         };
         Relationships: [];
@@ -110,6 +110,7 @@ export type Database = {
           bathrooms?: number;
           area_sqm?: number;
           cover_image?: string | null;
+          gallery?: string[];
           description?: string | null;
           available_from?: string | null;
           status?: "active" | "hidden";

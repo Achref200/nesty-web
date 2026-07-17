@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { ListingControls } from "@/components/dashboard/listing-controls";
+import { ListingMediaEditor } from "@/components/dashboard/listing-media-editor";
 import { ReservationItem } from "@/components/dashboard/reservation-item";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -115,6 +116,14 @@ export default async function ListingDetailPage({
           icon={TrendingUp}
           value={`${saveRate}%`}
           label="Save rate"
+        />
+      </section>
+
+      <section>
+        <ListingMediaEditor
+          id={listing.id}
+          cover={listing.cover}
+          gallery={listing.gallery}
         />
       </section>
 

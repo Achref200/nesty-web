@@ -26,8 +26,9 @@ export default async function DashboardLayout({
   const data = await getDashboardData();
   if (!data) redirect("/login");
 
-  // The web portal is B2B only — seeker accounts belong on the mobile app.
-  if (data.role !== "host") {
+  // The web portal is B2B only — agencies (host) and paid partners get in;
+  // seeker accounts belong on the mobile app.
+  if (data.role !== "host" && data.role !== "partner") {
     return <NotAgency />;
   }
 

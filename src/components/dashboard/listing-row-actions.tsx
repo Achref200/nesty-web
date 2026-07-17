@@ -6,9 +6,26 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { MoreHorizontal, Pencil, Eye, EyeOff, Trash2 } from "lucide-react";
 import { setListingStatus, deleteListing } from "@/lib/actions/listings";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 
-/** Inline manage menu (edit / hide / delete) for a listing row. */
+/** Manage menu (edit / hide / delete) for a listing row — shadcn primitives. */
 export function ListingRowActions({
   id,
   hidden,
@@ -16,12 +33,11 @@ export function ListingRowActions({
   id: string;
   hidden: boolean;
 }) {
-  const [open, setOpen] = useState(false);
   const [pending, start] = useTransition();
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
 
   function toggleHide() {
-    setOpen(false);
     start(async () => {
       const res = await setListingStatus(id, hidden ? "active" : "hidden");
       if (res.error) toast.error(res.error);
@@ -33,68 +49,86 @@ export function ListingRowActions({
   }
 
   function remove() {
-    setOpen(false);
-    if (!confirm("Delete this listing permanently?")) return;
     start(async () => {
       const res = await deleteListing(id);
-      if (res?.error) toast.error(res.error);
+      // deleteListing redirects on success; only errors return here.
+      if (res?.error) {
+        toast.error(res.error);
+        setConfirmOpen(false);
+      }
     });
   }
 
   return (
-    <div className="relative">
-      <button
-        type="button"
-        aria-label="Manage listing"
-        disabled={pending}
-        onClick={() => setOpen((o) => !o)}
-        className={cn(
-          "grid h-8 w-8 place-items-center rounded-lg border border-separator bg-card text-ink transition-colors hover:bg-fill",
-          pending && "opacity-50",
-        )}
-      >
-        <MoreHorizontal className="h-4 w-4" />
-      </button>
-
-      {open && (
-        <>
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setOpen(false)}
-          />
-          <div className="absolute right-0 z-20 mt-1 w-44 overflow-hidden rounded-xl border border-separator bg-card py-1 shadow-lg">
-            <Link
-              href={`/dashboard/listings/${id}`}
-              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-ink hover:bg-fill"
-              onClick={() => setOpen(false)}
-            >
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            type="button"
+            aria-label="Manage listing"
+            disabled={pending}
+            className={cn(
+              "grid h-8 w-8 place-items-center rounded-lg border border-separator bg-card text-ink transition-colors hover:bg-fill",
+              pending && "opacity-50",
+            )}
+          >
+            <MoreHorizontal className="h-4 w-4" />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild>
+            <Link href={`/dashboard/listings/${id}`}>
               <Pencil className="h-4 w-4" /> Edit details
             </Link>
-            <button
-              type="button"
-              onClick={toggleHide}
-              className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium text-ink hover:bg-fill"
-            >
-              {hidden ? (
-                <>
-                  <Eye className="h-4 w-4" /> Publish
-                </>
-              ) : (
-                <>
-                  <EyeOff className="h-4 w-4" /> Hide
-                </>
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={remove}
-              className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium text-danger hover:bg-fill"
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={toggleHide}>
+            {hidden ? (
+              <>
+                <Eye className="h-4 w-4" /> Publish
+              </>
+            ) : (
+              <>
+                <EyeOff className="h-4 w-4" /> Hide
+              </>
+            )}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            destructive
+            onSelect={(e) => {
+              e.preventDefault();
+              setConfirmOpen(true);
+            }}
+          >
+            <Trash2 className="h-4 w-4" /> Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this listing?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This permanently removes the place and all its data. A listing with
+              upcoming bookings can&rsquo;t be deleted — cancel those first.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              variant="danger"
+              disabled={pending}
+              onClick={(e) => {
+                e.preventDefault();
+                remove();
+              }}
             >
               <Trash2 className="h-4 w-4" /> Delete
-            </button>
-          </div>
-        </>
-      )}
-    </div>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

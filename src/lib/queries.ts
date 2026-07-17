@@ -69,6 +69,7 @@ function mapListing(
     bathrooms: row.bathrooms,
     areaSqm: Number(row.area_sqm),
     cover: row.cover_image,
+    gallery: row.gallery ?? [],
     rating: Number(row.rating),
     reviewCount: row.review_count,
     state: reserved ? "reserved" : "available",
@@ -109,7 +110,7 @@ function isReservedNow(rows: { status: string; start_at: string }[]): boolean {
 }
 
 export interface DashboardData {
-  role: "seeker" | "host";
+  role: "seeker" | "host" | "partner";
   fullName: string;
   email: string;
   listings: Listing[];
