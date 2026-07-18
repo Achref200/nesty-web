@@ -9,7 +9,7 @@ export const site = {
     "Nesty helps real-estate teams publish premium listings, manage requests and reservations, and launch a conversion-focused property experience across web and mobile.",
   url: "https://nesty.tn",
   locale: "en_TN",
-  tagline: "Turn listings into signed opportunities.",
+  tagline: "Real estate operations, finally in one calm place.",
   keywords: [
     "Nesty",
     "PropTech Tunisia",
@@ -27,12 +27,10 @@ export const site = {
     "real estate agency platform",
   ],
   nav: [
-    { href: "/#listings", label: "Listings" },
-    { href: "/#app", label: "Mobile app" },
-    { href: "/#platform", label: "Platform" },
-    { href: "/#why", label: "Why Nesty" },
-    { href: "/#stories", label: "Stories" },
-    { href: "/#faq", label: "FAQ" },
+    { href: "/#stays", label: "Stays" },
+    { href: "/#how", label: "How it works" },
+    { href: "/#product", label: "Product" },
+    { href: "/#features", label: "Features" },
   ],
 } as const;
 

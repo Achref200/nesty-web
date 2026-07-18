@@ -214,6 +214,105 @@
     );
     animation: shimmer 2.6s ease-in-out infinite;
   }
+
+  /* ============================================================
+   * DARK LANDING — minimal, kling.ai-inspired visual utilities.
+   * Base = pure ink; hierarchy carried by white/opacity + grain.
+   * ============================================================ */
+
+  /* Subtle diagonal grid, fades to center — softens the pure-black canvas. */
+  .dark-grid {
+    background-color: #0B0B0B;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+    mask-image: radial-gradient(
+      ellipse 90% 70% at 50% 40%,
+      #000 45%,
+      transparent 100%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 90% 70% at 50% 40%,
+      #000 45%,
+      transparent 100%
+    );
+  }
+
+  /* Slow-drifting soft "aurora" glow — pure white at low opacity. */
+  .aurora-glow {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(90px);
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.18),
+      transparent 65%
+    );
+    animation: aurora-drift 14s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Fine noise film to break up gradient banding on OLED. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
+  }
+
+  /* Reversed selection over dark canvas. */
+  .dark-scope ::selection {
+    background: #FCFCFB;
+    color: #141414;
+  }
+
+  /* Hairline animated separator — draws in from center on reveal. */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.22),
+      transparent
+    );
+  }
+
+  /* Text with a slow horizontal shimmer — used for the hero headline. */
+  .headline-shimmer {
+    background: linear-gradient(
+      100deg,
+      #FCFCFB 0%,
+      #FCFCFB 40%,
+      rgba(255, 255, 255, 0.55) 50%,
+      #FCFCFB 60%,
+      #FCFCFB 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: headline-sweep 7s ease-in-out infinite;
+  }
+
+  /* Soft chevron bob under the hero. */
+  .cue-bob {
+    animation: bob 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes headline-sweep {
+  0%,
+  100% {
+    background-position: 200% 0;
+  }
+  50% {
+    background-position: -50% 0;
+  }
 }
 
 @keyframes dotFlash {
@@ -249,10 +348,13 @@
   .float-medium,
   .float-fast,
   .aura-blob,
+  .aurora-glow,
   .marquee-track,
   .rail-track,
   .rail-track-rev,
-  .scroll-cue {
+  .scroll-cue,
+  .cue-bob,
+  .headline-shimmer {
     animation: none;
   }
   .shimmer-line::after {

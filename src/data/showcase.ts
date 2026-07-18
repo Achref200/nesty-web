@@ -374,3 +374,99 @@ export const ECOSYSTEM: EcosystemNode[] = [
     body: "A booking on mobile updates the agency calendar instantly. Everyone sees the same truth.",
   },
 ];
+
+/* ────────────────────────────────────────────────────────────────── *
+ *  Rental destinations & property categories
+ *  Used by the landing page to make the "rentals across Tunisia"
+ *  story visible on first scroll (Airbnb-style discovery cues).
+ * ────────────────────────────────────────────────────────────────── */
+
+export interface Destination {
+  city: string;
+  region: string;
+  image: string;
+  /** Approximate stays available in the app (illustrative). */
+  stays: number;
+  /** Lowest monthly asking price shown on the card (TND). */
+  fromMonthly: number;
+  /** Lowest nightly rate shown as the secondary line (TND). */
+  fromNightly: number;
+  /** Short editorial line about the neighborhood or vibe. */
+  vibe: string;
+}
+
+export const DESTINATIONS: Destination[] = [
+  {
+    city: "La Marsa",
+    region: "Tunis · Corniche",
+    image: U("1600585154340-be6161a56a0c"),
+    stays: 148,
+    fromMonthly: 2400,
+    fromNightly: 180,
+    vibe: "Sea walks, morning coffee, easy metro into Tunis.",
+  },
+  {
+    city: "Sidi Bou Saïd",
+    region: "Blue & white village",
+    image: U("1613490493576-7fde63acd811"),
+    stays: 62,
+    fromMonthly: 3800,
+    fromNightly: 320,
+    vibe: "Postcard streets, painters' balconies, mint tea sunsets.",
+  },
+  {
+    city: "Hammamet",
+    region: "Yasmine · seafront",
+    image: U("1512917774080-9991f1c4c750"),
+    stays: 96,
+    fromMonthly: 1800,
+    fromNightly: 140,
+    vibe: "Long summers, walkable beaches, easy family stays.",
+  },
+  {
+    city: "Djerba",
+    region: "Sidi Mahrez · island",
+    image: U("1502672260266-1c1ef2d93688"),
+    stays: 74,
+    fromMonthly: 1500,
+    fromNightly: 120,
+    vibe: "Palm groves, whitewashed houses, waves two minutes away.",
+  },
+  {
+    city: "Sousse",
+    region: "Medina & coast",
+    image: U("1600047509807-ba8f99d2cdde"),
+    stays: 83,
+    fromMonthly: 1200,
+    fromNightly: 95,
+    vibe: "Old medina energy on one side, wide beach on the other.",
+  },
+  {
+    city: "Carthage",
+    region: "Byrsa · Salammbô",
+    image: U("1570129477492-45c003edd2be"),
+    stays: 47,
+    fromMonthly: 4200,
+    fromNightly: 340,
+    vibe: "Historic hillside villas, quiet gardens, sea in the distance.",
+  },
+];
+
+export interface PropertyCategory {
+  key: string;
+  label: string;
+  hint: string;
+}
+
+/** The horizontal category rail below the hero search bar. */
+export const PROPERTY_CATEGORIES: PropertyCategory[] = [
+  { key: "all", label: "All stays", hint: "Every home on Nesty" },
+  { key: "villa", label: "Villas", hint: "Private, with a garden or a pool" },
+  { key: "apartment", label: "Apartments", hint: "In the heart of the city" },
+  { key: "room", label: "Private rooms", hint: "A bed in a shared home" },
+  { key: "studio", label: "Studios", hint: "Just you, one clean room" },
+  { key: "beachfront", label: "Beachfront", hint: "Sea in under five minutes" },
+  { key: "riad", label: "Riads", hint: "Traditional houses, quiet courtyards" },
+  { key: "long", label: "Long-term leases", hint: "3 months and up" },
+];
+

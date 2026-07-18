@@ -1,27 +1,29 @@
 import type { Metadata } from "next";
-import { SiteNav } from "@/components/landing/site-nav";
-import { SideRail } from "@/components/landing/side-rail";
-import { ScrollProgress } from "@/components/landing/scroll-progress";
+import { Nav } from "@/components/landing/nav";
 import { Hero } from "@/components/landing/hero";
-import { TrustMarquee } from "@/components/landing/trust-marquee";
-import { FeaturedListings } from "@/components/landing/featured-listings";
-import { MobileApp } from "@/components/landing/mobile-app";
-import { Ecosystem } from "@/components/landing/ecosystem";
-import { Manifesto } from "@/components/landing/manifesto";
-import { StatsBand } from "@/components/landing/stats-band";
-import { Testimonials } from "@/components/landing/testimonials";
-import { Steps, Features, Faq, FAQS, Contact } from "@/components/landing/sections";
-import { SiteFooter } from "@/components/landing/site-footer";
+import { Stays } from "@/components/landing/stays";
+import { Pillars } from "@/components/landing/pillars";
+import { HowItWorks } from "@/components/landing/how-it-works";
+import { Product } from "@/components/landing/product";
+import { Features } from "@/components/landing/features";
+import { Numbers } from "@/components/landing/numbers";
+import { Voice } from "@/components/landing/voice";
+import { Cta } from "@/components/landing/cta";
+import { Footer } from "@/components/landing/footer";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Nesty for Agencies | Real Estate Operations and Growth",
+  title: "Nesty — Rent your next place in Tunisia.",
   description:
-    "Nesty is a B2B property operations platform for agencies to publish verified inventory, manage bookings, and launch high-conversion real-estate experiences — paired with a consumer app for 3D tours and reservations.",
+    "Nesty is a calm rental platform for Tunisia. Villas by the sea, apartments in the medina, rooms for a semester — every stay verified, every home tourable in 3D, priced by the night or by the month.",
   alternates: { canonical: "/" },
 };
 
-/** JSON-LD structured data helps Google understand the product & organisation. */
+/**
+ * JSON-LD structured data — kept lean now that the landing is minimalist. No
+ * FAQ schema (there is no FAQ section anymore); just Organization, WebSite,
+ * SoftwareApplication, MobileApplication and Service.
+ */
 function StructuredData() {
   const json = {
     "@context": "https://schema.org",
@@ -71,14 +73,6 @@ function StructuredData() {
         areaServed: "Tunisia",
         serviceType: "Real estate listing operations and booking workflow",
       },
-      {
-        "@type": "FAQPage",
-        mainEntity: FAQS.map((faq) => ({
-          "@type": "Question",
-          name: faq.q,
-          acceptedAnswer: { "@type": "Answer", text: faq.a },
-        })),
-      },
     ],
   };
   return (
@@ -93,25 +87,22 @@ export default function HomePage() {
   return (
     <>
       <StructuredData />
-      <ScrollProgress />
-      <SideRail />
-      <div className="md:pl-[72px]">
-        <SiteNav />
+      {/* Dark scope wrapper — paints the whole landing on ink and flips the
+          text-selection style. All child components assume this dark canvas. */}
+      <div className="dark-scope min-h-screen bg-ink text-paper">
+        <Nav />
         <main>
           <Hero />
-          <TrustMarquee />
-          <FeaturedListings />
-          <MobileApp />
-          <Ecosystem />
+          <Stays />
+          <Pillars />
+          <HowItWorks />
+          <Product />
           <Features />
-          <Steps />
-          <Manifesto />
-          <StatsBand />
-          <Testimonials />
-          <Faq />
-          <Contact />
+          <Numbers />
+          <Voice />
+          <Cta />
         </main>
-        <SiteFooter />
+        <Footer />
       </div>
     </>
   );
