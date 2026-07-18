@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "./reveal";
 import { Parallax } from "./parallax";
+import { site, agencyAccessMailto } from "@/lib/site";
 
 /**
  * Final call-to-action. One headline that names the specific ask, a short
@@ -47,7 +48,7 @@ export function Cta() {
         <Reveal delay={140}>
           <div className="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
             <a
-              href="mailto:hello@nesty.tn?subject=Nesty%20Agency%20Access"
+              href={agencyAccessMailto}
               className="group inline-flex items-center justify-center gap-2 rounded-pill bg-paper px-6 py-3.5 text-[14px] font-semibold text-ink transition-transform hover:-translate-y-px"
             >
               Request agency access
@@ -64,7 +65,7 @@ export function Cta() {
 
         <Reveal delay={220}>
           <p className="mt-8 text-[12px] uppercase tracking-[0.18em] text-white/35">
-            hello@nesty.tn · we reply in one working day
+            {site.email} · we reply in one working day
           </p>
         </Reveal>
       </div>

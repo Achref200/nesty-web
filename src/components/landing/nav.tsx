@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
-import { site } from "@/lib/site";
+import { site, agencyAccessMailto } from "@/lib/site";
+import { ThemeToggle } from "./theme-toggle";
 
 /**
  * Dark, minimalist landing header. Sticky, translucent on scroll, no clutter —
@@ -56,7 +57,10 @@ export function Nav() {
 
         <div className="flex-1" />
 
+        <ThemeToggle className="mr-1 md:hidden" />
+
         <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <Link
             href="/login"
             className="rounded-pill px-3.5 py-2 text-[13px] font-semibold text-white/70 transition-colors hover:text-paper"
@@ -64,7 +68,7 @@ export function Nav() {
             Sign in
           </Link>
           <a
-            href="mailto:hello@nesty.tn?subject=Nesty%20Agency%20Access"
+            href={agencyAccessMailto}
             className="inline-flex items-center gap-2 rounded-pill bg-paper px-4 py-2 text-[13px] font-semibold text-ink transition-transform hover:-translate-y-px"
           >
             Request access
@@ -105,7 +109,7 @@ export function Nav() {
                 Sign in
               </Link>
               <a
-                href="mailto:hello@nesty.tn?subject=Nesty%20Agency%20Access"
+                href={agencyAccessMailto}
                 onClick={() => setOpen(false)}
                 className="rounded-xl bg-paper px-4 py-3 text-center text-sm font-semibold text-ink"
               >

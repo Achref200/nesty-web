@@ -98,7 +98,7 @@ function DestinationCard({
   d: (typeof DESTINATIONS)[number];
 }) {
   return (
-    <article className="group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] transition-colors hover:border-white/20">
+    <article className="keep-dark group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] transition-colors hover:border-white/20">
       {/* Image */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-white/[0.04]">
         <Image

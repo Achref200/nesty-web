@@ -91,7 +91,7 @@ function WorkspacePreview({
   return (
     <div
       id="agencies"
-      className="group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-4 md:p-6"
+      className="keep-dark group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-ink p-4 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.7)] md:p-6"
     >
       <div
         aria-hidden="true"
@@ -408,7 +408,7 @@ function AppPreview({
   return (
     <div
       id="app"
-      className="relative flex flex-col items-center overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] px-4 py-10"
+      className="keep-dark relative flex flex-col items-center overflow-hidden rounded-3xl border border-white/[0.08] bg-ink px-4 py-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.7)]"
     >
       <div
         aria-hidden="true"

@@ -8,9 +8,12 @@ import { Product } from "@/components/landing/product";
 import { Features } from "@/components/landing/features";
 import { Numbers } from "@/components/landing/numbers";
 import { Voice } from "@/components/landing/voice";
+import { Showcase } from "@/components/landing/showcase";
 import { Cta } from "@/components/landing/cta";
 import { Footer } from "@/components/landing/footer";
+import { AssistantWidget } from "@/components/assistant/assistant-widget";
 import { site } from "@/lib/site";
+import { assistantConfig } from "@/lib/assistant/config";
 import { TESTIMONIALS, DESTINATIONS } from "@/data/showcase";
 
 // Title stays consumer-first to match the visible H1. Description reuses the
@@ -54,7 +57,7 @@ function StructuredData() {
         areaServed: { "@type": "Country", name: "Tunisia" },
         contactPoint: {
           "@type": "ContactPoint",
-          email: "hello@nesty.tn",
+          email: site.email,
           contactType: "sales",
           areaServed: "TN",
           availableLanguage: ["en", "fr", "ar"],
@@ -130,8 +133,20 @@ export default function HomePage() {
     <>
       <StructuredData />
       {/* Dark scope wrapper — paints the whole landing on ink and flips the
-          text-selection style. All child components assume this dark canvas. */}
-      <div className="dark-scope min-h-screen bg-ink text-paper">
+          text-selection style. `landing-theme` enables the light/dark tokens;
+          child components read the flipped colour tokens automatically. */}
+      <div
+        id="nesty-landing"
+        suppressHydrationWarning
+        className="landing-theme dark-scope min-h-screen bg-ink text-paper"
+      >
+        {/* Apply the saved theme before paint to avoid a flash of the wrong mode. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{if(localStorage.getItem('nesty-landing-theme')==='light'){document.getElementById('nesty-landing').classList.add('theme-light');}}catch(e){}})();",
+          }}
+        />
         <Nav />
         <main>
           <Hero />
@@ -142,9 +157,11 @@ export default function HomePage() {
           <Features />
           <Numbers />
           <Voice />
+          <Showcase />
           <Cta />
         </main>
         <Footer />
+        {assistantConfig.enabled && <AssistantWidget surface="landing" />}
       </div>
     </>
   );

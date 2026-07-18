@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Parallax } from "./parallax";
 import { PROPERTY_CATEGORIES } from "@/data/showcase";
+import { agencyAccessMailto } from "@/lib/site";
 
 /**
  * Hero — the room the whole page walks into.
@@ -85,7 +86,7 @@ export function Hero() {
         {/* CTAs (secondary — the search bar is the primary action) */}
         <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
           <a
-            href="mailto:hello@nesty.tn?subject=Nesty%20Agency%20Access"
+            href={agencyAccessMailto}
             className="group inline-flex items-center justify-center gap-2 rounded-pill border border-white/15 bg-transparent px-5 py-3 text-[13.5px] font-semibold text-paper transition-colors hover:bg-white/[0.06]"
           >
             <KeyRound className="h-3.5 w-3.5" strokeWidth={2} />

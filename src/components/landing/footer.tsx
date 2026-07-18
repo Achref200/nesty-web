@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
-import { site } from "@/lib/site";
+import { site, agencyAccessMailto } from "@/lib/site";
 
 /**
  * Minimalist dark footer — logo + one line + a slim link row + copy. No columns,
@@ -17,10 +17,10 @@ export function Footer() {
               {site.tagline}
             </p>
             <a
-              href="mailto:hello@nesty.tn?subject=Nesty%20Agency%20Access"
+              href={agencyAccessMailto}
               className="mt-5 inline-flex items-center gap-2 text-[13px] font-semibold text-paper underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-paper"
             >
-              hello@nesty.tn
+              {site.email}
             </a>
           </div>
 

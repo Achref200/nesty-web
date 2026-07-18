@@ -9,10 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#FCFCFB",
+        paper: "rgb(var(--c-paper) / <alpha-value>)",
         card: "#FFFFFF",
         fill: "#F1F1F0",
-        ink: { DEFAULT: "#141414", soft: "#3C3C3B" },
+        ink: {
+          DEFAULT: "rgb(var(--c-ink) / <alpha-value>)",
+          soft: "rgb(var(--c-ink-soft) / <alpha-value>)",
+        },
+        // Themeable "white" — flips to ink inside the landing light theme so the
+        // whole opacity hierarchy (text-white/50, bg-white/[0.02]…) inverts with
+        // one scope. Defaults to true white everywhere else.
+        white: "rgb(var(--c-white) / <alpha-value>)",
         separator: "#E6E6E4",
         muted: { DEFAULT: "#7A7A78", soft: "#B4B4B1" },
         danger: "#B23A34",

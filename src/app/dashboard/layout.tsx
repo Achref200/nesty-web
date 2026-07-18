@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { getDashboardData } from "@/lib/queries";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { signOut } from "@/lib/actions/auth";
+import { AssistantWidget } from "@/components/assistant/assistant-widget";
+import { assistantConfig } from "@/lib/assistant/config";
 
 export const metadata: Metadata = {
   title: "Agency dashboard",
@@ -43,6 +45,9 @@ export default async function DashboardLayout({
           {children}
         </main>
       </div>
+      {assistantConfig.enabled && (
+        <AssistantWidget surface="dashboard" userName={data.fullName ?? undefined} />
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signIn, type AuthState } from "@/lib/actions/auth";
+import { site } from "@/lib/site";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -69,7 +70,7 @@ export default function LoginPage() {
         <div className="mt-6 rounded-2xl border border-separator bg-card p-4 text-sm text-muted">
           Agency accounts are set up by Nesty — there&rsquo;s no sign-up here.
           Need access?{" "}
-          <a href="mailto:hello@nesty.tn" className="font-semibold text-ink">
+          <a href={`mailto:${site.email}`} className="font-semibold text-ink">
             Talk to us
           </a>
           .

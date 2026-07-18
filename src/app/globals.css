@@ -5,6 +5,63 @@
 :root {
   --font-display: "Outfit", system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* Themeable colour channels (space-separated RGB) consumed by the Tailwind
+     `paper` / `ink` / `white` tokens. Defaults keep the whole app pixel-identical;
+     only the landing light theme overrides them. */
+  --c-paper: 252 252 251; /* #FCFCFB */
+  --c-ink: 20 20 20; /* #141414 */
+  --c-ink-soft: 60 60 59; /* #3C3C3B */
+  --c-white: 255 255 255;
+}
+
+/* Landing light theme — flips the canvas (ink→paper), the solid foreground
+   (paper→ink) and the opacity hierarchy (white→ink) in one scope. */
+.landing-theme.theme-light {
+  --c-ink: 252 252 251; /* canvas becomes light */
+  --c-paper: 20 20 20; /* solid text / chips become dark */
+  --c-ink-soft: 90 90 88;
+  --c-white: 20 20 20; /* white/opacity utilities become dark */
+}
+
+/* Islands that must stay dark regardless of theme — device mockups, photo
+   overlays and the floating assistant panel (a fixed light-on-neutral surface). */
+.keep-dark {
+  --c-paper: 252 252 251;
+  --c-ink: 20 20 20;
+  --c-ink-soft: 60 60 59;
+  --c-white: 255 255 255;
+}
+
+/* Decorative backgrounds are tuned for the dark canvas (near-black fills, white
+   grids, white shimmer). Retune them for the light theme. Unlayered so they win
+   over the @layer component definitions. */
+.landing-theme.theme-light .dark-grid {
+  background-color: #F3F3F1;
+  background-image:
+    linear-gradient(rgba(20, 20, 20, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 20, 20, 0.05) 1px, transparent 1px);
+}
+.landing-theme.theme-light .aurora-glow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(20, 20, 20, 0.06),
+    transparent 65%
+  );
+}
+.landing-theme.theme-light .headline-shimmer {
+  background: linear-gradient(
+    100deg,
+    #141414 0%,
+    #141414 40%,
+    rgba(20, 20, 20, 0.5) 50%,
+    #141414 60%,
+    #141414 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 @layer base {

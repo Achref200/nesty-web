@@ -24,6 +24,10 @@ export const site = {
   url: inferredUrl,
   locale: "en_TN",
   tagline: "Every stay verified. Every home tourable in 3D.",
+  // Contact address. Temporary free Proton mailbox (no phone/domain needed)
+  // until the nesty.tn domain is owned — then switch this single line to
+  // "hello@nesty.tn". Every mailto link + JSON-LD contactPoint reads from here.
+  email: "contact.nesty@proton.me",
   keywords: [
     "Nesty",
     "rent in Tunisia",
@@ -49,3 +53,8 @@ export const site = {
 } as const;
 
 export type SiteConfig = typeof site;
+
+/** Prebuilt mailto for agency-access CTAs — keeps subject/address in one place. */
+export const agencyAccessMailto = `mailto:${site.email}?subject=${encodeURIComponent(
+  "Nesty Agency Access",
+)}`;
