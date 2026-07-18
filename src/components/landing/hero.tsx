@@ -139,8 +139,10 @@ export function Hero() {
  * ────────────────────────────────────────────────────────────────── */
 function SearchBar() {
   return (
-    <div className="mt-10 w-full max-w-3xl">
-      {/* Desktop pill */}
+    <div role="search" aria-label="Find a stay in Tunisia" className="mt-10 w-full max-w-3xl">
+      {/* Desktop pill — visible ≥md; the mobile stacked card below is
+          display:none at this breakpoint and vice-versa, so screen readers
+          only ever announce one of these two search widgets. */}
       <div className="hidden items-stretch overflow-hidden rounded-pill border border-white/12 bg-ink/70 p-1.5 text-left shadow-[0_28px_60px_-24px_rgba(0,0,0,0.7)] backdrop-blur-md md:flex">
         <SearchField
           icon={MapPin}
@@ -295,9 +297,10 @@ function CategoryRail() {
           const active = i === 0;
           return (
             <li key={c.key} className="shrink-0">
-              <button
-                type="button"
+              <Link
+                href="#stays"
                 title={c.hint}
+                aria-label={`See ${c.label.toLowerCase()} in Tunisia`}
                 className={
                   "group inline-flex flex-col items-center gap-1.5 border-b-2 pb-1 pt-0.5 text-[11.5px] font-medium tracking-wide transition-colors " +
                   (active
@@ -307,7 +310,7 @@ function CategoryRail() {
               >
                 <Icon className="h-4 w-4" strokeWidth={1.7} />
                 <span className="whitespace-nowrap">{c.label}</span>
-              </button>
+              </Link>
             </li>
           );
         })}

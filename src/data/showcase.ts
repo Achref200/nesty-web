@@ -259,15 +259,15 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "Nesty gave our agents one clean board for inventory and visits. We cut lead response time from hours to minutes.",
+      "We used to lose two weekends a month to double-booked keys. Since we moved our short-stay calendar onto Nesty, that number is zero — and the 3D tours cut the tyre-kicker visits by half.",
     name: "Amine Rekik",
     role: "Head of Sales",
-    agency: "Atlas Realty Tunis",
+    agency: "Atlas Realty · Tunis",
     initials: "AR",
   },
   {
     quote:
-      "The listing presentation is genuinely premium. Owners trust us more when their property looks this good online.",
+      "Owners see their villa the way renters see it. That&rsquo;s what unlocked the exclusive-mandate conversations in Sidi Bou.",
     name: "Sana Khaldi",
     role: "Agency Director",
     agency: "Carthage Prime Homes",
@@ -275,10 +275,10 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      "We launched city by city with content ready first. Marketing finally matched what buyers actually saw.",
+      "The visit request lands on the agent&rsquo;s phone with the lease term already filled in. Our reply is a two-tap ‘confirm’ instead of a phone call.",
     name: "Yassine Rahmani",
-    role: "Growth Lead",
-    agency: "Lac Business Realty",
+    role: "Operations",
+    agency: "Lac Business Realty · Tunis",
     initials: "YR",
   },
 ];

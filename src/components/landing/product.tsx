@@ -216,7 +216,7 @@ function WorkspacePreview({
                       <div className="relative h-11 w-14 shrink-0 overflow-hidden rounded-lg bg-white/[0.05]">
                         <Image
                           src={l.image}
-                          alt=""
+                          alt={`${l.title} — ${l.city} rental thumbnail`}
                           fill
                           sizes="56px"
                           className="object-cover opacity-90"
@@ -476,7 +476,7 @@ function AppPreview({
             <div className="relative aspect-[16/11] w-full bg-white/[0.05]">
               <Image
                 src={hero.image}
-                alt=""
+                alt={`${hero.title} in ${hero.city} — verified rental on the Nesty app`}
                 fill
                 sizes="240px"
                 className="object-cover"
@@ -535,7 +535,7 @@ function AppPreview({
               <div className="relative aspect-[4/3] w-full bg-white/[0.05]">
                 <Image
                   src={l.image}
-                  alt=""
+                  alt={`${l.title} — ${l.city} listing preview in the Nesty app`}
                   fill
                   sizes="120px"
                   className="object-cover opacity-95"

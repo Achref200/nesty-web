@@ -2,29 +2,43 @@
  * Single source of truth for site-wide SEO metadata. Keep the canonical URL in
  * one place so sitemap, robots, OpenGraph and JSON-LD all stay consistent.
  */
+/**
+ * Deploy URL — used for canonical, OpenGraph and JSON-LD.
+ * Set NEXT_PUBLIC_SITE_URL in production to the real domain (e.g. https://nesty.tn).
+ * Vercel preview builds fall back to their auto-generated URL so canonical never
+ * points at a domain that isn't actually serving the page.
+ */
+const inferredUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+  "https://nesty.tn";
+
 export const site = {
   name: "Nesty",
-  title: "Nesty — B2B Property Experience Platform",
+  // ~57 chars — fits SERP title (~60 char cutoff), leads with the visible copy.
+  title: "Nesty — Rent your next place in Tunisia",
+  // ~154 chars — fits SERP description cutoff (~155–160). Consumer-first;
+  // still mentions verified agencies so B2B keywords stay on the page.
   description:
-    "Nesty helps real-estate teams publish premium listings, manage requests and reservations, and launch a conversion-focused property experience across web and mobile.",
-  url: "https://nesty.tn",
+    "Rent villas, apartments and rooms across Tunisia. Every stay verified by partner agencies, tourable in 3D, priced by the night or the month.",
+  url: inferredUrl,
   locale: "en_TN",
-  tagline: "Real estate operations, finally in one calm place.",
+  tagline: "Every stay verified. Every home tourable in 3D.",
   keywords: [
     "Nesty",
-    "PropTech Tunisia",
-    "real estate CRM Tunisia",
-    "agency listing management",
-    "B2B real estate software",
-    "real estate operating system",
+    "rent in Tunisia",
     "location Tunisie",
-    "real estate Tunisia",
+    "villas Tunisia",
+    "apartments Tunis",
+    "short term rental Tunisia",
+    "long term rental Tunisia",
     "3D property tour",
-    "property booking workflow",
-    "agency dashboard",
-    "immobilier Tunisie",
-    "listing management software",
-    "real estate agency platform",
+    "verified rentals Tunisia",
+    "Sidi Bou Said rental",
+    "La Marsa rental",
+    "Djerba rental",
+    "PropTech Tunisia",
+    "agency listing platform",
   ],
   nav: [
     { href: "/#stays", label: "Stays" },
