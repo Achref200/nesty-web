@@ -419,3 +419,67 @@
     display: none;
   }
 }
+
+/* ── Branded loader — the nested-curves mark drawing itself on a loop ── */
+.nesty-loader .draw {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+.nesty-loader .draw-outer {
+  stroke-dasharray: 380;
+  stroke-dashoffset: 380;
+  animation: nestyDrawOuter 2s ease-in-out infinite;
+}
+.nesty-loader .draw-middle {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: nestyDrawMiddle 2s ease-in-out infinite;
+}
+.nesty-loader .draw-inner {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: nestyDrawInner 2s ease-in-out infinite;
+}
+.nesty-loader .wordmark {
+  opacity: 0;
+  animation: nestyWordmark 2s ease-in-out infinite;
+}
+
+@keyframes nestyDrawOuter {
+  0%, 5% { stroke-dashoffset: 380; }
+  30% { stroke-dashoffset: 0; }
+  70% { stroke-dashoffset: 0; }
+  90%, 100% { stroke-dashoffset: 380; }
+}
+@keyframes nestyDrawMiddle {
+  0%, 15% { stroke-dashoffset: 300; }
+  40% { stroke-dashoffset: 0; }
+  70% { stroke-dashoffset: 0; }
+  90%, 100% { stroke-dashoffset: 300; }
+}
+@keyframes nestyDrawInner {
+  0%, 25% { stroke-dashoffset: 220; }
+  50% { stroke-dashoffset: 0; }
+  70% { stroke-dashoffset: 0; }
+  90%, 100% { stroke-dashoffset: 220; }
+}
+@keyframes nestyWordmark {
+  0%, 40% { opacity: 0; }
+  55% { opacity: 1; }
+  70% { opacity: 1; }
+  90%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nesty-loader .draw-outer,
+  .nesty-loader .draw-middle,
+  .nesty-loader .draw-inner {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .nesty-loader .wordmark {
+    animation: none;
+    opacity: 1;
+  }
+}

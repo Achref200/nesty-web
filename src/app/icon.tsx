@@ -20,17 +20,17 @@ export default function Icon() {
         }}
       >
         <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
+          width="22"
+          height="15"
+          viewBox="0 0 200 140"
           fill="none"
           stroke="#FCFCFB"
-          strokeWidth={2.4}
+          strokeWidth={14}
           strokeLinecap="round"
-          strokeLinejoin="round"
         >
-          <path d="M3 10.5 12 3l9 7.5" />
-          <path d="M5 9.5V21h14V9.5" />
+          <path d="M20 120 C20 45 55 20 100 20 C145 20 180 45 180 120" />
+          <path d="M42 125 C42 62 65 42 100 42 C135 42 158 62 158 125" />
+          <path d="M62 130 C62 80 78 62 100 62 C122 62 138 80 138 130" />
         </svg>
       </div>
     ),

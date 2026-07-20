@@ -12,24 +12,18 @@ export function Logo({
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <span
-        className="grid place-items-center rounded-lg bg-ink text-paper"
-        style={{ width: size, height: size }}
+      <svg
+        viewBox="0 0 200 140"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        style={{ width: size * 1.3, height: size * 0.91 }}
         aria-hidden="true"
       >
-        <svg
-          viewBox="0 0 100 100"
-          fill="currentColor"
-          style={{ width: size * 0.62, height: size * 0.62 }}
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M24 80 L24 47 Q24 43 27 40 L46 24 Q50 20.5 54 24 L73 40 Q76 43 76 47 L76 80 Q76 82 74 82 L26 82 Q24 82 24 80 Z M61.5 54 A11.5 11.5 0 1 0 38.5 54 A11.5 11.5 0 1 0 61.5 54 Z"
-          />
-        </svg>
-      </span>
+        <path strokeWidth={10} d="M20 120 C20 45 55 20 100 20 C145 20 180 45 180 120" />
+        <path strokeWidth={8.5} d="M42 125 C42 62 65 42 100 42 C135 42 158 62 158 125" />
+        <path strokeWidth={7} d="M62 130 C62 80 78 62 100 62 C122 62 138 80 138 130" />
+      </svg>
       {showWordmark && (
         <span className="font-display text-xl font-extrabold tracking-tight">
           Nesty
