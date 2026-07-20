@@ -3,7 +3,8 @@ import { cn } from "@/lib/utils";
 /**
  * The nested-curves brand mark, drawing itself on a loop — Nesty's branded
  * loading state. Monochrome: inherits `currentColor` (ink on paper, paper on
- * ink), so it drops into any surface. Animation classes live in globals.css.
+ * ink), so it drops into any surface — set the text colour on the caller.
+ * Animation classes live in globals.css.
  */
 export function NestyLoader({
   size = 92,
@@ -17,7 +18,7 @@ export function NestyLoader({
   return (
     <div
       className={cn(
-        "nesty-loader flex flex-col items-center gap-3.5 text-ink",
+        "nesty-loader flex flex-col items-center gap-3.5",
         className,
       )}
       role="status"
@@ -45,7 +46,7 @@ export function NestyLoader({
         />
       </svg>
       {showWordmark && (
-        <span className="wordmark font-display text-lg font-semibold tracking-tight text-ink">
+        <span className="wordmark font-display text-lg font-semibold tracking-tight">
           nesty.
         </span>
       )}
@@ -56,8 +57,38 @@ export function NestyLoader({
 /** Full-screen centered loader for route/app loading fallbacks. */
 export function NestyLoaderScreen() {
   return (
-    <div className="grid min-h-screen w-full place-items-center bg-paper">
+    <div className="grid min-h-screen w-full place-items-center bg-paper text-ink">
       <NestyLoader />
+    </div>
+  );
+}
+
+/**
+ * Fixed, full-viewport dim overlay with the branded loader — for blocking
+ * client waits (form submits, language switches, `router.refresh()`). Render it
+ * conditionally on a pending flag. Defaults to an ink mark on a paper scrim;
+ * pass `className="bg-ink/70 text-paper"` on dark surfaces like the landing.
+ */
+export function NestyLoaderOverlay({
+  label = "Loading",
+  size = 72,
+  className,
+}: {
+  label?: string;
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "fixed inset-0 z-[100] grid place-items-center bg-paper/70 text-ink backdrop-blur-sm",
+        className,
+      )}
+      role="status"
+      aria-live="polite"
+      aria-label={label}
+    >
+      <NestyLoader size={size} />
     </div>
   );
 }

@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --font-display: "Outfit", system-ui, sans-serif;
-  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  /* Font families come from next/font (Outfit + Plus Jakarta Sans) via the
+     variables set on <html> in layout.tsx — do NOT redeclare --font-display /
+     --font-sans here as literal "Outfit"/"Plus Jakarta Sans": that name only
+     resolves if the visitor has the font installed locally, so it works on a
+     dev machine but silently falls back to system-ui in production. */
 
   /* Themeable colour channels (space-separated RGB) consumed by the Tailwind
      `paper` / `ink` / `white` tokens. Defaults keep the whole app pixel-identical;

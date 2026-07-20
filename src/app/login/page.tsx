@@ -4,6 +4,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import Link from "next/link";
 import { AlertCircle, Mail, Lock } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
+import { NestyLoader } from "@/components/brand/loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signIn, type AuthState } from "@/lib/actions/auth";
@@ -13,7 +14,14 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" size="lg" className="w-full" disabled={pending}>
-      {pending ? "Signing in…" : "Sign in"}
+      {pending ? (
+        <span className="inline-flex items-center gap-2">
+          <NestyLoader size={22} showWordmark={false} />
+          Signing in…
+        </span>
+      ) : (
+        "Sign in"
+      )}
     </Button>
   );
 }
