@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 // Input caps — defend the model + our bill against oversized payloads.
 const MAX_MESSAGES = 60;
 const MAX_TEXT_LEN = 4000;
-const SURFACES: AssistantSurface[] = ["landing", "dashboard"];
+const SURFACES: AssistantSurface[] = ["landing", "dashboard", "app"];
 const ROLES: ChatRole[] = ["user", "assistant"];
 
 export async function POST(request: Request): Promise<NextResponse<AssistantResponse>> {
@@ -82,8 +82,10 @@ function parseRequest(body: unknown): AssistantRequest | null {
     typeof b.locale === "string" ? b.locale.slice(0, 8) : undefined;
   const userName =
     typeof b.userName === "string" ? b.userName.trim().slice(0, 80) : undefined;
+  const context =
+    typeof b.context === "string" ? b.context.trim().slice(0, 2000) : undefined;
 
-  return { surface: surface as AssistantSurface, messages, locale, userName };
+  return { surface: surface as AssistantSurface, messages, locale, userName, context };
 }
 
 function statusFor(failure: AssistantResponse["error"]): number {

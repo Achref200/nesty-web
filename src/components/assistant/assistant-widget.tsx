@@ -23,6 +23,12 @@ const SUGGESTIONS: Record<AssistantSurface, string[]> = {
     "Tips to get more bookings",
     "What should I focus on today?",
   ],
+  app: [
+    "Find a sea-view stay under 200 TND/night",
+    "Is this a fair price for the area?",
+    "What should I check before I visit?",
+    "Help me plan my trip",
+  ],
 };
 
 /**

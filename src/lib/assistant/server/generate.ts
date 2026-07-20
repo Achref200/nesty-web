@@ -28,6 +28,7 @@ export async function generateAssistantReply(
     surface: req.surface,
     locale: req.locale,
     userName: req.userName,
+    context: req.context,
   });
 
   const history = req.messages

@@ -30,7 +30,7 @@ export const site = {
   // Contact address. Temporary free Proton mailbox (no phone/domain needed)
   // until the nesty.tn domain is owned — then switch this single line to
   // "hello@nesty.tn". Every mailto link + JSON-LD contactPoint reads from here.
-  email: "contact.nesty@proton.me",
+  email: "info.nesty@proton.me",
   keywords: [
     "Nesty",
     "rent in Tunisia",

@@ -7,7 +7,7 @@
 export type ChatRole = "user" | "assistant";
 
 /** The two places the assistant lives. Drives persona + available shortcuts. */
-export type AssistantSurface = "landing" | "dashboard";
+export type AssistantSurface = "landing" | "dashboard" | "app";
 
 export interface ChatMessage {
   id: string;
@@ -32,6 +32,8 @@ export interface AssistantRequest {
   surface: AssistantSurface;
   locale?: string;
   userName?: string;
+  /** Optional context hint (e.g. the mobile app's "what you're viewing" note). */
+  context?: string;
   messages: { role: ChatRole; text: string }[];
 }
 

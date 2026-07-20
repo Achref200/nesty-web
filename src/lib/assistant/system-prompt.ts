@@ -12,10 +12,12 @@ export function buildSystemPrompt({
   surface,
   locale,
   userName,
+  context,
 }: {
   surface: AssistantSurface;
   locale?: string;
   userName?: string;
+  context?: string;
 }): string {
   const lang = (locale || "en").slice(0, 2).toLowerCase();
   const who = userName?.trim() ? ` The person you are helping is ${userName.trim()}.` : "";
@@ -24,7 +26,9 @@ export function buildSystemPrompt({
   const surfaceBrief =
     surface === "dashboard"
       ? DASHBOARD_BRIEF
-      : LANDING_BRIEF;
+      : surface === "app"
+        ? APP_BRIEF
+        : LANDING_BRIEF;
 
   return [
     `You are "${ASSISTANT_NAME}", the friendly built-in assistant for Nesty.`,
@@ -36,6 +40,9 @@ export function buildSystemPrompt({
     `know well: Tunis, La Marsa, Sidi Bou Saïd, Gammarth, Hammamet, Sousse, Djerba.`,
     ``,
     surfaceBrief,
+    ...(context && context.trim()
+      ? [``, `CURRENT CONTEXT (what the user is looking at right now):`, context.trim()]
+      : []),
     ``,
     `WHAT YOU HELP WITH:`,
     `- Recommend the best-fit stays for a person's budget, dates, city and vibe, and`,
@@ -45,11 +52,15 @@ export function buildSystemPrompt({
     `- Explain how Nesty works: 3D tours, verification, booking, per-night vs monthly.`,
     `- Gently remind about reservation timing (check-in/out, visit slots, lease dates).`,
     ``,
-    `SHORTCUTS: When it clearly helps, append one or two shortcut tags on their own`,
-    `line at the VERY END of your reply, formatted exactly as [[action:KEY]], all`,
-    `lowercase, chosen ONLY from this list: ${keys}. Never mention the tags, the`,
-    `word "action", or these keys inside your prose — they render as buttons.`,
-    ``,
+    ...(keys
+      ? [
+          `SHORTCUTS: When it clearly helps, append one or two shortcut tags on their own`,
+          `line at the VERY END of your reply, formatted exactly as [[action:KEY]], all`,
+          `lowercase, chosen ONLY from this list: ${keys}. Never mention the tags, the`,
+          `word "action", or these keys inside your prose — they render as buttons.`,
+          ``,
+        ]
+      : []),
     `HARD BOUNDARIES:`,
     `- Only help with Nesty and renting/hosting homes in Tunisia. If asked about`,
     `  anything unrelated (coding, general trivia, other apps, medical/legal/financial`,
@@ -80,4 +91,15 @@ const DASHBOARD_BRIEF = [
   `and reservations. Offer practical, operational help: how to add a great listing,`,
   `how availability works, how to keep the calendar in sync, and how to respond to`,
   `requests on time.`,
+].join("\n");
+
+const APP_BRIEF = [
+  `CONTEXT: You are inside the Nesty mobile app, helping the person right where`,
+  `they are — browsing the feed, viewing a listing, tuning filters, or planning a`,
+  `visit or a reservation. Seekers rent entire homes, private rooms and colocations,`,
+  `short-term (summer/vacation) or long-term (students, families, professionals);`,
+  `prices are in Tunisian dinar (DT). Listings show price, type, bedrooms/bathrooms,`,
+  `area (m²), amenities, rating, a trust score and a neighbourhood map; users can`,
+  `filter, save favourites, and request a visit or a stay. Be equally useful to a`,
+  `seeker searching and a host managing a listing.`,
 ].join("\n");

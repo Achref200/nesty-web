@@ -460,7 +460,7 @@ Bottom of the frame (bottom 20%):
   A rounded pill, ink black #141414 fill, paper white text, Outfit
   SemiBold 14px, centred: "n e s t y . t n".
   Below the pill, Plus Jakarta Sans 11px muted grey, centred, tracking
-  0.22em uppercase: "REGISTER YOUR AGENCY · CONTACT.NESTY@PROTON.ME".
+  0.22em uppercase: "REGISTER YOUR AGENCY · INFO.NESTY@PROTON.ME".
 
 Small decorative dot-cluster ornaments (echoing the reference flyer's
 lower dots): a 3×3 grid of tiny ink black dots in each of the bottom
@@ -534,7 +534,7 @@ then a small centred paragraph, Plus Jakarta Sans 9px muted grey, three
 lines, generous line-height:
 "Rent your next place in Tunisia. Every stay verified by a partner
 agency, every home tourable in 3D, priced by the night or by the month.
-contact.nesty@proton.me · nesty.tn"
+info.nesty@proton.me · nesty.tn"
 
 On either side of the footer paragraph, a tiny ornamental checkerboard
 (3×3 mini-square pattern in ink black) — echoing the reference flyer's
