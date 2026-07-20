@@ -131,7 +131,7 @@ export function MonthCalendar({
                 className={cn(
                   "flex aspect-square flex-col items-center justify-center rounded-pill text-sm font-semibold transition-colors",
                   isSelected ? "bg-ink text-paper" : "text-ink hover:bg-fill",
-                  isToday && !isSelected && "ring-1 ring-inset ring-brand",
+                  isToday && !isSelected && "ring-1 ring-inset ring-ink",
                 )}
               >
                 {d}
@@ -148,7 +148,7 @@ export function MonthCalendar({
                     <span
                       className={cn(
                         "h-1.5 w-1.5 rounded-pill",
-                        isSelected ? "bg-paper/80" : "bg-brand",
+                        isSelected ? "bg-paper/80" : "bg-muted",
                       )}
                     />
                   )}
@@ -163,7 +163,7 @@ export function MonthCalendar({
             <span className="h-2 w-2 rounded-pill bg-ink" /> Stay
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-pill bg-brand" /> Visit
+            <span className="h-2 w-2 rounded-pill bg-muted" /> Visit
           </span>
           <span className="ml-auto font-semibold text-ink-soft">
             {monthCount} booking{monthCount === 1 ? "" : "s"} this month

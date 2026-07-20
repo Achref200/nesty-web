@@ -1,39 +1,18 @@
 import { Building2, Smartphone, Box } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "./reveal";
 import { Parallax } from "./parallax";
 
 /**
  * The three surfaces of Nesty, said plainly. Not "features" — surfaces. Each
- * one has a specific audience and a specific reason to exist. The copy admits
- * the boring truth (spreadsheets, WhatsApp) instead of hiding it behind
- * marketing verbs.
+ * one has a specific audience and a specific reason to exist. Copy lives in the
+ * message catalogs; icons stay here, aligned by index.
  */
-
-const PILLARS = [
-  {
-    icon: Building2,
-    tag: "for agencies",
-    title: "A workspace that doesn't feel like a spreadsheet.",
-    body:
-      "One board for every rental you carry — nightly stays, monthly rentals, yearly leases. Team roles per agent, quick edits from a phone, and a calendar that doesn't need a group chat to stay in sync.",
-  },
-  {
-    icon: Smartphone,
-    tag: "for renters",
-    title: "An app that respects your afternoon.",
-    body:
-      "Search by neighborhood, filter by what actually matters (metro line, sea distance, pets), tour the home in 3D, then book by the night or hold the dates for a full month — only when it's already close to a yes.",
-  },
-  {
-    icon: Box,
-    tag: "in the middle",
-    title: "One truthful calendar, live in both.",
-    body:
-      "A booking made on mobile lands in the workspace the same second. No double check-ins, no overlapping leases, no ‘let me check with the owner and I'll call you back’.",
-  },
-];
+const PILLAR_ICONS = [Building2, Smartphone, Box];
 
 export function Pillars() {
+  const t = useTranslations("pillars");
+  const items = t.raw("items") as { tag: string; title: string; body: string }[];
   return (
     <section
       id="pillars"
@@ -52,23 +31,21 @@ export function Pillars() {
       <div className="mx-auto max-w-wide px-5 md:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-[12px] uppercase tracking-[0.22em] text-white/40">
-            three surfaces, one idea
+            {t("eyebrow")}
           </p>
           <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-paper md:text-5xl">
-            Two apps for two people.
+            {t("title1")}
             <br />
-            <span className="text-white/50">One calendar that never lies.</span>
+            <span className="text-white/50">{t("title2")}</span>
           </h2>
           <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-white/55">
-            Nesty is not a CRM you glue to a website. It&rsquo;s a platform
-            designed as one thing, split across the three places where real
-            estate actually happens.
+            {t("lead")}
           </p>
         </Reveal>
 
         <div className="mt-14 grid gap-4 md:grid-cols-3 md:gap-6">
-          {PILLARS.map((pillar, i) => {
-            const Icon = pillar.icon;
+          {items.map((pillar, i) => {
+            const Icon = PILLAR_ICONS[i];
             return (
               <Reveal key={pillar.title} delay={i * 90}>
                 <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-7 transition-colors hover:border-white/20 hover:bg-white/[0.04] md:p-8">

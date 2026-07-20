@@ -3,10 +3,17 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
 import { site, agencyAccessMailto } from "@/lib/site";
 import { ThemeToggle } from "./theme-toggle";
+import { LanguageToggle } from "./language-toggle";
+
+/** Landing anchors map to a message key by their hash (e.g. "/#stays" -> "stays"). */
+function navKey(href: string) {
+  return href.split("#")[1] ?? href;
+}
 
 /**
  * Dark, minimalist landing header. Sticky, translucent on scroll, no clutter —
@@ -14,6 +21,7 @@ import { ThemeToggle } from "./theme-toggle";
  * calm vertical stack. Inverted colour scheme (paper text on ink surface).
  */
 export function Nav() {
+  const t = useTranslations("nav");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -50,34 +58,36 @@ export function Nav() {
               href={item.href}
               className="text-[13px] font-medium text-white/60 transition-colors hover:text-paper"
             >
-              {item.label}
+              {t(`links.${navKey(item.href)}`)}
             </a>
           ))}
         </nav>
 
         <div className="flex-1" />
 
+        <LanguageToggle className="mr-1 md:hidden" />
         <ThemeToggle className="mr-1 md:hidden" />
 
         <div className="hidden items-center gap-2 md:flex">
+          <LanguageToggle />
           <ThemeToggle />
           <Link
             href="/login"
             className="rounded-pill px-3.5 py-2 text-[13px] font-semibold text-white/70 transition-colors hover:text-paper"
           >
-            Sign in
+            {t("signIn")}
           </Link>
           <a
             href={agencyAccessMailto}
             className="inline-flex items-center gap-2 rounded-pill bg-paper px-4 py-2 text-[13px] font-semibold text-ink transition-transform hover:-translate-y-px"
           >
-            Request access
+            {t("requestAccess")}
           </a>
         </div>
 
         <button
           type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? t("closeMenu") : t("openMenu")}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.04] text-paper md:hidden"
@@ -97,7 +107,7 @@ export function Nav() {
                 onClick={() => setOpen(false)}
                 className="rounded-xl px-3 py-3 font-medium text-white/70 transition-colors hover:bg-white/[0.06] hover:text-paper"
               >
-                {item.label}
+                {t(`links.${navKey(item.href)}`)}
               </a>
             ))}
             <div className="mt-3 flex flex-col gap-2">
@@ -106,14 +116,14 @@ export function Nav() {
                 onClick={() => setOpen(false)}
                 className="rounded-xl border border-white/12 bg-transparent px-4 py-3 text-center text-sm font-semibold text-paper transition-colors hover:bg-white/[0.06]"
               >
-                Sign in
+                {t("signIn")}
               </Link>
               <a
                 href={agencyAccessMailto}
                 onClick={() => setOpen(false)}
                 className="rounded-xl bg-paper px-4 py-3 text-center text-sm font-semibold text-ink"
               >
-                Request agency access
+                {t("requestAgencyAccess")}
               </a>
             </div>
           </nav>

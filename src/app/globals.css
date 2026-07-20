@@ -237,11 +237,11 @@
     animation: floatY 12s ease-in-out infinite;
   }
 
-  /* Warm variant — a gentle terracotta glow. */
+  /* Deeper ink variant of the floating aura. */
   .aura-brand {
     background: radial-gradient(
       circle at 30% 30%,
-      rgba(236, 94, 42, 0.2),
+      rgba(20, 20, 20, 0.16),
       transparent 70%
     );
   }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Nav } from "@/components/landing/nav";
 import { Hero } from "@/components/landing/hero";
 import { Stays } from "@/components/landing/stays";
@@ -9,6 +10,7 @@ import { Features } from "@/components/landing/features";
 import { Numbers } from "@/components/landing/numbers";
 import { Voice } from "@/components/landing/voice";
 import { Showcase } from "@/components/landing/showcase";
+import { Faq } from "@/components/landing/faq";
 import { Cta } from "@/components/landing/cta";
 import { Footer } from "@/components/landing/footer";
 import { AssistantWidget } from "@/components/assistant/assistant-widget";
@@ -43,7 +45,9 @@ export const metadata: Metadata = {
  * (rich-result eligible), plus a Review node per testimonial and an
  * AggregateRating rolled up from PLATFORM_STATS-adjacent proof.
  */
-function StructuredData() {
+async function StructuredData() {
+  const tFaq = await getTranslations("faq");
+  const faqItems = tFaq.raw("items") as { q: string; a: string }[];
   const json = {
     "@context": "https://schema.org",
     "@graph": [
@@ -118,6 +122,18 @@ function StructuredData() {
           "Tour homes in 3D, book a stay by the night or request a monthly lease — the Nesty app for renters in Tunisia.",
         offers: { "@type": "Offer", price: "0", priceCurrency: "TND" },
       },
+      // FAQPage — the strongest AEO surface. Built from the same catalog the
+      // visible accordion renders, so answers Google/AI engines extract always
+      // match what a human reads on the page (and localize with it).
+      {
+        "@type": "FAQPage",
+        "@id": `${site.url}/#faq`,
+        mainEntity: faqItems.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
+      },
     ],
   };
   return (
@@ -158,6 +174,7 @@ export default function HomePage() {
           <Numbers />
           <Voice />
           <Showcase />
+          <Faq />
           <Cta />
         </main>
         <Footer />

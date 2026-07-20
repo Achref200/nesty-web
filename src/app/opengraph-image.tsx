@@ -62,7 +62,7 @@ export default function OpengraphImage() {
               fontWeight: 700,
               letterSpacing: 2,
               textTransform: "uppercase",
-              color: "#EC5E2A",
+              color: "#7A7A78",
             }}
           >
             B2B-first real-estate operating system

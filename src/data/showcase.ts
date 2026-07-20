@@ -239,12 +239,13 @@ export interface Stat {
   hint: string;
 }
 
-/** Proof-point metrics for the stats band. */
+/** Market-opportunity metrics for the stats band — sourced from the Product
+ *  Discovery study (BCT / ONTT 2025), not fabricated platform traction. */
 export const PLATFORM_STATS: Stat[] = [
-  { value: "1 200+", label: "Verified listings", hint: "Curated across partner agencies" },
-  { value: "40+", label: "Partner agencies", hint: "Onboarding through launch phases" },
-  { value: "9", label: "Cities covered", hint: "Tunis to Djerba and growing" },
-  { value: "18k", label: "Monthly visit requests", hint: "Routed to the right agent in minutes" },
+  { value: "11M+", label: "Visitors in 2025", hint: "Tunisia’s record tourism year — the demand pool" },
+  { value: "7.9B TND", label: "Tourism receipts", hint: "Up 6.3% year on year (BCT, 2025)" },
+  { value: "700k+", label: "Tunisians in Europe", hint: "The diaspora — books early, pays in euros" },
+  { value: "56%", label: "Still pay in cash", hint: "Why every booking can pay on arrival" },
 ];
 
 export interface Testimonial {
@@ -259,7 +260,7 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "We used to lose two weekends a month to double-booked keys. Since we moved our short-stay calendar onto Nesty, that number is zero — and the 3D tours cut the tyre-kicker visits by half.",
+      "We used to lose two weekends a month to double-booked keys. With one shared calendar that stopped — and renters who tour a home in 3D turn up already sure about the place.",
     name: "Amine Rekik",
     role: "Head of Sales",
     agency: "Atlas Realty · Tunis",
@@ -267,7 +268,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      "Owners see their villa the way renters see it. That&rsquo;s what unlocked the exclusive-mandate conversations in Sidi Bou.",
+      "Owners see their villa the way renters see it. That's what opens the exclusive-mandate conversations in Sidi Bou.",
     name: "Sana Khaldi",
     role: "Agency Director",
     agency: "Carthage Prime Homes",
@@ -275,7 +276,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      "The visit request lands on the agent&rsquo;s phone with the lease term already filled in. Our reply is a two-tap ‘confirm’ instead of a phone call.",
+      "The visit request lands on the agent's phone with the lease term already filled in. Our reply is a two-tap ‘confirm’ instead of a phone call.",
     name: "Yassine Rahmani",
     role: "Operations",
     agency: "Lac Business Realty · Tunis",

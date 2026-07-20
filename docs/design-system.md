@@ -41,20 +41,21 @@ not fabricated.
 | Separator                  | Separator            | `#E6E6E4`  | 1 px hairlines |
 | Muted                      | Muted                | `#7A7A78`  | Body-copy grey |
 | Muted soft                 | Muted Soft           | `#B4B4B1`  | Tertiary labels |
-| **Accent** (single pop)    | **Brand**            | `#EC5E2A`  | Warm terracotta — app + workspace only |
-| Accent wash                | Brand Soft           | `#FCEDE4`  | Terracotta background wash |
-| Accent pressed             | Brand Strong         | `#CE4A1B`  | Terracotta pressed / hover |
-| Alert                      | Danger               | `#B23A34`  | Muted brick red |
+| **Accent** (the only one)  | **Ink**              | `#141414`  | Ink IS the accent — buttons, active states, everywhere |
+| Accent wash                | Fill                 | `#F1F1F0`  | Neutral grey wash behind emphasis |
+| Accent pressed             | Ink Deep             | `#0B0B0B`  | Pressed / hover on ink buttons |
+| Alert                      | Danger               | `#B23A34`  | Muted brick red — genuine errors only |
 
 **Rules of use**
 
-- **Landing page = strict black & white.** Ink base, paper text, greys carry
-  all hierarchy. **No terracotta.** No other colour.
-- **Agency workspace + mobile app** = paper base, ink text, **terracotta as
-  the single accent** (primary buttons, "verified" ribbon, "confirm" chip,
-  active nav pill, favourite hearts, price highlights on hero cards).
+- **Strict black, white & grey — everywhere.** Landing, agency workspace and
+  mobile app all share one monochrome system. Ink base, paper text, greys carry
+  all hierarchy. **No accent colour.**
+- **Ink is the only accent.** Primary buttons, "verified" ribbon, "confirm"
+  chip, active nav pill, favourite hearts and price highlights are all rendered
+  in ink `#141414` on paper (or paper on ink), never a colour.
 - Whitespace is a colour. Aim for ~40 % empty area per screen.
-- Never mix terracotta and dark canvas in the same composition.
+- Danger `#B23A34` is the only non-neutral hue, reserved for genuine errors.
 
 ---
 
@@ -98,12 +99,12 @@ not fabricated.
 | `.headline-shimmer`      | Horizontal white gradient sweep, 7 s loop, on one line of the hero headline.                            |
 | `.hairline`              | 1 px separator, centre-drawn animation on reveal.                                                       |
 | `.surface-aura`          | Paper background + two faint radial gradients (`rgba(20,20,20,0.05)`). Agency workspace background.     |
-| `.aura-brand`            | Terracotta radial glow, `rgba(236,94,42,0.2)`. Used behind app CTAs.                                    |
+| `.aura-brand`            | Deeper ink radial glow, `rgba(20,20,20,0.16)`. Used behind app CTAs.                                    |
 | **Radii**                | `12`, `16`, `20` (`2xl`), `24` (`3xl`), `999px` (`pill`). Pills used heavily — chips, buttons, tags.    |
 | **Shadow — soft**        | `0 30px 60px -30px rgba(0,0,0,0.18)` — cards on paper.                                                  |
 | **Shadow — float**       | `0 24px 50px -24px rgba(20,20,20,0.28)` — hovering elements.                                            |
 | **Shadow — lift**        | `0 40px 80px -40px rgba(20,20,20,0.35)` — modal / phone mock.                                           |
-| **Shadow — glow**        | `0 18px 40px -16px rgba(236,94,42,0.45)` — terracotta CTA only.                                         |
+| **Shadow — glow**        | `0 18px 40px -16px rgba(20,20,20,0.30)` — ink CTA lift.                                                 |
 
 Motion respects `prefers-reduced-motion` everywhere.
 
@@ -140,23 +141,23 @@ Motion respects `prefers-reduced-motion` everywhere.
 - **Parallax** — Subtle vertical drift on `.aurora-glow` and floating listing
   chips.
 
-## 8. Agency workspace look (light + terracotta)
+## 8. Agency workspace look (light, monochrome)
 
 - Paper background with `.surface-aura` (two faint radial gradients at the
   top corners, both under 5 % opacity).
 - Left sidebar in card white with pill active states in ink.
 - Data-dense but calm — 1 px separators, row height 56–64 px, tabular
   numbers.
-- **Terracotta appears only on** — primary buttons, "verified" ribbon,
-  "confirm" chip on today's stay requests, active nav pill background.
-- Status pills — Rounded pill, uppercase 10 px, tracking 0.12 em, greyscale
-  except "verified" (terracotta) and "booked" (muted).
+- **Emphasis is ink** — primary buttons, "verified" ribbon, "confirm" chip on
+  today's stay requests and the active nav pill are all solid ink on paper.
+- Status pills — Rounded pill, uppercase 10 px, tracking 0.12 em, greyscale;
+  "verified" is solid ink, "booked" is muted grey.
 
-## 9. Mobile app look (light + terracotta)
+## 9. Mobile app look (light, monochrome)
 
 - Paper background, ink text — inverse of the landing.
-- Terracotta on Book / Confirm CTAs, favourite hearts, price pills over hero
-  images.
+- Ink on Book / Confirm CTAs, favourite hearts and price pills over hero
+  images — the app shares the landing's strict monochrome palette.
 - Bottom tab bar in near-white with 1 px hairline top border.
 - Hero listing card — 16:11 image, "3D tour" chip top-left over dark scrim,
   "verified" chip next to it, heart top-right, city + title over bottom
@@ -618,8 +619,8 @@ suit-and-tie clichés.
 
 **Do**
 
-- Keep the landing pure black-and-white; save terracotta for surfaces where
-  people convert (app + workspace).
+- Keep every surface pure black-and-white — landing, workspace and app share
+  one monochrome system.
 - Use Outfit for anything with weight, Plus Jakarta Sans for anything to
   read.
 - Give every composition breathing room — at least a third of the canvas
@@ -629,8 +630,8 @@ suit-and-tie clichés.
 
 **Don't**
 
-- Don't add a second accent colour "for balance". Terracotta is alone on
-  purpose.
+- Don't add an accent colour "for balance" or "to convert". Ink carries every
+  emphasis on purpose.
 - Don't tilt, gradient, or outline the logo.
 - Don't render palm trees, camels, mosques as icons, or emoji-style flags.
 - Don't use words like "unlock", "seamless", "revolutionise", "empower".

@@ -23,11 +23,12 @@ const config: Config = {
         separator: "#E6E6E4",
         muted: { DEFAULT: "#7A7A78", soft: "#B4B4B1" },
         danger: "#B23A34",
-        // Warm terracotta accent — the single pop of colour over the monochrome base.
+        // Ink is the only accent — kept under the `brand` name so any existing
+        // `bg-brand` / `ring-brand` utilities render as strict monochrome.
         brand: {
-          DEFAULT: "#EC5E2A",
-          soft: "#FCEDE4",
-          strong: "#CE4A1B",
+          DEFAULT: "#141414",
+          soft: "#F1F1F0",
+          strong: "#0B0B0B",
         },
       },
       fontFamily: {
@@ -44,7 +45,7 @@ const config: Config = {
         card: "0 1px 2px rgba(0,0,0,0.04)",
         float: "0 24px 50px -24px rgba(20,20,20,0.28)",
         lift: "0 40px 80px -40px rgba(20,20,20,0.35)",
-        glow: "0 18px 40px -16px rgba(236,94,42,0.45)",
+        glow: "0 18px 40px -16px rgba(20,20,20,0.30)",
       },
       maxWidth: {
         content: "1080px",

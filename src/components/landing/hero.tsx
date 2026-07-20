@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   ArrowRight,
   MapPin,
@@ -32,6 +33,14 @@ import { agencyAccessMailto } from "@/lib/site";
  * The copy names both audiences and both stay-types (short & long-term).
  */
 export function Hero() {
+  const t = useTranslations("hero");
+  const chips = t.raw("chips") as {
+    tag: string;
+    title: string;
+    city: string;
+    price: string;
+    per: string;
+  }[];
   return (
     <section
       id="top"
@@ -61,23 +70,23 @@ export function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-pill bg-paper/60 opacity-75" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-pill bg-paper" />
             </span>
-            rentals in 9 tunisian cities · short &amp; long-term
+            {t("badge")}
           </span>
         </Parallax>
 
         {/* Headline — human, opinionated, two rhythms */}
         <h1 className="mt-8 font-display text-[2.3rem] font-semibold leading-[1.02] tracking-tight sm:text-[3.4rem] md:text-[5.25rem]">
-          <span className="block text-paper">Find your next place</span>
+          <span className="block text-paper">{t("headline1")}</span>
           <span className="block">
-            <span className="headline-shimmer">in Tunisia.</span>
+            <span className="headline-shimmer">{t("headline2")}</span>
           </span>
         </h1>
 
-        {/* Subhead — names both audiences, both stay types */}
+        {/* Subhead — one plain, extractable definitional sentence (names what
+            Nesty is, both audiences, both stay types) so people and AI answer
+            engines can quote it verbatim, then the voice line. */}
         <p className="mx-auto mt-7 max-w-2xl text-[15.5px] leading-relaxed text-white/60 md:text-lg md:leading-relaxed">
-          Villas by the sea, apartments in the medina, rooms for a semester
-          abroad. Nesty is a calm rental platform for Tunisia — tour every home
-          in 3D before you visit, book by the night or sign a full-year lease.
+          {t("subhead")}
         </p>
 
         {/* SEARCH BAR — the single strongest real-estate cue */}
@@ -90,13 +99,13 @@ export function Hero() {
             className="group inline-flex items-center justify-center gap-2 rounded-pill border border-white/15 bg-transparent px-5 py-3 text-[13.5px] font-semibold text-paper transition-colors hover:bg-white/[0.06]"
           >
             <KeyRound className="h-3.5 w-3.5" strokeWidth={2} />
-            List your agency&rsquo;s inventory
+            {t("listInventory")}
           </a>
           <Link
             href="#how"
             className="inline-flex items-center justify-center gap-2 rounded-pill bg-transparent px-4 py-3 text-[13.5px] font-semibold text-white/70 transition-colors hover:text-paper"
           >
-            See how it works
+            {t("seeHow")}
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -110,26 +119,13 @@ export function Hero() {
         speed={0.55}
         className="pointer-events-none absolute right-4 top-[26%] hidden lg:block lg:right-10"
       >
-        <FloatingListingChip
-          city="Sidi Bou Saïd"
-          title="Blue &amp; White Garden Villa"
-          price="6 400 TND"
-          per="/month"
-          tag="just verified"
-        />
+        <FloatingListingChip {...chips[0]} />
       </Parallax>
       <Parallax
         speed={0.4}
         className="pointer-events-none absolute left-4 top-[42%] hidden lg:block lg:left-10"
       >
-        <FloatingListingChip
-          city="La Marsa · Corniche"
-          title="Sea-View Loft"
-          price="180 TND"
-          per="/night"
-          tag="3D tour ready"
-          reverse
-        />
+        <FloatingListingChip {...chips[1]} reverse />
       </Parallax>
     </section>
   );
@@ -139,66 +135,67 @@ export function Hero() {
  *  Search bar — visual only, links to #stays
  * ────────────────────────────────────────────────────────────────── */
 function SearchBar() {
+  const t = useTranslations("hero");
   return (
-    <div role="search" aria-label="Find a stay in Tunisia" className="mt-10 w-full max-w-3xl">
+    <div role="search" aria-label={t("search.aria")} className="mt-10 w-full max-w-3xl">
       {/* Desktop pill — visible ≥md; the mobile stacked card below is
           display:none at this breakpoint and vice-versa, so screen readers
           only ever announce one of these two search widgets. */}
       <div className="hidden items-stretch overflow-hidden rounded-pill border border-white/12 bg-ink/70 p-1.5 text-left shadow-[0_28px_60px_-24px_rgba(0,0,0,0.7)] backdrop-blur-md md:flex">
         <SearchField
           icon={MapPin}
-          label="Where"
-          value="La Marsa, Tunis"
+          label={t("search.where")}
+          value={t("search.whereValue")}
         />
         <Divider />
         <SearchField
           icon={CalendarDays}
-          label="Check-in"
-          value="Aug 12"
+          label={t("search.checkin")}
+          value={t("search.checkinValue")}
         />
         <Divider />
         <SearchField
           icon={CalendarDays}
-          label="Check-out"
-          value="Aug 20"
+          label={t("search.checkout")}
+          value={t("search.checkoutValue")}
         />
         <Divider />
         <SearchField
           icon={Users}
-          label="Guests"
-          value="2 · 1 room"
+          label={t("search.guests")}
+          value={t("search.guestsValue")}
         />
         <a
           href="#stays"
-          aria-label="Explore stays"
+          aria-label={t("search.exploreAria")}
           className="ml-2 inline-flex items-center gap-2 rounded-pill bg-paper px-5 text-[13px] font-semibold text-ink transition-transform hover:-translate-y-px"
         >
           <Search className="h-4 w-4" strokeWidth={2.2} />
-          Explore
+          {t("search.explore")}
         </a>
       </div>
 
       {/* Mobile stacked card */}
       <div className="rounded-3xl border border-white/12 bg-ink/70 p-3 shadow-[0_28px_60px_-24px_rgba(0,0,0,0.7)] backdrop-blur-md md:hidden">
         <div className="grid grid-cols-1 divide-y divide-white/[0.08] text-left">
-          <MobileField icon={MapPin} label="Where" value="La Marsa, Tunis" />
+          <MobileField icon={MapPin} label={t("search.where")} value={t("search.whereValue")} />
           <div className="grid grid-cols-2 divide-x divide-white/[0.08]">
-            <MobileField icon={CalendarDays} label="Check-in" value="Aug 12" compact />
-            <MobileField icon={CalendarDays} label="Check-out" value="Aug 20" compact />
+            <MobileField icon={CalendarDays} label={t("search.checkin")} value={t("search.checkinValue")} compact />
+            <MobileField icon={CalendarDays} label={t("search.checkout")} value={t("search.checkoutValue")} compact />
           </div>
-          <MobileField icon={Users} label="Guests" value="2 guests · 1 room" />
+          <MobileField icon={Users} label={t("search.guests")} value={t("search.guestsValueMobile")} />
         </div>
         <a
           href="#stays"
           className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-paper py-3 text-[13.5px] font-semibold text-ink"
         >
-          <Search className="h-4 w-4" strokeWidth={2.2} /> Explore stays
+          <Search className="h-4 w-4" strokeWidth={2.2} /> {t("search.exploreStays")}
         </a>
       </div>
 
       {/* Micro trust line */}
       <p className="mt-4 text-center text-[11.5px] uppercase tracking-[0.16em] text-white/40">
-        1,200+ verified stays · 40+ agencies · no phantom listings
+        {t("trustLine")}
       </p>
     </div>
   );
@@ -281,6 +278,7 @@ const CATEGORY_ICONS: Record<string, typeof MapPin> = {
 };
 
 function CategoryRail() {
+  const t = useTranslations("hero");
   return (
     <div className="relative mt-16 border-y border-white/[0.06] bg-ink/60 backdrop-blur-sm">
       {/* edge fade masks */}
@@ -296,12 +294,13 @@ function CategoryRail() {
         {PROPERTY_CATEGORIES.map((c, i) => {
           const Icon = CATEGORY_ICONS[c.key] ?? Home;
           const active = i === 0;
+          const label = t(`categories.${c.key}.label`);
           return (
             <li key={c.key} className="shrink-0">
               <Link
                 href="#stays"
-                title={c.hint}
-                aria-label={`See ${c.label.toLowerCase()} in Tunisia`}
+                title={t(`categories.${c.key}.hint`)}
+                aria-label={t("categoryAria", { label })}
                 className={
                   "group inline-flex flex-col items-center gap-1.5 border-b-2 pb-1 pt-0.5 text-[11.5px] font-medium tracking-wide transition-colors " +
                   (active
@@ -310,7 +309,7 @@ function CategoryRail() {
                 }
               >
                 <Icon className="h-4 w-4" strokeWidth={1.7} />
-                <span className="whitespace-nowrap">{c.label}</span>
+                <span className="whitespace-nowrap">{label}</span>
               </Link>
             </li>
           );

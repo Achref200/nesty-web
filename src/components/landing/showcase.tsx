@@ -13,6 +13,7 @@ import {
 import { Reveal } from "./reveal";
 import { Parallax } from "./parallax";
 import { Phone } from "./phone";
+import { useTranslations } from "next-intl";
 import { FEATURED_LISTINGS } from "@/data/showcase";
 
 /**
@@ -24,6 +25,7 @@ import { FEATURED_LISTINGS } from "@/data/showcase";
  * centered column on small screens (most of our visitors are on phones).
  */
 export function Showcase() {
+  const t = useTranslations("showcase");
   const hero = FEATURED_LISTINGS[0];
   const secondary = FEATURED_LISTINGS[4] ?? FEATURED_LISTINGS[1];
 
@@ -46,16 +48,15 @@ export function Showcase() {
       <div className="mx-auto max-w-wide px-5 md:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="text-[12px] uppercase tracking-[0.22em] text-white/40">
-            one platform · every screen
+            {t("eyebrow")}
           </p>
           <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-paper md:text-5xl">
-            The same beautiful home,
+            {t("title1")}
             <br />
-            <span className="text-white/50">on the web and in your pocket.</span>
+            <span className="text-white/50">{t("title2")}</span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-white/55">
-            Agencies publish once. Renters explore everywhere — a full-screen 3D
-            tour on desktop, the exact same stay a thumb-swipe away on mobile.
+            {t("lead")}
           </p>
         </Reveal>
 
@@ -101,10 +102,10 @@ export function Showcase() {
                 {/* Top badges */}
                 <div className="absolute left-4 top-4 flex items-center gap-2">
                   <span className="inline-flex items-center gap-1 rounded-pill bg-black/50 px-2.5 py-1 text-[11px] font-semibold text-paper backdrop-blur-sm">
-                    <Box className="h-3 w-3" strokeWidth={2} /> Immersive 3D tour
+                    <Box className="h-3 w-3" strokeWidth={2} /> {t("immersive3d")}
                   </span>
                   <span className="inline-flex items-center gap-1 rounded-pill bg-paper/90 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.06em] text-ink backdrop-blur-sm">
-                    verified
+                    {t("verified")}
                   </span>
                 </div>
 
@@ -132,10 +133,10 @@ export function Showcase() {
                   <div className="flex items-center gap-2">
                     <span className="rounded-pill bg-black/40 px-3 py-2 text-[13px] font-bold text-paper backdrop-blur-sm">
                       180 TND
-                      <span className="ml-0.5 text-[10px] font-medium text-paper/60">/night</span>
+                      <span className="ml-0.5 text-[10px] font-medium text-paper/60">{t("perNight")}</span>
                     </span>
                     <button className="inline-flex items-center gap-1.5 rounded-pill bg-paper px-4 py-2 text-[13px] font-semibold text-ink">
-                      Book stay
+                      {t("bookStay")}
                       <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.2} />
                     </button>
                   </div>
@@ -190,7 +191,7 @@ export function Showcase() {
                       <div className="mt-2.5 flex items-center justify-between">
                         <span className="rounded-pill bg-paper px-2 py-1 text-[11px] font-bold text-ink">
                           140 TND
-                          <span className="ml-0.5 text-[8.5px] font-medium text-ink/60">/night</span>
+                          <span className="ml-0.5 text-[8.5px] font-medium text-ink/60">{t("perNight")}</span>
                         </span>
                         <span className="inline-flex items-center gap-1 rounded-pill bg-black/45 px-2.5 py-1 text-[10px] font-semibold text-paper backdrop-blur-sm">
                           <Star className="h-2.5 w-2.5 fill-current" /> {secondary.rating}

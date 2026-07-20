@@ -18,6 +18,7 @@ import {
 import { Reveal } from "./reveal";
 import { Parallax } from "./parallax";
 import { Phone } from "./phone";
+import { useTranslations } from "next-intl";
 import { FEATURED_LISTINGS } from "@/data/showcase";
 
 /**
@@ -35,6 +36,7 @@ import { FEATURED_LISTINGS } from "@/data/showcase";
  */
 
 export function Product() {
+  const t = useTranslations("product");
   const listings = FEATURED_LISTINGS.slice(0, 5);
   return (
     <section
@@ -44,19 +46,15 @@ export function Product() {
       <div className="mx-auto max-w-wide px-5 md:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-[12px] uppercase tracking-[0.22em] text-white/40">
-            the product
+            {t("eyebrow")}
           </p>
           <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-paper md:text-5xl">
-            The workspace your agents open first,
+            {t("title1")}
             <br />
-            <span className="text-white/50">
-              and the app your renters keep on the home screen.
-            </span>
+            <span className="text-white/50">{t("title2")}</span>
           </h2>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/55">
-            One dashboard for every rental you manage. One app for every home
-            a renter falls for. A single calendar that keeps nightly stays,
-            monthly rentals and yearly leases in perfect sync.
+            {t("lead")}
           </p>
         </Reveal>
 

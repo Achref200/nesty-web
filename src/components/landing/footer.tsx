@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Logo } from "@/components/brand/logo";
 import { site, agencyAccessMailto } from "@/lib/site";
 
@@ -7,6 +8,8 @@ import { site, agencyAccessMailto } from "@/lib/site";
  * no newsletter, no social grid. All the essentials, none of the clutter.
  */
 export function Footer() {
+  const t = useTranslations("footer");
+  const tn = useTranslations("nav");
   return (
     <footer className="border-t border-white/[0.06] bg-ink text-paper">
       <div className="mx-auto max-w-wide px-5 py-14 md:px-8">
@@ -14,7 +17,7 @@ export function Footer() {
           <div className="max-w-sm">
             <Logo />
             <p className="mt-5 text-[14px] leading-relaxed text-white/50">
-              {site.tagline}
+              {t("tagline")}
             </p>
             <a
               href={agencyAccessMailto}
@@ -31,22 +34,20 @@ export function Footer() {
                 href={item.href}
                 className="transition-colors hover:text-paper"
               >
-                {item.label}
+                {tn(`links.${item.href.split("#")[1] ?? item.href}`)}
               </a>
             ))}
             <Link href="/login" className="transition-colors hover:text-paper">
-              Sign in
+              {t("signIn")}
             </Link>
           </nav>
         </div>
 
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/[0.06] pt-6 text-[12px] text-white/40 sm:flex-row sm:items-center">
           <span>
-            &copy; {new Date().getFullYear()} {site.name} · Made in Tunisia
+            {t("copyright", { year: new Date().getFullYear(), name: site.name })}
           </span>
-          <span className="uppercase tracking-[0.18em]">
-            Real estate, in black &amp; white.
-          </span>
+          <span className="uppercase tracking-[0.18em]">{t("rightNote")}</span>
         </div>
       </div>
     </footer>

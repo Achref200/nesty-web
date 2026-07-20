@@ -22,7 +22,10 @@ export const site = {
   description:
     "Rent villas, apartments and rooms across Tunisia. Every stay verified by partner agencies, tourable in 3D, priced by the night or the month.",
   url: inferredUrl,
-  locale: "en_TN",
+  // Facebook's OG spec expects a real locale code (language_TERRITORY from its
+  // supported list). "en_TN" isn't valid; the landing experience is English, so
+  // "en_US" is the correct signal until FR/AR variants ship with hreflang.
+  locale: "en_US",
   tagline: "Every stay verified. Every home tourable in 3D.",
   // Contact address. Temporary free Proton mailbox (no phone/domain needed)
   // until the nesty.tn domain is owned — then switch this single line to
@@ -49,6 +52,7 @@ export const site = {
     { href: "/#how", label: "How it works" },
     { href: "/#product", label: "Product" },
     { href: "/#features", label: "Features" },
+    { href: "/#faq", label: "FAQ" },
   ],
 } as const;
 

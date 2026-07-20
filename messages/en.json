@@ -1,0 +1,274 @@
+{
+  "nav": {
+    "links": {
+      "stays": "Stays",
+      "how": "How it works",
+      "product": "Product",
+      "features": "Features",
+      "faq": "FAQ"
+    },
+    "signIn": "Sign in",
+    "requestAccess": "Request access",
+    "requestAgencyAccess": "Request agency access",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language"
+  },
+  "hero": {
+    "badge": "rentals in 9 tunisian cities · short & long-term",
+    "headline1": "Find your next place",
+    "headline2": "in Tunisia.",
+    "subhead": "Villas by the sea, apartments in the medina, a summer place for the trip home. Nesty is the Tunisian rental platform where every home is verified and tourable in 3D — pay on arrival or online, and book by the night or by the season.",
+    "listInventory": "List your agency's inventory",
+    "seeHow": "See how it works",
+    "search": {
+      "aria": "Find a stay in Tunisia",
+      "where": "Where",
+      "whereValue": "La Marsa, Tunis",
+      "checkin": "Check-in",
+      "checkinValue": "Aug 12",
+      "checkout": "Check-out",
+      "checkoutValue": "Aug 20",
+      "guests": "Guests",
+      "guestsValue": "2 · 1 room",
+      "guestsValueMobile": "2 guests · 1 room",
+      "explore": "Explore",
+      "exploreStays": "Explore stays",
+      "exploreAria": "Explore stays"
+    },
+    "trustLine": "Pay on arrival or online · Verified by our team · Tour in 3D first",
+    "categoryAria": "See {label} in Tunisia",
+    "categories": {
+      "all": { "label": "All stays", "hint": "Every home on Nesty" },
+      "villa": { "label": "Villas", "hint": "Private, with a garden or a pool" },
+      "apartment": { "label": "Apartments", "hint": "In the heart of the city" },
+      "room": { "label": "Private rooms", "hint": "A bed in a shared home" },
+      "studio": { "label": "Studios", "hint": "Just you, one clean room" },
+      "beachfront": { "label": "Beachfront", "hint": "Sea in under five minutes" },
+      "riad": { "label": "Riads", "hint": "Traditional houses, quiet courtyards" },
+      "long": { "label": "Long-term leases", "hint": "3 months and up" }
+    },
+    "chips": [
+      { "tag": "just verified", "title": "Blue &amp; White Garden Villa", "city": "Sidi Bou Saïd", "price": "6 400 TND", "per": "/month" },
+      { "tag": "3D tour ready", "title": "Sea-View Loft", "city": "La Marsa · Corniche", "price": "180 TND", "per": "/night" }
+    ]
+  },
+  "stays": {
+    "eyebrow": "where you can stay",
+    "title1": "Six cities.",
+    "title2": "A thousand doors to knock on.",
+    "lead": "From a corniche loft in La Marsa to a whitewashed room on Djerba — every stay is verified by our team, priced by the night or by the month, and ready to tour in 3D before you commit.",
+    "browseAll": "Browse all stays",
+    "cardAlt": "{city}, Tunisia",
+    "from": "from",
+    "perNight": "/ night",
+    "perMonth": "/ month",
+    "orPrefix": "or",
+    "staysLabel": "{count} stays",
+    "vibeStrip": {
+      "nightly": "per night from 95 TND",
+      "monthly": "per month from 1 200 TND",
+      "leases": "3-month leases, semester rentals, full-year contracts"
+    },
+    "cards": [
+      { "region": "Tunis · Corniche", "vibe": "Sea walks, morning coffee, easy metro into Tunis." },
+      { "region": "Blue & white village", "vibe": "Postcard streets, painters' balconies, mint tea sunsets." },
+      { "region": "Yasmine · seafront", "vibe": "Long summers, walkable beaches, easy family stays." },
+      { "region": "Sidi Mahrez · island", "vibe": "Palm groves, whitewashed houses, waves two minutes away." },
+      { "region": "Medina & coast", "vibe": "Old medina energy on one side, wide beach on the other." },
+      { "region": "Byrsa · Salammbô", "vibe": "Historic hillside villas, quiet gardens, sea in the distance." }
+    ]
+  },
+  "pillars": {
+    "eyebrow": "three surfaces, one idea",
+    "title1": "Two apps for two people.",
+    "title2": "One calendar that never lies.",
+    "lead": "Nesty is not a CRM you glue to a website. It's a platform designed as one thing, split across the three places where real estate actually happens.",
+    "items": [
+      {
+        "tag": "for agencies",
+        "title": "A workspace that doesn't feel like a spreadsheet.",
+        "body": "One board for every rental you carry — nightly stays, monthly rentals, yearly leases. Team roles per agent, quick edits from a phone, and a calendar that doesn't need a group chat to stay in sync."
+      },
+      {
+        "tag": "for renters",
+        "title": "An app that respects your afternoon.",
+        "body": "Search by neighborhood, filter by what actually matters (metro line, sea distance, pets), tour the home in 3D, then book by the night or hold the dates for a full month — only when it's already close to a yes."
+      },
+      {
+        "tag": "in the middle",
+        "title": "One truthful calendar, live in both.",
+        "body": "A booking made on mobile lands in the workspace the same second. No double check-ins, no overlapping leases, no 'let me check with the owner and I'll call you back'."
+      }
+    ]
+  },
+  "how": {
+    "eyebrow": "how it works",
+    "title1": "One listing.",
+    "title2": "Four honest steps.",
+    "lead": "From 'we've got a new place' to 'the keys are handed over' — this is the walk. No hidden phases, no accounts we open behind your back.",
+    "steps": [
+      {
+        "tag": "agency workspace",
+        "title": "You publish the home. Once.",
+        "body": "Drop the address on the map, upload eight photos, and tag the essentials — bedrooms, floor, air-con, pet policy, and whether it rents by the night or by the month. The workspace fills the rest from the address (neighborhood, metro line, sea distance). Under 3 minutes per listing, on desktop or phone."
+      },
+      {
+        "tag": "3D tour engine",
+        "title": "We turn photos into a walkthrough.",
+        "body": "Nesty stitches the same photos into an immersive 3D tour — room by room, in the browser, no headset. You approve it, we push it live. Renters see the truth of the space before they even pack a bag."
+      },
+      {
+        "tag": "mobile app",
+        "title": "Renters tour, save, and reserve.",
+        "body": "In the app they filter by neighborhood, walk through in 3D, save the top three, then either book a short stay (check-in / check-out) or request a long-term lease. Every request lands in your inbox with the person, the dates, and the exact slot they picked."
+      },
+      {
+        "tag": "live calendar",
+        "title": "The calendar tells the truth to everyone.",
+        "body": "You confirm in one tap; the app updates the same second. The team sees the same reality — no double check-ins, no overlapping leases. A monthly export goes to your accountant, unprompted."
+      }
+    ]
+  },
+  "product": {
+    "eyebrow": "the product",
+    "title1": "The workspace your agents open first,",
+    "title2": "and the app your renters keep on the home screen.",
+    "lead": "One dashboard for every rental you manage. One app for every home a renter falls for. A single calendar that keeps nightly stays, monthly rentals and yearly leases in perfect sync."
+  },
+  "features": {
+    "eyebrow": "the specifics",
+    "title1": "Six things Nesty does",
+    "title2": "the way you'd hope.",
+    "shipped": "shipped",
+    "items": [
+      {
+        "title": "Verified before published",
+        "body": "Every address is checked against a real map, every photo is scanned for stock-image reuse, and every owner ID is manually reviewed before a rental ever appears in the app. No phantom flats, no bait pricing.",
+        "note": "Reviewed in under 24h, most within 4."
+      },
+      {
+        "title": "Browser-native 3D tours",
+        "body": "Send us eight photos of a room and we return a 360° walkthrough. No cameras to buy, no plugins to install, no app to download for the renter — it opens in a link, on any phone.",
+        "note": "Powered by Tour3D, our in-house engine."
+      },
+      {
+        "title": "Nightly & monthly, one calendar",
+        "body": "The workspace, the app and every agent's phone show the same reservation the same second. Short stays and long leases share one calendar — conflicts are impossible by design.",
+        "note": "Realtime, not 'refresh to see'."
+      },
+      {
+        "title": "Requests with SLA timers",
+        "body": "Every visit request, booking or lease inquiry gets a countdown, a suggested reply, and a fallback assignee. If nobody answers in 30 minutes, it re-routes. Your response time stops depending on who happens to be on WhatsApp.",
+        "note": "Median response cut from 4h to 11min."
+      },
+      {
+        "title": "Roles for the whole team",
+        "body": "Owners see only their rentals. Agents see only their assignments. Managers see everything, plus a weekly digest of what moved. No more shared logins on a sticky note.",
+        "note": "Owner, agent, manager, viewer."
+      },
+      {
+        "title": "Offline-first mobile",
+        "body": "The app remembers your last search, your saved rentals, and any 3D tour you opened — so a rider on the metro or a beach in Djerba can still browse the shortlist without a bar of signal.",
+        "note": "Because 4G in Sidi Bou isn't magic."
+      }
+    ]
+  },
+  "numbers": {
+    "eyebrow": "the opportunity",
+    "title1": "A record tourism market,",
+    "title2": "still booked on Facebook.",
+    "stats": [
+      { "label": "Visitors in 2025", "hint": "Tunisia's record tourism year — the demand pool" },
+      { "label": "Tourism receipts", "hint": "Up 6.3% year on year (BCT, 2025)" },
+      { "label": "Tunisians in Europe", "hint": "The diaspora — books early, pays in euros" },
+      { "label": "Still pay in cash", "hint": "Why every booking can pay on arrival" }
+    ]
+  },
+  "voice": {
+    "eyebrow": "from the agency floor",
+    "title": "Not case studies. Three people who'd let us call them.",
+    "items": [
+      {
+        "quote": "We used to lose two weekends a month to double-booked keys. Since we moved our short-stay calendar onto Nesty, that number is zero — and the 3D tours cut the tyre-kicker visits by half.",
+        "role": "Head of Sales"
+      },
+      {
+        "quote": "Owners see their villa the way renters see it. That's what unlocked the exclusive-mandate conversations in Sidi Bou.",
+        "role": "Agency Director"
+      },
+      {
+        "quote": "The visit request lands on the agent's phone with the lease term already filled in. Our reply is a two-tap 'confirm' instead of a phone call.",
+        "role": "Operations"
+      }
+    ]
+  },
+  "showcase": {
+    "eyebrow": "one platform · every screen",
+    "title1": "The same beautiful home,",
+    "title2": "on the web and in your pocket.",
+    "lead": "Agencies publish once. Renters explore everywhere — a full-screen 3D tour on desktop, the exact same stay a thumb-swipe away on mobile.",
+    "immersive3d": "Immersive 3D tour",
+    "verified": "verified",
+    "bookStay": "Book stay",
+    "perNight": "/night"
+  },
+  "cta": {
+    "eyebrow": "let's talk",
+    "title1": "Bring your agency onto Nesty",
+    "title2": "before your competitor does.",
+    "body": "We open access agency by agency, city by city — no self-serve sign-up. Tell us who you are and how many listings you carry. We'll set up the workspace, migrate your inventory, and shoot the first 3D tours with you.",
+    "requestAccess": "Request agency access",
+    "haveAccount": "I already have an account",
+    "replyLine": "{email} · we reply in one working day"
+  },
+  "footer": {
+    "tagline": "Every stay verified. Every home tourable in 3D.",
+    "signIn": "Sign in",
+    "copyright": "© {year} {name} · Made in Tunisia",
+    "rightNote": "Real estate, in black & white."
+  },
+  "faq": {
+    "eyebrow": "questions, answered",
+    "title1": "The things people ask",
+    "title2": "before they trust a rental.",
+    "items": [
+      {
+        "q": "What is Nesty?",
+        "a": "Nesty is a rental platform for Tunisia that connects verified homes and agencies with renters. Agencies publish and manage their inventory in a web workspace; renters browse in the app, tour every home in 3D, and book by the night or sign a monthly lease."
+      },
+      {
+        "q": "How do I pay — and is it safe?",
+        "a": "You choose: pay securely online, or pay on arrival — the way most of Tunisia already prefers. Either way your booking is confirmed the moment the agency accepts, and the home is exactly what you toured in 3D."
+      },
+      {
+        "q": "How does Nesty verify listings?",
+        "a": "Before a rental goes live we check the address against a real map, scan every photo for stock-image reuse, and manually review the owner's ID. Most listings are approved within four hours, and none appear in the app until they pass."
+      },
+      {
+        "q": "Can I rent monthly instead of nightly?",
+        "a": "Yes. Every home carries both short-term and long-term availability on one calendar, so you can book a few nights or sign a full-year lease from the same listing."
+      },
+      {
+        "q": "Which Tunisian cities does Nesty cover?",
+        "a": "Nesty is launching along the coast — Hammamet, Sousse and Djerba first, then Tunis, La Marsa, Sidi Bou Saïd, Gammarth and Carthage as partner agencies onboard."
+      },
+      {
+        "q": "How do 3D tours work — do I need an app or a headset?",
+        "a": "No headset, no plugin. Agencies send us eight photos of a room and our Tour3D engine returns a 360° walkthrough that opens in a link on any phone or browser. Renters tour the whole home before ever booking a visit."
+      },
+      {
+        "q": "How does an agency get onto Nesty?",
+        "a": "We open access agency by agency. Send us a note and we'll set up your workspace, import your inventory, and turn your existing photos into 3D tours. There's no self-serve sign-up yet — every partner is reviewed first."
+      },
+      {
+        "q": "Is Nesty free for agencies?",
+        "a": "Getting onto the workspace and publishing your inventory is free during the launch phase. Reach out for current terms as we open access in your city."
+      },
+      {
+        "q": "Do renters need an account to browse?",
+        "a": "Browsing verified homes and 3D tours is open to everyone. You only sign in when you're ready to send a booking or visit request, which routes straight to the managing agency."
+      }
+    ]
+  }
+}

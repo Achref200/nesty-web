@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { Toaster } from "sonner";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -53,27 +55,32 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang={locale} className={`${display.variable} ${sans.variable}`}>
       <body>
-        {children}
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            style: {
-              borderRadius: "14px",
-              border: "1px solid #E6E6E4",
-              background: "#ffffff",
-              color: "#141414",
-              fontFamily: "var(--font-sans)",
-            },
-          }}
-        />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                borderRadius: "14px",
+                border: "1px solid #E6E6E4",
+                background: "#ffffff",
+                color: "#141414",
+                fontFamily: "var(--font-sans)",
+              },
+            }}
+          />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
