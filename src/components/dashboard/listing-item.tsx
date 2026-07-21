@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Star, Building2, Eye, Heart, DoorOpen } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ListingRowActions } from "@/components/dashboard/listing-row-actions";
@@ -8,6 +9,7 @@ import { formatDinars } from "@/lib/utils";
 import type { Listing } from "@/data/types";
 
 export function ListingItem({ listing }: { listing: Listing }) {
+  const t = useTranslations("dashboard.listing");
   const hidden = listing.status === "hidden";
   return (
     <Card className="flex items-center gap-4 p-3 transition-colors hover:border-ink/20">
@@ -35,7 +37,7 @@ export function ListingItem({ listing }: { listing: Listing }) {
           <div className="mt-1.5 flex flex-wrap items-center gap-3 text-xs text-muted">
             <span className="inline-flex items-center gap-1">
               <Star className="h-3.5 w-3.5" />
-              {listing.rating > 0 ? listing.rating.toFixed(2) : "New"}
+              {listing.rating > 0 ? listing.rating.toFixed(2) : t("new")}
             </span>
             <span className="inline-flex items-center gap-1">
               <Eye className="h-3.5 w-3.5" />
@@ -58,13 +60,13 @@ export function ListingItem({ listing }: { listing: Listing }) {
         </span>
         <div className="flex items-center gap-1.5">
           <Badge variant="outline">
-            {listing.rentalTerm === "shortTerm" ? "Short term" : "Long term"}
+            {listing.rentalTerm === "shortTerm" ? t("termShort") : t("termLong")}
           </Badge>
           {hidden ? (
-            <Badge variant="soft">Hidden</Badge>
+            <Badge variant="soft">{t("hidden")}</Badge>
           ) : (
             <Badge variant={listing.state === "reserved" ? "solid" : "soft"}>
-              {listing.state === "reserved" ? "Reserved" : "Available"}
+              {listing.state === "reserved" ? t("reserved") : t("available")}
             </Badge>
           )}
           <ListingRowActions id={listing.id} hidden={hidden} />

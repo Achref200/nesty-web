@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { MoreHorizontal, Pencil, Eye, EyeOff, Trash2 } from "lucide-react";
 import { setListingStatus, deleteListing } from "@/lib/actions/listings";
 import {
@@ -36,13 +37,14 @@ export function ListingRowActions({
   const [pending, start] = useTransition();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
+  const t = useTranslations("dashboard.rowActions");
 
   function toggleHide() {
     start(async () => {
       const res = await setListingStatus(id, hidden ? "active" : "hidden");
       if (res.error) toast.error(res.error);
       else {
-        toast.success(hidden ? "Listing is live" : "Listing hidden");
+        toast.success(hidden ? t("toastLive") : t("toastHidden"));
         router.refresh();
       }
     });
@@ -65,7 +67,7 @@ export function ListingRowActions({
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            aria-label="Manage listing"
+            aria-label={t("manage")}
             disabled={pending}
             className={cn(
               "grid h-8 w-8 place-items-center rounded-lg border border-separator bg-card text-ink transition-colors hover:bg-fill",
@@ -78,17 +80,17 @@ export function ListingRowActions({
         <DropdownMenuContent>
           <DropdownMenuItem asChild>
             <Link href={`/dashboard/listings/${id}`}>
-              <Pencil className="h-4 w-4" /> Edit details
+              <Pencil className="h-4 w-4" /> {t("edit")}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={toggleHide}>
             {hidden ? (
               <>
-                <Eye className="h-4 w-4" /> Publish
+                <Eye className="h-4 w-4" /> {t("publish")}
               </>
             ) : (
               <>
-                <EyeOff className="h-4 w-4" /> Hide
+                <EyeOff className="h-4 w-4" /> {t("hide")}
               </>
             )}
           </DropdownMenuItem>
@@ -100,7 +102,7 @@ export function ListingRowActions({
               setConfirmOpen(true);
             }}
           >
-            <Trash2 className="h-4 w-4" /> Delete
+            <Trash2 className="h-4 w-4" /> {t("delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -108,14 +110,13 @@ export function ListingRowActions({
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete this listing?</AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This permanently removes the place and all its data. A listing with
-              upcoming bookings can&rsquo;t be deleted — cancel those first.
+              {t("deleteBody")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={pending}>{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction
               variant="danger"
               disabled={pending}
@@ -124,7 +125,7 @@ export function ListingRowActions({
                 remove();
               }}
             >
-              <Trash2 className="h-4 w-4" /> Delete
+              <Trash2 className="h-4 w-4" /> {t("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

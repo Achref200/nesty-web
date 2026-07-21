@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 
 export type AuthState = { error?: string };
@@ -13,14 +14,15 @@ export async function signIn(
   _prev: AuthState,
   formData: FormData,
 ): Promise<AuthState> {
+  const t = await getTranslations("login.errors");
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-    return { error: "Enter a valid email address." };
+    return { error: t("invalidEmail") };
   }
   if (password.length < 1) {
-    return { error: "Enter your password." };
+    return { error: t("enterPassword") };
   }
 
   const supabase = createClient();

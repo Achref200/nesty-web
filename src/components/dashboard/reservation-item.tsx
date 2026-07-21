@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslations, useLocale } from "next-intl";
 import {
   CalendarClock,
   CalendarDays,
@@ -17,19 +18,19 @@ import { formatDate } from "@/lib/utils";
 import { setReservationStatus } from "@/lib/actions/reservations";
 import { isActive, type Reservation, type ReservationStatus } from "@/data/types";
 
-function whenLabel(r: Reservation): string {
+function whenLabel(r: Reservation, nightsLabel: string, locale: string): string {
   const start = new Date(r.start);
   if (r.type === "visit") {
     const hh = start.getHours().toString().padStart(2, "0");
     const mm = start.getMinutes().toString().padStart(2, "0");
-    return `${formatDate(start)} · ${hh}:${mm}`;
+    return `${formatDate(start, locale)} · ${hh}:${mm}`;
   }
   const end = r.end ? new Date(r.end) : null;
   const first = new Date(start.getFullYear(), start.getMonth(), start.getDate());
   const nights = end
     ? Math.round((end.getTime() - first.getTime()) / 86_400_000)
     : 0;
-  return `${formatDate(start)} → ${end ? formatDate(end) : ""} · ${nights} nights`;
+  return `${formatDate(start, locale)} → ${end ? formatDate(end, locale) : ""} · ${nights} ${nightsLabel}`;
 }
 
 export function ReservationItem({
@@ -44,6 +45,8 @@ export function ReservationItem({
   const [status, setStatus] = useState<ReservationStatus>(reservation.status);
   const [pending, startTransition] = useTransition();
   const router = useRouter();
+  const t = useTranslations("dashboard.reservation");
+  const locale = useLocale();
   const isVisit = reservation.type === "visit";
 
   function update(
@@ -59,10 +62,10 @@ export function ReservationItem({
       } else {
         toast.success(
           next === "confirmed"
-            ? "Reservation confirmed"
+            ? t("toastConfirmed")
             : next === "completed"
-              ? "Marked as complete"
-              : "Reservation declined",
+              ? t("toastCompleted")
+              : t("toastDeclined"),
         );
         router.refresh();
       }
@@ -83,11 +86,11 @@ export function ReservationItem({
           <p className="truncate text-[15px] font-bold">
             {reservation.listingTitle}
           </p>
-          <p className="text-[13px] text-muted">{whenLabel(reservation)}</p>
+          <p className="text-[13px] text-muted">{whenLabel(reservation, t("nights"), locale)}</p>
           {showGuest && (
             <p className="text-xs text-muted-soft">
               {reservation.guestName} · {reservation.guests}{" "}
-              {reservation.guests === 1 ? "guest" : "guests"}
+              {reservation.guests === 1 ? t("guest") : t("guests")}
             </p>
           )}
         </div>
@@ -103,7 +106,7 @@ export function ReservationItem({
               disabled={pending}
               onClick={() => update("confirmed")}
             >
-              <Check className="h-4 w-4" /> Confirm
+              <Check className="h-4 w-4" /> {t("confirm")}
             </Button>
           )}
           {status === "confirmed" && (
@@ -113,7 +116,7 @@ export function ReservationItem({
               disabled={pending}
               onClick={() => update("completed")}
             >
-              <CheckCheck className="h-4 w-4" /> Mark done
+              <CheckCheck className="h-4 w-4" /> {t("markDone")}
             </Button>
           )}
           <Button
@@ -123,7 +126,7 @@ export function ReservationItem({
             disabled={pending}
             onClick={() => update("cancelled")}
           >
-            <X className="h-4 w-4" /> Decline
+            <X className="h-4 w-4" /> {t("decline")}
           </Button>
         </div>
       )}

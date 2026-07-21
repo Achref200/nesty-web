@@ -13,10 +13,12 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { ReservationItem } from "@/components/dashboard/reservation-item";
 import { ListingItem } from "@/components/dashboard/listing-item";
 import { Button } from "@/components/ui/button";
+import { getTranslations } from "next-intl/server";
 import { getDashboardData } from "@/lib/queries";
 import { isActive } from "@/data/types";
 
 export default async function OverviewPage() {
+  const t = await getTranslations("dashboard.overview");
   const data = await getDashboardData();
   if (!data) return null;
 
@@ -32,52 +34,55 @@ export default async function OverviewPage() {
   return (
     <div className="flex flex-col gap-8">
       <p className="text-[15px] text-muted">
-        Welcome back, <span className="font-semibold text-ink">{data.fullName}</span>.
+        {t.rich("welcome", {
+          name: data.fullName,
+          b: (chunks) => <span className="font-semibold text-ink">{chunks}</span>,
+        })}
       </p>
 
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <StatCard icon={Inbox} value={`${data.pending}`} label="Pending requests" />
+        <StatCard icon={Inbox} value={`${data.pending}`} label={t("pendingRequests")} />
         <StatCard
           icon={CalendarCheck}
           value={`${upcoming.length}`}
-          label="Upcoming"
+          label={t("upcoming")}
         />
         <StatCard
           icon={Building2}
           value={`${data.listings.length}`}
-          label="Active listings"
+          label={t("activeListings")}
         />
         <StatCard
           icon={BadgeCheck}
           value={`${confirmed}`}
-          label="Confirmed"
+          label={t("confirmed")}
         />
       </section>
 
       <section>
         <div className="mb-4 flex items-center">
           <h2 className="font-display text-lg font-bold tracking-tight">
-            Engagement
+            {t("engagement")}
           </h2>
           <Button asChild variant="ghost" size="sm" className="ml-auto">
-            <Link href="/dashboard/listings">By listing</Link>
+            <Link href="/dashboard/listings">{t("byListing")}</Link>
           </Button>
         </div>
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
           <StatCard
             icon={Eye}
             value={`${data.totals.views}`}
-            label="Total views"
+            label={t("totalViews")}
           />
           <StatCard
             icon={Heart}
             value={`${data.totals.saves}`}
-            label="Total saves"
+            label={t("totalSaves")}
           />
           <StatCard
             icon={DoorOpen}
             value={`${data.totals.tours}`}
-            label="Tour requests"
+            label={t("tourRequests")}
           />
         </div>
       </section>
@@ -86,16 +91,15 @@ export default async function OverviewPage() {
         <div>
           <div className="mb-4 flex items-center">
             <h2 className="font-display text-lg font-bold tracking-tight">
-              Next up
+              {t("nextUp")}
             </h2>
             <Button asChild variant="ghost" size="sm" className="ml-auto">
-              <Link href="/dashboard/requests">View all</Link>
+              <Link href="/dashboard/requests">{t("viewAll")}</Link>
             </Button>
           </div>
           {upcoming.length === 0 ? (
             <p className="text-[15px] text-muted">
-              No requests yet. When seekers book a visit or reserve dates on your
-              listings, they land here.
+              {t("noUpcoming")}
             </p>
           ) : (
             <div className="flex flex-col gap-3">
@@ -109,16 +113,16 @@ export default async function OverviewPage() {
         <div>
           <div className="mb-4 flex items-center">
             <h2 className="font-display text-lg font-bold tracking-tight">
-              Your portfolio
+              {t("portfolio")}
             </h2>
             <Button asChild variant="ghost" size="sm" className="ml-auto">
-              <Link href="/dashboard/listings">Manage</Link>
+              <Link href="/dashboard/listings">{t("manage")}</Link>
             </Button>
           </div>
           {data.listings.length === 0 ? (
             <Button asChild size="sm">
               <Link href="/dashboard/listings/new">
-                <Plus className="h-4 w-4" /> Add your first listing
+                <Plus className="h-4 w-4" /> {t("addFirst")}
               </Link>
             </Button>
           ) : (

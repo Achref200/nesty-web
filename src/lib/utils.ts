@@ -22,8 +22,16 @@ const MONTHS = [
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
-export function formatDate(d: Date): string {
-  return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+/** Format a date as day + short month in the given locale, e.g. "12 Aug" / "12 août". */
+export function formatDate(d: Date, locale = "en"): string {
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      day: "numeric",
+      month: "short",
+    }).format(d);
+  } catch {
+    return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+  }
 }
 
 export function isSameDay(a: Date, b: Date): boolean {

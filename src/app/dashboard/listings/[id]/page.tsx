@@ -17,15 +17,16 @@ import { ReservationItem } from "@/components/dashboard/reservation-item";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getTranslations } from "next-intl/server";
 import { getListingDetail } from "@/lib/queries";
 import { formatDinars } from "@/lib/utils";
-import { RENTAL_TERM_LABEL } from "@/data/types";
 
 export default async function ListingDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
+  const t = await getTranslations("dashboard.listing");
   const detail = await getListingDetail(params.id);
   if (!detail) notFound();
 
@@ -39,7 +40,7 @@ export default async function ListingDetailPage({
       <div className="flex items-center gap-2">
         <Button asChild variant="ghost" size="sm">
           <Link href="/dashboard/listings">
-            <ArrowLeft className="h-4 w-4" /> Listings
+            <ArrowLeft className="h-4 w-4" /> {t("back")}
           </Link>
         </Button>
       </div>
@@ -65,13 +66,15 @@ export default async function ListingDetailPage({
               {listing.title}
             </h1>
             {hidden ? (
-              <Badge variant="soft">Hidden</Badge>
+              <Badge variant="soft">{t("hidden")}</Badge>
             ) : (
               <Badge variant={listing.state === "reserved" ? "solid" : "soft"}>
-                {listing.state === "reserved" ? "Reserved" : "Live"}
+                {listing.state === "reserved" ? t("reserved") : t("live")}
               </Badge>
             )}
-            <Badge variant="soft">{RENTAL_TERM_LABEL[listing.rentalTerm]}</Badge>
+            <Badge variant="soft">
+              {listing.rentalTerm === "shortTerm" ? t("termShort") : t("termLong")}
+            </Badge>
           </div>
           <p className="mt-1 inline-flex items-center gap-1.5 text-[15px] text-muted">
             <MapPin className="h-4 w-4" /> {listing.city}
@@ -81,7 +84,7 @@ export default async function ListingDetailPage({
           <div className="font-display text-2xl font-extrabold">
             {formatDinars(listing.pricePerMonth)}
           </div>
-          <div className="text-[13px] text-muted">per month</div>
+          <div className="text-[13px] text-muted">{t("perMonth")}</div>
         </div>
       </div>
 
@@ -98,7 +101,7 @@ export default async function ListingDetailPage({
       {listing.audience.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-[13px] font-semibold text-muted">
-            Suitable for
+            {t("suitableFor")}
           </span>
           {listing.audience.map((a) => (
             <Badge key={a} variant="outline">
@@ -109,13 +112,13 @@ export default async function ListingDetailPage({
       )}
 
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <StatCard icon={Eye} value={`${listing.views}`} label="Views" />
-        <StatCard icon={Heart} value={`${listing.saves}`} label="Saves" />
-        <StatCard icon={DoorOpen} value={`${listing.tours}`} label="Tour requests" />
+        <StatCard icon={Eye} value={`${listing.views}`} label={t("views")} />
+        <StatCard icon={Heart} value={`${listing.saves}`} label={t("saves")} />
+        <StatCard icon={DoorOpen} value={`${listing.tours}`} label={t("tourRequests")} />
         <StatCard
           icon={TrendingUp}
           value={`${saveRate}%`}
-          label="Save rate"
+          label={t("saveRate")}
         />
       </section>
 
@@ -136,11 +139,11 @@ export default async function ListingDetailPage({
 
         <div>
           <h2 className="mb-4 font-display text-lg font-bold tracking-tight">
-            Bookings & tours
+            {t("bookings")}
           </h2>
           {reservations.length === 0 ? (
             <Card className="py-10 text-center text-[15px] text-muted">
-              No requests for this place yet.
+              {t("noRequests")}
             </Card>
           ) : (
             <div className="flex flex-col gap-3">

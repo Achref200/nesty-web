@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { WifiOff, RotateCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -13,6 +14,7 @@ export default function DashboardError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("dashboard.error");
   useEffect(() => {
     // Surface for debugging; wire to your error tracker later.
     console.error(error);
@@ -25,15 +27,14 @@ export default function DashboardError({
           <WifiOff className="h-6 w-6" />
         </div>
         <h2 className="font-display text-2xl font-bold">
-          Something went sideways
+          {t("title")}
         </h2>
         <p className="mt-2 text-[15px] text-muted">
-          We couldn&rsquo;t load this just now — it&rsquo;s usually a dropped
-          connection. Give it another try.
+          {t("body")}
         </p>
         <div className="mt-6 flex justify-center">
           <Button onClick={reset} size="sm">
-            <RotateCw className="h-4 w-4" /> Try again
+            <RotateCw className="h-4 w-4" /> {t("retry")}
           </Button>
         </div>
       </Card>

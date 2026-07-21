@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { getTranslations } from "next-intl/server";
-import { Nav } from "@/components/landing/nav";
-import { Hero } from "@/components/landing/hero";
-import { Stays } from "@/components/landing/stays";
-import { Pillars } from "@/components/landing/pillars";
-import { HowItWorks } from "@/components/landing/how-it-works";
-import { Product } from "@/components/landing/product";
-import { Features } from "@/components/landing/features";
-import { Numbers } from "@/components/landing/numbers";
-import { Voice } from "@/components/landing/voice";
-import { Showcase } from "@/components/landing/showcase";
-import { Faq } from "@/components/landing/faq";
-import { Cta } from "@/components/landing/cta";
 import { Footer } from "@/components/landing/footer";
+import { LandingHeader } from "@/components/landing/landing-header";
+import { SpaceProvider } from "@/components/landing/space-context";
+import { SpaceTabs } from "@/components/landing/space-tabs";
+import { SpaceSwitch } from "@/components/landing/space-switch";
+import { SeekerSpace } from "@/components/landing/seeker/seeker-space";
+import { HostSpace } from "@/components/landing/host/host-space";
 import { AssistantWidget } from "@/components/assistant/assistant-widget";
 import { site } from "@/lib/site";
 import { assistantConfig } from "@/lib/assistant/config";
+import { getPublicListings, getListingFacets } from "@/lib/queries";
 import { TESTIMONIALS, DESTINATIONS } from "@/data/showcase";
 
 // Title stays consumer-first to match the visible H1. Description reuses the
@@ -144,7 +140,13 @@ async function StructuredData() {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [listings, facets] = await Promise.all([
+    getPublicListings({ pageSize: 12 }),
+    getListingFacets(),
+  ]);
+  const initialSpace =
+    cookies().get("nesty-space")?.value === "seeker" ? "seeker" : "agency";
   return (
     <>
       <StructuredData />
@@ -163,21 +165,15 @@ export default function HomePage() {
               "(function(){try{if(localStorage.getItem('nesty-landing-theme')==='light'){document.getElementById('nesty-landing').classList.add('theme-light');}}catch(e){}})();",
           }}
         />
-        <Nav />
-        <main>
-          <Hero />
-          <Stays />
-          <Pillars />
-          <HowItWorks />
-          <Product />
-          <Features />
-          <Numbers />
-          <Voice />
-          <Showcase />
-          <Faq />
-          <Cta />
-        </main>
-        <Footer />
+        <SpaceProvider initial={initialSpace}>
+          <LandingHeader />
+          <SpaceTabs />
+          <SpaceSwitch
+            agency={<HostSpace />}
+            seeker={<SeekerSpace initial={listings} facets={facets} />}
+          />
+          <Footer />
+        </SpaceProvider>
         {assistantConfig.enabled && <AssistantWidget surface="landing" />}
       </div>
     </>

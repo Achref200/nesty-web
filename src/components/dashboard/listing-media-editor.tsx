@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { Pencil, Save, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ export function ListingMediaEditor({
   cover: string | null;
   gallery: string[];
 }) {
+  const t = useTranslations("dashboard.media");
   const initialUrls = useMemo(() => {
     if (gallery.length > 0) return gallery;
     return cover ? [cover] : [];
@@ -38,7 +40,7 @@ export function ListingMediaEditor({
         toast.error(res.error);
         return;
       }
-      toast.success("Photos updated");
+      toast.success(t("toastUpdated"));
       setEditing(false);
     });
   }
@@ -47,26 +49,24 @@ export function ListingMediaEditor({
     <Card className="flex flex-col gap-4 p-5">
       <div className="flex items-center gap-2">
         <div className="min-w-0 flex-1">
-          <h2 className="font-display text-lg font-bold tracking-tight">Photos</h2>
+          <h2 className="font-display text-lg font-bold tracking-tight">{t("photos")}</h2>
           <p className="text-[13px] text-muted">
-            {editing
-              ? "Edit mode is active. Add or remove photos, then save changes."
-              : "View mode is locked. Photos cannot be changed until you switch to edit mode."}
+            {editing ? t("editHint") : t("viewHint")}
           </p>
         </div>
 
         {editing ? (
           <div className="flex items-center gap-2">
             <Button variant="ghost" onClick={cancelEdit} disabled={pending}>
-              <X className="h-4 w-4" /> Cancel
+              <X className="h-4 w-4" /> {t("cancel")}
             </Button>
             <Button onClick={save} disabled={pending}>
-              <Save className="h-4 w-4" /> Save photos
+              <Save className="h-4 w-4" /> {t("savePhotos")}
             </Button>
           </div>
         ) : (
           <Button variant="outline" onClick={() => setEditing(true)}>
-            <Pencil className="h-4 w-4" /> Edit photos
+            <Pencil className="h-4 w-4" /> {t("editPhotos")}
           </Button>
         )}
       </div>

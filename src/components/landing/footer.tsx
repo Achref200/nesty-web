@@ -9,7 +9,6 @@ import { site, agencyAccessMailto } from "@/lib/site";
  */
 export function Footer() {
   const t = useTranslations("footer");
-  const tn = useTranslations("nav");
   return (
     <footer className="border-t border-white/[0.06] bg-ink text-paper">
       <div className="mx-auto max-w-wide px-5 py-14 md:px-8">
@@ -28,15 +27,6 @@ export function Footer() {
           </div>
 
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] font-medium text-white/60">
-            {site.nav.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="transition-colors hover:text-paper"
-              >
-                {tn(`links.${item.href.split("#")[1] ?? item.href}`)}
-              </a>
-            ))}
             <Link href="/login" className="transition-colors hover:text-paper">
               {t("signIn")}
             </Link>

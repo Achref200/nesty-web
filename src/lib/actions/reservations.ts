@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { canConfirmReservation, type ReservationLike } from "@/lib/availability";
 import type { ReservationStatus } from "@/data/types";
@@ -39,7 +40,7 @@ export async function setReservationStatus(
       .select("id, listing_id, type, start_at, end_at, status")
       .eq("id", id)
       .maybeSingle();
-    if (!target) return { error: "Reservation not found." };
+    if (!target) return { error: (await getTranslations("dashboard.actions"))("reservationNotFound") };
 
     const { data: others } = await supabase
       .from("reservations")

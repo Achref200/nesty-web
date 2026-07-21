@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Database, ShieldAlert } from "lucide-react";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { Topbar } from "@/components/dashboard/topbar";
@@ -53,20 +54,20 @@ export default async function DashboardLayout({
 }
 
 function NotAgency() {
+  const t = useTranslations("dashboard");
   return (
     <main className="grid min-h-screen place-items-center bg-paper px-6">
       <div className="w-full max-w-md rounded-3xl border border-separator bg-card p-8 text-center">
         <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-fill">
           <ShieldAlert className="h-6 w-6" />
         </div>
-        <h1 className="font-display text-2xl font-bold">Agencies only</h1>
+        <h1 className="font-display text-2xl font-bold">{t("layout.agenciesTitle")}</h1>
         <p className="mt-2 text-[15px] text-muted">
-          This dashboard is for real-estate agencies. If you&rsquo;re looking for
-          a home, use the Nesty mobile app instead.
+          {t("layout.agenciesBody")}
         </p>
         <form action={signOut} className="mt-6 flex justify-center">
           <Button type="submit" variant="secondary" size="sm">
-            Sign out
+            {t("signOut")}
           </Button>
         </form>
       </div>
@@ -75,19 +76,20 @@ function NotAgency() {
 }
 
 function ConnectSupabase() {
+  const t = useTranslations("dashboard");
   return (
     <main className="grid min-h-screen place-items-center bg-paper px-6">
       <div className="w-full max-w-md rounded-3xl border border-separator bg-card p-8 text-center">
         <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-fill">
           <Database className="h-6 w-6" />
         </div>
-        <h1 className="font-display text-2xl font-bold">Connect Supabase</h1>
+        <h1 className="font-display text-2xl font-bold">{t("layout.connectTitle")}</h1>
         <p className="mt-2 text-[15px] text-muted">
-          Add your project URL and publishable key to{" "}
+          {t("layout.connectBody1")}{" "}
           <code className="rounded bg-fill px-1.5 py-0.5 text-[13px]">
             web/.env.local
           </code>{" "}
-          then restart the dev server:
+          {t("layout.connectBody2")}
         </p>
         <pre className="mt-4 overflow-x-auto rounded-xl bg-ink p-4 text-left text-[12px] leading-relaxed text-paper">
           {`NEXT_PUBLIC_SUPABASE_URL=...\nNEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...`}

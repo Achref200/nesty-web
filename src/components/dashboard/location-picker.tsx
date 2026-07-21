@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -35,6 +36,7 @@ function ClickCapture({
 /** Interactive map that captures the property's exact latitude & longitude. */
 export function LocationPicker() {
   const [pos, setPos] = useState<[number, number] | null>(null);
+  const t = useTranslations("dashboard.location");
 
   return (
     <div>
@@ -57,8 +59,8 @@ export function LocationPicker() {
       <input type="hidden" name="longitude" value={pos ? pos[1] : ""} />
       <p className="mt-2 text-[13px] text-muted">
         {pos
-          ? `Pinned at ${pos[0].toFixed(5)}, ${pos[1].toFixed(5)}`
-          : "Tap the map to drop the exact pin for this property."}
+          ? t("pinned", { lat: pos[0].toFixed(5), lng: pos[1].toFixed(5) })
+          : t("tapToPin")}
       </p>
     </div>
   );

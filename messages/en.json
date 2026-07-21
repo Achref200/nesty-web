@@ -270,5 +270,363 @@
         "a": "Browsing verified homes and 3D tours is open to everyone. You only sign in when you're ready to send a booking or visit request, which routes straight to the managing agency."
       }
     ]
+  },
+  "login": {
+    "title": "Agency sign-in",
+    "subtitle": "Your Nesty dashboard — listings, visits and reservations in one place.",
+    "email": "you@agency.tn",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "provisionNote": "Agency accounts are set up by Nesty — there's no sign-up here. Need access?",
+    "talkToUs": "Talk to us",
+    "renterTitle": "Looking for a home?",
+    "renterBody": "The Nesty app for renters is arriving soon.",
+    "comingSoon": "coming soon",
+    "language": "Language",
+    "errors": {
+      "invalidEmail": "Enter a valid email address.",
+      "enterPassword": "Enter your password."
+    }
+  },
+  "dashboard": {
+    "nav": {
+      "overview": "Overview",
+      "listings": "Listings",
+      "calendar": "Calendar",
+      "requests": "Requests",
+      "settings": "Settings"
+    },
+    "signOut": "Sign out",
+    "notifications": "Notifications",
+    "account": "Account settings",
+    "overview": {
+      "welcome": "Welcome back, <b>{name}</b>.",
+      "pendingRequests": "Pending requests",
+      "upcoming": "Upcoming",
+      "activeListings": "Active listings",
+      "confirmed": "Confirmed",
+      "engagement": "Engagement",
+      "byListing": "By listing",
+      "totalViews": "Total views",
+      "totalSaves": "Total saves",
+      "tourRequests": "Tour requests",
+      "nextUp": "Next up",
+      "viewAll": "View all",
+      "noUpcoming": "No requests yet. When seekers book a visit or reserve dates on your listings, they land here.",
+      "portfolio": "Your portfolio",
+      "manage": "Manage",
+      "addFirst": "Add your first listing"
+    },
+    "listingsPage": {
+      "summary": "{count} places · {reserved} reserved · {available} available",
+      "tabAll": "All",
+      "tabLong": "Long term",
+      "tabShort": "Short term",
+      "add": "Add listing",
+      "emptyTitle": "No listings yet",
+      "emptyBody": "Publish your first place and it will appear in the Nesty app for seekers to tour and book.",
+      "addFirst": "Add your first listing"
+    },
+    "listing": {
+      "new": "New",
+      "termShort": "Short term",
+      "termLong": "Long term",
+      "hidden": "Hidden",
+      "reserved": "Reserved",
+      "available": "Available",
+      "live": "Live",
+      "perMonth": "per month",
+      "back": "Listings",
+      "suitableFor": "Suitable for",
+      "views": "Views",
+      "saves": "Saves",
+      "tourRequests": "Tour requests",
+      "saveRate": "Save rate",
+      "bookings": "Bookings & tours",
+      "noRequests": "No requests for this place yet."
+    },
+    "reservation": {
+      "guest": "guest",
+      "guests": "guests",
+      "nights": "nights",
+      "confirm": "Confirm",
+      "markDone": "Mark done",
+      "decline": "Decline",
+      "toastConfirmed": "Reservation confirmed",
+      "toastCompleted": "Marked as complete",
+      "toastDeclined": "Reservation declined"
+    },
+    "requests": {
+      "all": "All",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "emptyTitle": "Nothing here yet",
+      "emptyBody": "When seekers book a visit or reserve dates, requests in this view land here."
+    },
+    "calendar": {
+      "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      "weekdays": ["M", "T", "W", "T", "F", "S", "S"],
+      "prevMonth": "Previous month",
+      "nextMonth": "Next month",
+      "stay": "Stay",
+      "visit": "Visit",
+      "bookingsOne": "{count} booking this month",
+      "bookingsOther": "{count} bookings this month",
+      "nothingBooked": "Nothing booked on this day."
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "completed": "Completed"
+    },
+    "rowActions": {
+      "manage": "Manage listing",
+      "edit": "Edit details",
+      "publish": "Publish",
+      "hide": "Hide",
+      "delete": "Delete",
+      "deleteTitle": "Delete this listing?",
+      "deleteBody": "This permanently removes the place and all its data. A listing with upcoming bookings can't be deleted — cancel those first.",
+      "cancel": "Cancel",
+      "toastLive": "Listing is live",
+      "toastHidden": "Listing hidden"
+    },
+    "controls": {
+      "priceControl": "Price control",
+      "priceHint": "Update the monthly price seekers see in the app.",
+      "save": "Save",
+      "invalidPrice": "Enter a valid price.",
+      "priceUpdated": "Price updated",
+      "visibility": "Visibility",
+      "visibilityLive": "Live and bookable in the app.",
+      "visibilityHidden": "Hidden — seekers can't find or book it.",
+      "hide": "Hide",
+      "publish": "Publish",
+      "toastLive": "Listing is live",
+      "toastHidden": "Listing hidden",
+      "deleteTitle": "Delete listing",
+      "deleteHint": "Permanently remove this place and its data.",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "delete": "Delete"
+    },
+    "media": {
+      "photos": "Photos",
+      "editHint": "Edit mode is active. Add or remove photos, then save changes.",
+      "viewHint": "View mode is locked. Photos cannot be changed until you switch to edit mode.",
+      "cancel": "Cancel",
+      "savePhotos": "Save photos",
+      "editPhotos": "Edit photos",
+      "toastUpdated": "Photos updated"
+    },
+    "upload": {
+      "cover": "Cover",
+      "removePhoto": "Remove photo",
+      "hintEditable": "Upload from your desktop — the first photo is the cover, all photos feed the 3D tour.",
+      "hintLocked": "Photos are locked in view mode. Switch to edit mode to add, remove, or reorder by re-uploading.",
+      "failed": "Upload failed.",
+      "photoAlt": "Photo {n}"
+    },
+    "location": {
+      "pinned": "Pinned at {lat}, {lng}",
+      "tapToPin": "Tap the map to drop the exact pin for this property."
+    },
+    "newListing": {
+      "back": "Back to listings",
+      "badge": "New listing",
+      "title": "Publish a place",
+      "subtitle": "Add photos, price and location. It goes live in the Nesty app for seekers to tour in 3D, then book a visit or reserve.",
+      "fieldTitle": "Title",
+      "titlePlaceholder": "Bright T3 near Lac 2",
+      "cityArea": "City / area",
+      "cityPlaceholder": "Tunis, Les Berges du Lac",
+      "address": "Address (optional)",
+      "addressPlaceholder": "Rue du Lac Turkana, Lac 2",
+      "type": "Type",
+      "typeEntire": "Entire place",
+      "typePrivate": "Private room",
+      "typeShared": "Colocation",
+      "rentalTerm": "Rental term",
+      "termLong": "Long term",
+      "termLongBlurb": "Students & families",
+      "termShort": "Short term",
+      "termShortBlurb": "Summer & vacation",
+      "suitableFor": "Suitable for",
+      "audAdults": "Adults",
+      "audChildren": "Children",
+      "audBaby": "Baby",
+      "audPets": "Pets",
+      "tags": "Tags (optional)",
+      "priceMonth": "Price / month (DT)",
+      "area": "Area (m²)",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "photos": "Photos",
+      "exactLocation": "Exact location (tap the map)",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "What makes this place feel like home…",
+      "publishing": "Publishing",
+      "publish": "Publish listing"
+    },
+    "layout": {
+      "agenciesTitle": "Agencies only",
+      "agenciesBody": "This dashboard is for real-estate agencies. If you're looking for a home, use the Nesty mobile app instead.",
+      "connectTitle": "Connect Supabase",
+      "connectBody1": "Add your project URL and publishable key to",
+      "connectBody2": "then restart the dev server:"
+    },
+    "error": {
+      "title": "Something went sideways",
+      "body": "We couldn't load this just now — it's usually a dropped connection. Give it another try.",
+      "retry": "Try again"
+    },
+    "actions": {
+      "signedOut": "You need to be signed in.",
+      "titleRequired": "Give your place a title.",
+      "cityRequired": "Add a city or area.",
+      "listingNotFound": "Listing not found.",
+      "invalidPrice": "Enter a valid price.",
+      "reservationNotFound": "Reservation not found."
+    },
+    "settings": {
+      "title": "Settings",
+      "profile": {
+        "title": "Profile",
+        "subtitle": "How your agency shows up across Nesty.",
+        "fullName": "Full name",
+        "fullNamePlaceholder": "Your agency name",
+        "email": "Email",
+        "emailHint": "Contact Nesty to change your sign-in email.",
+        "avatar": "Avatar URL",
+        "avatarPlaceholder": "https://…",
+        "save": "Save changes",
+        "saving": "Saving…",
+        "saved": "Profile updated.",
+        "errors": {
+          "signedOut": "You need to be signed in.",
+          "nameRequired": "Enter your name."
+        }
+      },
+      "language": {
+        "title": "Language",
+        "subtitle": "Choose the language for your workspace."
+      }
+    }
+  },
+  "space": {
+    "ariaLabel": "Choose your space",
+    "seeker": "Travellers",
+    "agency": "Hosts",
+    "downloadApp": "Download app",
+    "getApp": "Get the app",
+    "agencyLogin": "Agency login"
+  },
+  "seeker": {
+    "hero": {
+      "badge": "for travellers",
+      "title1": "Find a place you'll love,",
+      "title2": "in Tunisia.",
+      "lead": "Browse verified homes across Tunisia, tour them in 3D, and reserve in a tap — the full experience lives in the Nesty app.",
+      "search": {
+        "aria": "Search stays in Tunisia",
+        "where": "Where",
+        "wherePlaceholder": "La Marsa, Djerba, Sousse…",
+        "dates": "Dates",
+        "datesPlaceholder": "Add dates",
+        "guests": "Travellers",
+        "guestsPlaceholder": "Add travellers",
+        "cta": "Search"
+      }
+    },
+    "filters": {
+      "title": "Explore stays",
+      "subtitle": "A preview of real homes on Nesty — reserve in the app.",
+      "city": "Destination",
+      "allCities": "All destinations",
+      "term": "Stay type",
+      "allTerms": "Any",
+      "shortTerm": "Short term",
+      "longTerm": "Long term",
+      "maxPrice": "Max budget",
+      "priceUnit": "TND/mo",
+      "resultsOne": "1 stay",
+      "resultsOther": "{count} stays",
+      "clear": "Clear filters",
+      "loadMore": "Show more stays",
+      "showing": "Showing {shown} of {total}",
+      "loading": "Loading\u2026"
+    },
+    "listing": {
+      "from": "from",
+      "perMonth": "/mo",
+      "beds": "beds",
+      "baths": "baths",
+      "reserve": "Reserve",
+      "verified": "Verified",
+      "tour3d": "3D tour"
+    },
+    "empty": {
+      "title": "New stays are landing soon",
+      "body": "Verified homes appear here as our partner agencies publish them. Get the app to be first in line."
+    },
+    "benefits": {
+      "eyebrow": "why nesty",
+      "title": "Everything a traveller needs, in one app.",
+      "items": [
+        { "title": "Verified homes", "body": "Every listing is checked by our team before it goes live — no phantom flats, no bait pricing." },
+        { "title": "Tour in 3D", "body": "Walk through the whole home in your browser before you ever book a visit." },
+        { "title": "Pay your way", "body": "Book by the night or by the month, and pay on arrival or online." },
+        { "title": "One honest calendar", "body": "What you see is really available — no double bookings, ever." }
+      ]
+    },
+    "download": {
+      "eyebrow": "get the app",
+      "title": "Reserve in seconds, from your pocket.",
+      "body": "Search, tour in 3D and book your stay — the full Nesty experience lives in the mobile app.",
+      "apple": "App Store",
+      "google": "Google Play",
+      "comingSoon": "coming soon"
+    },
+    "about": {
+      "eyebrow": "about nesty",
+      "title": "Tunisia's rental platform, built on trust.",
+      "body": "Nesty brings every kind of Tunisian rental — nightly stays, monthly rentals and long leases — into one verified place you can tour in 3D. We partner with local agencies so every home is real, and give travellers a calmer way to find their next place."
+    },
+    "modal": {
+      "title": "Reserve on the Nesty app",
+      "titleWithName": "Reserve “{name}” on the app",
+      "subtitle": "Booking, 3D tours and secure payment all happen in the app. Here's a quick look — then grab it free.",
+      "videoFallback": "Demo video coming soon",
+      "watchDemo": "Watch the app demo",
+      "close": "Close"
+    }
+  },
+  "host": {
+    "eyebrow": "become a host",
+    "title": "List your place on Nesty.",
+    "lead": "Reach verified travellers across Tunisia, show your home in 3D, and keep one honest calendar. Pick the path that fits you.",
+    "benefits": [
+      { "title": "Verified demand", "body": "Travellers arrive pre-vetted and ready \u2014 fewer tyre-kickers, more real bookings." },
+      { "title": "3D tours that sell", "body": "We turn your photos into an immersive walkthrough, so guests fall for the space before they visit." },
+      { "title": "One honest calendar", "body": "Nightly, monthly and long leases in one place \u2014 no double bookings, ever." }
+    ],
+    "individual": {
+      "tag": "I'm an individual",
+      "title": "Host from your phone.",
+      "body": "Create and manage your listing in minutes from the Nesty app \u2014 photos, price and availability, all in your pocket.",
+      "points": ["Publish in minutes", "Manage bookings on the go", "Pay on arrival or online"],
+      "cta": "Get the app"
+    },
+    "agency": {
+      "tag": "I'm an agency",
+      "title": "Run your whole portfolio.",
+      "body": "A professional web workspace built for agencies \u2014 team roles, bulk listings, requests with SLAs and a live calendar across every property.",
+      "points": ["Team roles & permissions", "Bulk listing management", "Requests, calendar & analytics"],
+      "cta": "Open agency workspace"
+    }
   }
 }

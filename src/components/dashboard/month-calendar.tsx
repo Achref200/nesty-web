@@ -2,16 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, CalendarX2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { ReservationItem } from "./reservation-item";
 import { cn } from "@/lib/utils";
 import { type Reservation } from "@/data/types";
-
-const WEEK = ["M", "T", "W", "T", "F", "S", "S"];
-const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
-];
 
 function dayKey(d: Date) {
   return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
@@ -34,6 +29,9 @@ export function MonthCalendar({
 }: {
   reservations: Reservation[];
 }) {
+  const t = useTranslations("dashboard.calendar");
+  const months = t.raw("months") as string[];
+  const week = t.raw("weekdays") as string[];
   const today = useMemo(() => {
     const t = new Date();
     t.setHours(0, 0, 0, 0);
@@ -85,12 +83,12 @@ export function MonthCalendar({
       <Card>
         <div className="flex items-center">
           <h2 className="font-display text-lg font-bold tracking-tight">
-            {MONTHS[m]} {year}
+            {months[m]} {year}
           </h2>
           <div className="ml-auto flex gap-1.5">
             <button
               type="button"
-              aria-label="Previous month"
+              aria-label={t("prevMonth")}
               onClick={() => setMonth(new Date(year, m - 1, 1))}
               className="grid h-9 w-9 place-items-center rounded-pill bg-fill hover:bg-separator"
             >
@@ -98,7 +96,7 @@ export function MonthCalendar({
             </button>
             <button
               type="button"
-              aria-label="Next month"
+              aria-label={t("nextMonth")}
               onClick={() => setMonth(new Date(year, m + 1, 1))}
               className="grid h-9 w-9 place-items-center rounded-pill bg-fill hover:bg-separator"
             >
@@ -108,7 +106,7 @@ export function MonthCalendar({
         </div>
 
         <div className="mt-4 grid grid-cols-7 gap-1">
-          {WEEK.map((w, i) => (
+          {week.map((w, i) => (
             <div
               key={i}
               className="py-1 text-center text-xs font-bold text-muted-soft"
@@ -160,25 +158,27 @@ export function MonthCalendar({
 
         <div className="mt-4 flex items-center gap-4 border-t border-separator pt-3 text-xs text-muted">
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-pill bg-ink" /> Stay
+            <span className="h-2 w-2 rounded-pill bg-ink" /> {t("stay")}
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-pill bg-muted" /> Visit
+            <span className="h-2 w-2 rounded-pill bg-muted" /> {t("visit")}
           </span>
           <span className="ml-auto font-semibold text-ink-soft">
-            {monthCount} booking{monthCount === 1 ? "" : "s"} this month
+            {monthCount === 1
+              ? t("bookingsOne", { count: monthCount })
+              : t("bookingsOther", { count: monthCount })}
           </span>
         </div>
       </Card>
 
       <div>
         <h3 className="mb-3 font-display text-lg font-bold tracking-tight">
-          {selected.getDate()} {MONTHS[selected.getMonth()]}
+          {selected.getDate()} {months[selected.getMonth()]}
         </h3>
         {dayItems.length === 0 ? (
           <Card className="flex items-center gap-3 text-muted">
             <CalendarX2 className="h-5 w-5 text-muted-soft" />
-            <span className="text-[15px]">Nothing booked on this day.</span>
+            <span className="text-[15px]">{t("nothingBooked")}</span>
           </Card>
         ) : (
           <div className="flex flex-col gap-3">

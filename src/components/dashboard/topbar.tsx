@@ -1,14 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Bell } from "lucide-react";
+import { LanguageToggle } from "@/components/landing/language-toggle";
 
-const TITLES: Record<string, string> = {
-  "/dashboard": "Overview",
-  "/dashboard/listings": "Listings",
-  "/dashboard/calendar": "Calendar",
-  "/dashboard/requests": "Requests",
-};
+/** Maps a dashboard pathname to its `dashboard.nav.*` translation key. */
+function titleKey(pathname: string): string {
+  if (pathname.startsWith("/dashboard/listings")) return "listings";
+  if (pathname.startsWith("/dashboard/calendar")) return "calendar";
+  if (pathname.startsWith("/dashboard/requests")) return "requests";
+  if (pathname.startsWith("/dashboard/settings")) return "settings";
+  return "overview";
+}
 
 export function Topbar({
   pending = 0,
@@ -18,23 +23,18 @@ export function Topbar({
   initial?: string;
 }) {
   const pathname = usePathname();
-  const title =
-    TITLES[pathname] ??
-    (pathname.startsWith("/dashboard/listings")
-      ? "Listings"
-      : pathname.startsWith("/dashboard/calendar")
-        ? "Calendar"
-        : pathname.startsWith("/dashboard/requests")
-          ? "Requests"
-          : "Overview");
+  const t = useTranslations("dashboard");
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-separator bg-paper/80 px-6 backdrop-blur-md">
-      <h1 className="font-display text-xl font-bold tracking-tight">{title}</h1>
+      <h1 className="font-display text-xl font-bold tracking-tight">
+        {t(`nav.${titleKey(pathname)}`)}
+      </h1>
       <div className="flex-1" />
+      <LanguageToggle variant="light" />
       <button
         type="button"
-        aria-label="Notifications"
+        aria-label={t("notifications")}
         className="relative grid h-10 w-10 place-items-center rounded-xl border border-separator bg-card text-ink hover:bg-fill"
       >
         <Bell className="h-[18px] w-[18px]" />
@@ -42,9 +42,13 @@ export function Topbar({
           <span className="absolute right-2 top-2 h-2 w-2 rounded-pill bg-ink ring-2 ring-paper" />
         )}
       </button>
-      <div className="grid h-10 w-10 place-items-center rounded-pill bg-ink text-sm font-bold uppercase text-paper">
+      <Link
+        href="/dashboard/settings"
+        aria-label={t("account")}
+        className="grid h-10 w-10 place-items-center rounded-pill bg-ink text-sm font-bold uppercase text-paper"
+      >
         {initial}
-      </div>
+      </Link>
     </header>
   );
 }

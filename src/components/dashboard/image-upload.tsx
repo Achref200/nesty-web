@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ImagePlus, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Dots } from "@/components/ui/dots";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,7 @@ export function ImageUpload({
   onChange?: (urls: string[]) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const t = useTranslations("dashboard.upload");
   const seed = useMemo(() => initialUrls.join("|"), [initialUrls]);
   const [urls, setUrls] = useState<string[]>(initialUrls);
   const [uploading, setUploading] = useState(false);
@@ -47,7 +49,7 @@ export function ImageUpload({
       try {
         uploaded.push(await uploadToCloudinary(file));
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Upload failed.");
+        setError(e instanceof Error ? e.message : t("failed"));
       }
     }
 
@@ -77,7 +79,7 @@ export function ImageUpload({
           >
             <Image
               src={url}
-              alt={`Photo ${i + 1}`}
+              alt={t("photoAlt", { n: i + 1 })}
               fill
               sizes="96px"
               unoptimized
@@ -88,14 +90,14 @@ export function ImageUpload({
                 type="button"
                 onClick={() => removeAt(i)}
                 className="absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white"
-                aria-label="Remove photo"
+                aria-label={t("removePhoto")}
               >
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
             {i === 0 && (
               <span className="absolute bottom-1 left-1 rounded-md bg-ink px-1.5 py-0.5 text-[10px] font-bold text-paper">
-                Cover
+                {t("cover")}
               </span>
             )}
           </div>
@@ -129,9 +131,7 @@ export function ImageUpload({
       )}
 
       <p className="text-[13px] text-muted">
-        {editable
-          ? "Upload from your desktop — the first photo is the cover, all photos feed the 3D tour."
-          : "Photos are locked in view mode. Switch to edit mode to add, remove, or reorder by re-uploading."}
+        {editable ? t("hintEditable") : t("hintLocked")}
       </p>
       {error && <p className="text-sm text-danger">{error}</p>}
     </div>

@@ -3,13 +3,14 @@ import { Plus, Building2 } from "lucide-react";
 import { ListingItem } from "@/components/dashboard/listing-item";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { getTranslations } from "next-intl/server";
 import { getDashboardData } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 const TERM_TABS = [
-  { key: "all", label: "All" },
-  { key: "longTerm", label: "Long term" },
-  { key: "shortTerm", label: "Short term" },
+  { key: "all", labelKey: "tabAll" },
+  { key: "longTerm", labelKey: "tabLong" },
+  { key: "shortTerm", labelKey: "tabShort" },
 ] as const;
 
 export default async function ListingsPage({
@@ -17,6 +18,7 @@ export default async function ListingsPage({
 }: {
   searchParams?: { term?: string };
 }) {
+  const t = await getTranslations("dashboard.listingsPage");
   const data = await getDashboardData();
   if (!data) return null;
 
@@ -32,29 +34,32 @@ export default async function ListingsPage({
     <div className="flex flex-col gap-6">
       <div className="flex items-center">
         <p className="text-[15px] text-muted">
-          {listings.length} places · {reserved} reserved ·{" "}
-          {listings.length - reserved} available
+          {t("summary", {
+            count: listings.length,
+            reserved,
+            available: listings.length - reserved,
+          })}
         </p>
         <Button asChild size="sm" className="ml-auto">
           <Link href="/dashboard/listings/new">
-            <Plus className="h-4 w-4" /> Add listing
+            <Plus className="h-4 w-4" /> {t("add")}
           </Link>
         </Button>
       </div>
 
       <div className="flex gap-2">
-        {TERM_TABS.map((t) => (
+        {TERM_TABS.map((tab) => (
           <Link
-            key={t.key}
-            href={t.key === "all" ? "/dashboard/listings" : `?term=${t.key}`}
+            key={tab.key}
+            href={tab.key === "all" ? "/dashboard/listings" : `?term=${tab.key}`}
             className={cn(
               "rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors",
-              term === t.key
+              term === tab.key
                 ? "bg-ink text-paper"
                 : "bg-fill text-ink hover:bg-separator",
             )}
           >
-            {t.label}
+            {t(tab.labelKey)}
           </Link>
         ))}
       </div>
@@ -64,14 +69,13 @@ export default async function ListingsPage({
           <div className="grid h-12 w-12 place-items-center rounded-2xl bg-fill">
             <Building2 className="h-6 w-6" />
           </div>
-          <p className="font-display text-lg font-bold">No listings yet</p>
+          <p className="font-display text-lg font-bold">{t("emptyTitle")}</p>
           <p className="max-w-sm text-[15px] text-muted">
-            Publish your first place and it will appear in the Nesty app for
-            seekers to tour and book.
+            {t("emptyBody")}
           </p>
           <Button asChild size="sm" className="mt-1">
             <Link href="/dashboard/listings/new">
-              <Plus className="h-4 w-4" /> Add your first listing
+              <Plus className="h-4 w-4" /> {t("addFirst")}
             </Link>
           </Button>
         </Card>

@@ -1,8 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 import type { Database } from "@/types/database";
 import type {
   Listing,
   ListingType,
+  RentalTerm,
   Reservation,
   ReservationStatus,
   ReservationType,
@@ -184,6 +186,192 @@ export async function getDashboardData(): Promise<DashboardData | null> {
     pending,
     totals,
   };
+}
+
+export interface Profile {
+  fullName: string;
+  email: string;
+  avatarUrl: string | null;
+  role: "seeker" | "host" | "partner";
+}
+
+/** The signed-in agency's editable profile (settings page). */
+export async function getProfile(): Promise<Profile | null> {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("full_name, avatar_url, role")
+    .eq("id", user.id)
+    .single();
+
+  return {
+    fullName: data?.full_name ?? "",
+    email: user.email ?? "",
+    avatarUrl: data?.avatar_url ?? null,
+    role: data?.role ?? "host",
+  };
+}
+
+/** A public-facing listing preview for the landing seeker space. */
+export interface PublicListing {
+  id: string;
+  title: string;
+  city: string;
+  pricePerMonth: number;
+  rentalTerm: RentalTerm;
+  type: ListingType;
+  bedrooms: number;
+  bathrooms: number;
+  areaSqm: number;
+  cover: string | null;
+  rating: number;
+  reviewCount: number;
+  tags: string[];
+  agency: string | null;
+}
+
+export interface PublicListingsQuery {
+  city?: string;
+  term?: "all" | "shortTerm" | "longTerm";
+  maxPrice?: number | null;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface PublicListingsResult {
+  items: PublicListing[];
+  total: number;
+  hasMore: boolean;
+}
+
+export interface ListingFacets {
+  cities: string[];
+  maxPrice: number;
+}
+
+type PublicRow = {
+  id: string;
+  title: string;
+  city: string;
+  price_per_month: number;
+  rental_term: "short_term" | "long_term";
+  type: string;
+  bedrooms: number;
+  bathrooms: number;
+  area_sqm: number;
+  cover_image: string | null;
+  gallery: string[] | null;
+  rating: number;
+  review_count: number;
+  tags: string[] | null;
+  host_name: string | null;
+};
+
+function mapPublicRow(row: PublicRow): PublicListing {
+  return {
+    id: row.id,
+    title: row.title,
+    city: row.city,
+    pricePerMonth: Number(row.price_per_month),
+    rentalTerm: row.rental_term === "short_term" ? "shortTerm" : "longTerm",
+    type: toListingType(row.type),
+    bedrooms: row.bedrooms,
+    bathrooms: row.bathrooms,
+    areaSqm: Number(row.area_sqm),
+    cover: row.cover_image ?? row.gallery?.[0] ?? null,
+    rating: Number(row.rating),
+    reviewCount: row.review_count,
+    tags: row.tags ?? [],
+    agency: row.host_name ?? null,
+  };
+}
+
+const PUBLIC_COLUMNS =
+  "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, rating, review_count, tags, host_name";
+
+/**
+ * A page of active listings for the public landing (traveller space). Filtering
+ * and pagination happen in the database (`.eq/.lte/.range` + an exact count) so
+ * this scales past thousands of listings — the client only ever holds one page
+ * at a time. Real data only: returns an empty page when Supabase isn't
+ * configured or the query fails, so the UI shows an honest empty state.
+ */
+export async function getPublicListings(
+  query: PublicListingsQuery = {},
+): Promise<PublicListingsResult> {
+  const empty: PublicListingsResult = { items: [], total: 0, hasMore: false };
+  if (!isSupabaseConfigured) return empty;
+
+  const pageSize = Math.min(Math.max(query.pageSize ?? 12, 1), 48);
+  const page = Math.max(query.page ?? 0, 0);
+  const from = page * pageSize;
+  const to = from + pageSize - 1;
+
+  const supabase = createClient();
+  let q = supabase
+    .from("listings")
+    .select(PUBLIC_COLUMNS, { count: "exact" })
+    .eq("status", "active");
+
+  if (query.city && query.city !== "all") q = q.eq("city", query.city);
+  if (query.term && query.term !== "all") {
+    q = q.eq(
+      "rental_term",
+      query.term === "shortTerm" ? "short_term" : "long_term",
+    );
+  }
+  if (typeof query.maxPrice === "number" && query.maxPrice > 0) {
+    q = q.lte("price_per_month", query.maxPrice);
+  }
+
+  const { data, error, count } = await q
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error || !data) return empty;
+
+  const items = (data as unknown as PublicRow[]).map(mapPublicRow);
+  const total = count ?? items.length;
+  return { items, total, hasMore: from + items.length < total };
+}
+
+/**
+ * Filter facets for the traveller space: the distinct cities and the highest
+ * monthly price across active listings. Cities are read as a single column and
+ * de-duplicated; for a very large catalog, move this to a Postgres RPC/view.
+ */
+export async function getListingFacets(): Promise<ListingFacets> {
+  if (!isSupabaseConfigured) return { cities: [], maxPrice: 0 };
+  const supabase = createClient();
+  const [citiesRes, priceRes] = await Promise.all([
+    supabase.from("listings").select("city").eq("status", "active").limit(1000),
+    supabase
+      .from("listings")
+      .select("price_per_month")
+      .eq("status", "active")
+      .order("price_per_month", { ascending: false })
+      .limit(1),
+  ]);
+
+  const cities = citiesRes.data
+    ? Array.from(
+        new Set(
+          (citiesRes.data as { city: string | null }[])
+            .map((r) => r.city)
+            .filter((c): c is string => Boolean(c)),
+        ),
+      ).sort()
+    : [];
+  const maxPrice = priceRes.data?.[0]
+    ? Number((priceRes.data[0] as { price_per_month: number }).price_per_month)
+    : 0;
+
+  return { cities, maxPrice };
 }
 
 export interface ListingDetail {

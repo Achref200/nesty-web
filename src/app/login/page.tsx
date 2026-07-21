@@ -2,53 +2,58 @@
 
 import { useFormState, useFormStatus } from "react-dom";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { AlertCircle, Mail, Lock } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { NestyLoader } from "@/components/brand/loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { LanguageToggle } from "@/components/landing/language-toggle";
 import { signIn, type AuthState } from "@/lib/actions/auth";
 import { site } from "@/lib/site";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
+  const t = useTranslations("login");
   return (
     <Button type="submit" size="lg" className="w-full" disabled={pending}>
       {pending ? (
         <span className="inline-flex items-center gap-2">
           <NestyLoader size={22} showWordmark={false} />
-          Signing in…
+          {t("signingIn")}
         </span>
       ) : (
-        "Sign in"
+        t("signIn")
       )}
     </Button>
   );
 }
 
 export default function LoginPage() {
+  const t = useTranslations("login");
   const [state, formAction] = useFormState<AuthState, FormData>(signIn, {});
 
   return (
-    <main className="grid min-h-screen place-items-center bg-paper px-6">
+    <main className="relative grid min-h-screen place-items-center bg-paper px-6">
+      <div className="absolute right-5 top-5">
+        <LanguageToggle variant="light" />
+      </div>
       <div className="w-full max-w-sm">
         <Link href="/" className="mb-8 inline-flex">
           <Logo />
         </Link>
 
         <h1 className="font-display text-3xl font-extrabold tracking-tight">
-          Agency sign-in
+          {t("title")}
         </h1>
-        <p className="mt-1.5 text-[15px] text-muted">
-          Your Nesty dashboard — listings, visits and reservations in one place.
-        </p>
+        <p className="mt-1.5 text-[15px] text-muted">{t("subtitle")}</p>
 
         <form action={formAction} className="mt-6 flex flex-col gap-3">
           <Field icon={Mail}>
             <Input
               name="email"
               type="email"
-              placeholder="you@agency.tn"
+              placeholder={t("email")}
               autoComplete="email"
               required
             />
@@ -57,7 +62,7 @@ export default function LoginPage() {
             <Input
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder={t("password")}
               autoComplete="current-password"
               required
             />
@@ -76,19 +81,16 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-6 rounded-2xl border border-separator bg-card p-4 text-sm text-muted">
-          Agency accounts are set up by Nesty — there&rsquo;s no sign-up here.
-          Need access?{" "}
+          {t("provisionNote")}{" "}
           <a href={`mailto:${site.email}`} className="font-semibold text-ink">
-            Talk to us
+            {t("talkToUs")}
           </a>
           .
         </div>
 
         <div className="mt-8 rounded-2xl border border-separator bg-paper p-4">
-          <p className="text-sm font-semibold text-ink">Looking for a home?</p>
-          <p className="mt-1 text-[13px] text-muted">
-            The Nesty app for renters is arriving soon.
-          </p>
+          <p className="text-sm font-semibold text-ink">{t("renterTitle")}</p>
+          <p className="mt-1 text-[13px] text-muted">{t("renterBody")}</p>
           <div className="mt-3 flex flex-col gap-2 sm:flex-row">
             <StoreButton store="apple" />
             <StoreButton store="google" />
@@ -100,11 +102,12 @@ export default function LoginPage() {
 }
 
 function StoreButton({ store }: { store: "apple" | "google" }) {
+  const t = useTranslations("login");
   const label = store === "apple" ? "App Store" : "Google Play";
   return (
     <span
       aria-disabled="true"
-      title="Coming soon"
+      title={t("comingSoon")}
       className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-separator bg-paper px-3 py-2.5 text-[12.5px] font-semibold text-ink/70"
     >
       {store === "apple" ? (
@@ -118,7 +121,7 @@ function StoreButton({ store }: { store: "apple" | "google" }) {
       )}
       <span className="flex flex-col leading-tight">
         <span className="text-[9.5px] font-medium uppercase tracking-[0.12em] text-muted">
-          coming soon
+          {t("comingSoon")}
         </span>
         <span>{label}</span>
       </span>

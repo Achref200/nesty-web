@@ -270,5 +270,363 @@
         "a": "Parcourir les logements vérifiés et les visites 3D est ouvert à tous. Vous ne vous connectez que lorsque vous êtes prêt à envoyer une demande de réservation ou de visite, qui est dirigée directement vers l'agence gestionnaire."
       }
     ]
+  },
+  "login": {
+    "title": "Connexion agence",
+    "subtitle": "Votre tableau de bord Nesty — annonces, visites et réservations au même endroit.",
+    "email": "vous@agence.tn",
+    "password": "Mot de passe",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion…",
+    "provisionNote": "Les comptes agence sont créés par Nesty — pas d'inscription ici. Besoin d'un accès ?",
+    "talkToUs": "Contactez-nous",
+    "renterTitle": "Vous cherchez un logement ?",
+    "renterBody": "L'application Nesty pour les locataires arrive bientôt.",
+    "comingSoon": "bientôt disponible",
+    "language": "Langue",
+    "errors": {
+      "invalidEmail": "Saisissez une adresse e-mail valide.",
+      "enterPassword": "Saisissez votre mot de passe."
+    }
+  },
+  "dashboard": {
+    "nav": {
+      "overview": "Aperçu",
+      "listings": "Annonces",
+      "calendar": "Calendrier",
+      "requests": "Demandes",
+      "settings": "Paramètres"
+    },
+    "signOut": "Se déconnecter",
+    "notifications": "Notifications",
+    "account": "Paramètres du compte",
+    "overview": {
+      "welcome": "Bon retour, <b>{name}</b>.",
+      "pendingRequests": "Demandes en attente",
+      "upcoming": "À venir",
+      "activeListings": "Annonces actives",
+      "confirmed": "Confirmées",
+      "engagement": "Engagement",
+      "byListing": "Par annonce",
+      "totalViews": "Vues totales",
+      "totalSaves": "Enregistrements",
+      "tourRequests": "Demandes de visite",
+      "nextUp": "À suivre",
+      "viewAll": "Tout voir",
+      "noUpcoming": "Aucune demande pour le moment. Lorsque des voyageurs réservent une visite ou des dates sur vos annonces, elles apparaissent ici.",
+      "portfolio": "Votre portefeuille",
+      "manage": "Gérer",
+      "addFirst": "Ajouter votre première annonce"
+    },
+    "listingsPage": {
+      "summary": "{count} biens · {reserved} réservés · {available} disponibles",
+      "tabAll": "Tous",
+      "tabLong": "Longue durée",
+      "tabShort": "Courte durée",
+      "add": "Ajouter une annonce",
+      "emptyTitle": "Aucune annonce pour l'instant",
+      "emptyBody": "Publiez votre premier bien et il apparaîtra dans l'application Nesty pour que les voyageurs le visitent et le réservent.",
+      "addFirst": "Ajouter votre première annonce"
+    },
+    "listing": {
+      "new": "Nouveau",
+      "termShort": "Courte durée",
+      "termLong": "Longue durée",
+      "hidden": "Masquée",
+      "reserved": "Réservée",
+      "available": "Disponible",
+      "live": "En ligne",
+      "perMonth": "par mois",
+      "back": "Annonces",
+      "suitableFor": "Convient à",
+      "views": "Vues",
+      "saves": "Enregistrements",
+      "tourRequests": "Demandes de visite",
+      "saveRate": "Taux d'enregistrement",
+      "bookings": "Réservations et visites",
+      "noRequests": "Aucune demande pour ce bien pour l'instant."
+    },
+    "reservation": {
+      "guest": "voyageur",
+      "guests": "voyageurs",
+      "nights": "nuits",
+      "confirm": "Confirmer",
+      "markDone": "Terminer",
+      "decline": "Refuser",
+      "toastConfirmed": "Réservation confirmée",
+      "toastCompleted": "Marquée comme terminée",
+      "toastDeclined": "Réservation refusée"
+    },
+    "requests": {
+      "all": "Toutes",
+      "pending": "En attente",
+      "confirmed": "Confirmées",
+      "completed": "Terminées",
+      "cancelled": "Annulées",
+      "emptyTitle": "Rien ici pour l'instant",
+      "emptyBody": "Lorsque des voyageurs réservent une visite ou des dates, les demandes apparaissent dans cette vue."
+    },
+    "calendar": {
+      "months": ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+      "weekdays": ["L", "M", "M", "J", "V", "S", "D"],
+      "prevMonth": "Mois précédent",
+      "nextMonth": "Mois suivant",
+      "stay": "Séjour",
+      "visit": "Visite",
+      "bookingsOne": "{count} réservation ce mois-ci",
+      "bookingsOther": "{count} réservations ce mois-ci",
+      "nothingBooked": "Rien de réservé ce jour-là."
+    },
+    "status": {
+      "pending": "En attente",
+      "confirmed": "Confirmée",
+      "cancelled": "Annulée",
+      "completed": "Terminée"
+    },
+    "rowActions": {
+      "manage": "Gérer l'annonce",
+      "edit": "Modifier les détails",
+      "publish": "Publier",
+      "hide": "Masquer",
+      "delete": "Supprimer",
+      "deleteTitle": "Supprimer cette annonce ?",
+      "deleteBody": "Cela supprime définitivement le bien et toutes ses données. Une annonce avec des réservations à venir ne peut pas être supprimée — annulez-les d'abord.",
+      "cancel": "Annuler",
+      "toastLive": "Annonce en ligne",
+      "toastHidden": "Annonce masquée"
+    },
+    "controls": {
+      "priceControl": "Contrôle du prix",
+      "priceHint": "Mettez à jour le prix mensuel que voient les voyageurs dans l'application.",
+      "save": "Enregistrer",
+      "invalidPrice": "Saisissez un prix valide.",
+      "priceUpdated": "Prix mis à jour",
+      "visibility": "Visibilité",
+      "visibilityLive": "En ligne et réservable dans l'application.",
+      "visibilityHidden": "Masquée — les voyageurs ne peuvent pas la trouver ni la réserver.",
+      "hide": "Masquer",
+      "publish": "Publier",
+      "toastLive": "Annonce en ligne",
+      "toastHidden": "Annonce masquée",
+      "deleteTitle": "Supprimer l'annonce",
+      "deleteHint": "Supprimer définitivement ce bien et ses données.",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "delete": "Supprimer"
+    },
+    "media": {
+      "photos": "Photos",
+      "editHint": "Le mode édition est actif. Ajoutez ou supprimez des photos, puis enregistrez.",
+      "viewHint": "Le mode consultation est verrouillé. Les photos ne peuvent pas être modifiées tant que vous ne passez pas en mode édition.",
+      "cancel": "Annuler",
+      "savePhotos": "Enregistrer les photos",
+      "editPhotos": "Modifier les photos",
+      "toastUpdated": "Photos mises à jour"
+    },
+    "upload": {
+      "cover": "Couverture",
+      "removePhoto": "Supprimer la photo",
+      "hintEditable": "Importez depuis votre ordinateur — la première photo est la couverture, toutes les photos alimentent la visite 3D.",
+      "hintLocked": "Les photos sont verrouillées en mode consultation. Passez en mode édition pour ajouter, supprimer ou réorganiser en réimportant.",
+      "failed": "Échec de l'import.",
+      "photoAlt": "Photo {n}"
+    },
+    "location": {
+      "pinned": "Épinglé à {lat}, {lng}",
+      "tapToPin": "Touchez la carte pour placer le repère exact de ce bien."
+    },
+    "newListing": {
+      "back": "Retour aux annonces",
+      "badge": "Nouvelle annonce",
+      "title": "Publier un bien",
+      "subtitle": "Ajoutez des photos, un prix et une localisation. Le bien est mis en ligne dans l'application Nesty pour une visite 3D, puis une demande de visite ou une réservation.",
+      "fieldTitle": "Titre",
+      "titlePlaceholder": "T3 lumineux près du Lac 2",
+      "cityArea": "Ville / quartier",
+      "cityPlaceholder": "Tunis, Les Berges du Lac",
+      "address": "Adresse (facultatif)",
+      "addressPlaceholder": "Rue du Lac Turkana, Lac 2",
+      "type": "Type",
+      "typeEntire": "Logement entier",
+      "typePrivate": "Chambre privée",
+      "typeShared": "Colocation",
+      "rentalTerm": "Durée de location",
+      "termLong": "Longue durée",
+      "termLongBlurb": "Étudiants et familles",
+      "termShort": "Courte durée",
+      "termShortBlurb": "Été et vacances",
+      "suitableFor": "Convient à",
+      "audAdults": "Adultes",
+      "audChildren": "Enfants",
+      "audBaby": "Bébé",
+      "audPets": "Animaux",
+      "tags": "Étiquettes (facultatif)",
+      "priceMonth": "Prix / mois (DT)",
+      "area": "Surface (m²)",
+      "bedrooms": "Chambres",
+      "bathrooms": "Salles de bain",
+      "photos": "Photos",
+      "exactLocation": "Localisation exacte (touchez la carte)",
+      "description": "Description (facultatif)",
+      "descriptionPlaceholder": "Ce qui rend ce lieu chaleureux…",
+      "publishing": "Publication",
+      "publish": "Publier l'annonce"
+    },
+    "layout": {
+      "agenciesTitle": "Agences uniquement",
+      "agenciesBody": "Ce tableau de bord est destiné aux agences immobilières. Si vous cherchez un logement, utilisez plutôt l'application mobile Nesty.",
+      "connectTitle": "Connecter Supabase",
+      "connectBody1": "Ajoutez l'URL de votre projet et votre clé publiable à",
+      "connectBody2": "puis redémarrez le serveur de développement :"
+    },
+    "error": {
+      "title": "Quelque chose a mal tourné",
+      "body": "Nous n'avons pas pu charger cela pour l'instant — c'est généralement une connexion interrompue. Réessayez.",
+      "retry": "Réessayer"
+    },
+    "actions": {
+      "signedOut": "Vous devez être connecté.",
+      "titleRequired": "Donnez un titre à votre bien.",
+      "cityRequired": "Ajoutez une ville ou un quartier.",
+      "listingNotFound": "Bien introuvable.",
+      "invalidPrice": "Saisissez un prix valide.",
+      "reservationNotFound": "Réservation introuvable."
+    },
+    "settings": {
+      "title": "Paramètres",
+      "profile": {
+        "title": "Profil",
+        "subtitle": "Comment votre agence apparaît sur Nesty.",
+        "fullName": "Nom complet",
+        "fullNamePlaceholder": "Le nom de votre agence",
+        "email": "E-mail",
+        "emailHint": "Contactez Nesty pour changer votre e-mail de connexion.",
+        "avatar": "URL de l'avatar",
+        "avatarPlaceholder": "https://…",
+        "save": "Enregistrer",
+        "saving": "Enregistrement…",
+        "saved": "Profil mis à jour.",
+        "errors": {
+          "signedOut": "Vous devez être connecté.",
+          "nameRequired": "Saisissez votre nom."
+        }
+      },
+      "language": {
+        "title": "Langue",
+        "subtitle": "Choisissez la langue de votre espace de travail."
+      }
+    }
+  },
+  "space": {
+    "ariaLabel": "Choisissez votre espace",
+    "seeker": "Voyageurs",
+    "agency": "Hôtes",
+    "downloadApp": "Télécharger l'app",
+    "getApp": "Obtenir l'app",
+    "agencyLogin": "Espace agence"
+  },
+  "seeker": {
+    "hero": {
+      "badge": "pour les voyageurs",
+      "title1": "Trouvez un logement que vous aimerez,",
+      "title2": "en Tunisie.",
+      "lead": "Parcourez des logements vérifiés partout en Tunisie, visitez-les en 3D et réservez en un geste — toute l'expérience se vit dans l'application Nesty.",
+      "search": {
+        "aria": "Rechercher un séjour en Tunisie",
+        "where": "Où",
+        "wherePlaceholder": "La Marsa, Djerba, Sousse…",
+        "dates": "Dates",
+        "datesPlaceholder": "Ajouter des dates",
+        "guests": "Voyageurs",
+        "guestsPlaceholder": "Ajouter des voyageurs",
+        "cta": "Rechercher"
+      }
+    },
+    "filters": {
+      "title": "Explorer les séjours",
+      "subtitle": "Un aperçu de logements réels sur Nesty — réservez dans l'application.",
+      "city": "Destination",
+      "allCities": "Toutes les destinations",
+      "term": "Type de séjour",
+      "allTerms": "Tous",
+      "shortTerm": "Courte durée",
+      "longTerm": "Longue durée",
+      "maxPrice": "Budget max",
+      "priceUnit": "TND/mois",
+      "resultsOne": "1 séjour",
+      "resultsOther": "{count} séjours",
+      "clear": "Réinitialiser",
+      "loadMore": "Voir plus de séjours",
+      "showing": "{shown} sur {total}",
+      "loading": "Chargement\u2026"
+    },
+    "listing": {
+      "from": "à partir de",
+      "perMonth": "/mois",
+      "beds": "ch.",
+      "baths": "sdb",
+      "reserve": "Réserver",
+      "verified": "Vérifié",
+      "tour3d": "Visite 3D"
+    },
+    "empty": {
+      "title": "De nouveaux séjours arrivent bientôt",
+      "body": "Les logements vérifiés apparaissent ici à mesure que nos agences partenaires les publient. Téléchargez l'application pour être parmi les premiers."
+    },
+    "benefits": {
+      "eyebrow": "pourquoi nesty",
+      "title": "Tout ce qu'un voyageur attend, dans une seule app.",
+      "items": [
+        { "title": "Logements vérifiés", "body": "Chaque annonce est contrôlée par notre équipe avant sa mise en ligne — pas de logements fantômes, pas de prix trompeurs." },
+        { "title": "Visite en 3D", "body": "Parcourez tout le logement dans votre navigateur avant même de réserver une visite." },
+        { "title": "Payez à votre façon", "body": "Réservez à la nuit ou au mois, et payez à l'arrivée ou en ligne." },
+        { "title": "Un calendrier honnête", "body": "Ce que vous voyez est réellement disponible — jamais de double réservation." }
+      ]
+    },
+    "download": {
+      "eyebrow": "obtenir l'app",
+      "title": "Réservez en quelques secondes, depuis votre poche.",
+      "body": "Recherchez, visitez en 3D et réservez votre séjour — toute l'expérience Nesty se vit dans l'application mobile.",
+      "apple": "App Store",
+      "google": "Google Play",
+      "comingSoon": "bientôt disponible"
+    },
+    "about": {
+      "eyebrow": "à propos de nesty",
+      "title": "La plateforme de location tunisienne, fondée sur la confiance.",
+      "body": "Nesty réunit tous les types de locations tunisiennes — séjours à la nuit, locations au mois et baux longue durée — en un seul endroit vérifié et visitable en 3D. Nous travaillons avec les agences locales pour que chaque logement soit réel, et offrons aux voyageurs une façon plus sereine de trouver leur prochain logement."
+    },
+    "modal": {
+      "title": "Réservez sur l'application Nesty",
+      "titleWithName": "Réservez « {name} » dans l'app",
+      "subtitle": "La réservation, les visites 3D et le paiement sécurisé se font dans l'application. Voici un aperçu — puis téléchargez-la gratuitement.",
+      "videoFallback": "Vidéo de démo bientôt disponible",
+      "watchDemo": "Voir la démo de l'app",
+      "close": "Fermer"
+    }
+  },
+  "host": {
+    "eyebrow": "devenir hôte",
+    "title": "Publiez votre bien sur Nesty.",
+    "lead": "Touchez des voyageurs vérifiés partout en Tunisie, présentez votre logement en 3D et gardez un seul calendrier fiable. Choisissez le parcours qui vous correspond.",
+    "benefits": [
+      { "title": "Une demande vérifiée", "body": "Les voyageurs arrivent déjà vérifiés et prêts \u2014 moins de curieux, plus de vraies réservations." },
+      { "title": "Des visites 3D qui convertissent", "body": "Nous transformons vos photos en visite immersive, pour séduire les voyageurs avant même la visite." },
+      { "title": "Un calendrier honnête", "body": "Nuitées, mois et baux longue durée au même endroit \u2014 jamais de double réservation." }
+    ],
+    "individual": {
+      "tag": "Je suis un particulier",
+      "title": "Hébergez depuis votre téléphone.",
+      "body": "Créez et gérez votre annonce en quelques minutes depuis l'application Nesty \u2014 photos, prix et disponibilités, dans votre poche.",
+      "points": ["Publiez en quelques minutes", "Gérez vos réservations en déplacement", "Paiement à l'arrivée ou en ligne"],
+      "cta": "Obtenir l'application"
+    },
+    "agency": {
+      "tag": "Je suis une agence",
+      "title": "Pilotez tout votre portefeuille.",
+      "body": "Un espace de travail web professionnel pour les agences \u2014 rôles d'équipe, annonces en masse, demandes avec SLA et un calendrier en direct sur chaque bien.",
+      "points": ["Rôles et permissions d'équipe", "Gestion des annonces en masse", "Demandes, calendrier et analyses"],
+      "cta": "Ouvrir l'espace agence"
+    }
   }
 }

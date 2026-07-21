@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { canModifyListing, type ReservationLike } from "@/lib/availability";
 
@@ -28,12 +29,13 @@ export async function createListing(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { error: "You need to be signed in." };
+  const t = await getTranslations("dashboard.actions");
+  if (!user) return { error: t("signedOut") };
 
   const title = String(formData.get("title") ?? "").trim();
   const city = String(formData.get("city") ?? "").trim();
-  if (!title) return { error: "Give your place a title." };
-  if (!city) return { error: "Add a city or area." };
+  if (!title) return { error: t("titleRequired") };
+  if (!city) return { error: t("cityRequired") };
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -93,17 +95,18 @@ export async function createListing(
 
 async function ownedListing(id: string) {
   const supabase = createClient();
+  const t = await getTranslations("dashboard.actions");
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { supabase, error: "You need to be signed in." as string };
+  if (!user) return { supabase, error: t("signedOut") as string };
   const { data } = await supabase
     .from("listings")
     .select("id")
     .eq("id", id)
     .eq("host_id", user.id)
     .maybeSingle();
-  if (!data) return { supabase, error: "Listing not found." as string };
+  if (!data) return { supabase, error: t("listingNotFound") as string };
   return { supabase, error: undefined };
 }
 
@@ -146,7 +149,7 @@ export async function updateListingPrice(
   price: number,
 ): Promise<ListingControlState> {
   if (!Number.isFinite(price) || price <= 0) {
-    return { error: "Enter a valid price." };
+    return { error: (await getTranslations("dashboard.actions"))("invalidPrice") };
   }
   const { supabase, error } = await ownedListing(id);
   if (error) return { error };
