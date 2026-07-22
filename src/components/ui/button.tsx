@@ -8,7 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-ink text-paper hover:-translate-y-px shadow-card",
+        default: "bg-primary text-primary-fg hover:-translate-y-px shadow-card",
         brand: "bg-brand text-white hover:bg-brand-strong hover:-translate-y-px shadow-glow",
         secondary: "bg-fill text-ink hover:bg-separator",
         outline: "border border-separator bg-card text-ink hover:bg-fill",

@@ -16,6 +16,13 @@
   --c-ink: 20 20 20; /* #141414 */
   --c-ink-soft: 60 60 59; /* #3C3C3B */
   --c-white: 255 255 255;
+
+  /* Agency-customizable dashboard palette (Settings → Appearance). Defaults to
+     the ink monochrome so an un-personalized dashboard looks exactly as before. */
+  --c-primary: 20 20 20;
+  --c-primary-fg: 252 252 251;
+  --c-secondary: 20 20 20;
+  --c-tertiary: 20 20 20;
 }
 
 /* Landing light theme — flips the canvas (ink→paper), the solid foreground

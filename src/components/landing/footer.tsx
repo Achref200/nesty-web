@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Logo } from "@/components/brand/logo";
 import { site, agencyAccessMailto } from "@/lib/site";
+import { FooterSignIn } from "./footer-sign-in";
 
 /**
  * Minimalist dark footer — logo + one line + a slim link row + copy. No columns,
@@ -26,11 +26,7 @@ export function Footer() {
             </a>
           </div>
 
-          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] font-medium text-white/60">
-            <Link href="/login" className="transition-colors hover:text-paper">
-              {t("signIn")}
-            </Link>
-          </nav>
+          <FooterSignIn />
         </div>
 
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/[0.06] pt-6 text-[12px] text-white/40 sm:flex-row sm:items-center">

@@ -19,7 +19,7 @@ export function StatCard({
   return (
     <Card className="p-5">
       <div className="flex items-center">
-        <div className="grid h-10 w-10 place-items-center rounded-2xl bg-fill">
+        <div className="grid h-10 w-10 place-items-center rounded-2xl bg-secondary/10 text-secondary">
           <Icon className="h-[18px] w-[18px]" />
         </div>
         {trend && (

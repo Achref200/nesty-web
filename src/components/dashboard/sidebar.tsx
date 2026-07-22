@@ -8,6 +8,7 @@ import {
   Building2,
   CalendarDays,
   Inbox,
+  LifeBuoy,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -20,6 +21,7 @@ const NAV = [
   { href: "/dashboard/listings", key: "listings", icon: Building2 },
   { href: "/dashboard/calendar", key: "calendar", icon: CalendarDays },
   { href: "/dashboard/requests", key: "requests", icon: Inbox },
+  { href: "/dashboard/support", key: "support", icon: LifeBuoy },
   { href: "/dashboard/settings", key: "settings", icon: Settings },
 ] as const;
 
@@ -46,7 +48,7 @@ export function Sidebar({ pending = 0 }: { pending?: number }) {
               className={cn(
                 "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-semibold transition-colors",
                 active
-                  ? "bg-ink text-paper"
+                  ? "bg-primary text-primary-fg"
                   : "text-muted hover:bg-fill hover:text-ink",
               )}
             >
@@ -56,7 +58,7 @@ export function Sidebar({ pending = 0 }: { pending?: number }) {
                 <span
                   className={cn(
                     "grid h-5 min-w-5 place-items-center rounded-pill px-1 text-xs font-bold",
-                    active ? "bg-paper text-ink" : "bg-ink text-paper",
+                    active ? "bg-primary-fg text-primary" : "bg-primary text-primary-fg",
                   )}
                 >
                   {pending}

@@ -30,9 +30,12 @@ export function ImageUpload({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Re-sync from the parent only when the *content* changes (seed), never on the
+  // array reference — a default `[]` prop is a brand-new array every render, so
+  // depending on `initialUrls` here loops forever and wipes freshly-added urls.
   useEffect(() => {
-    setUrls(initialUrls);
-  }, [seed, initialUrls]);
+    setUrls(seed ? seed.split("|") : []);
+  }, [seed]);
 
   useEffect(() => {
     onChange?.(urls);

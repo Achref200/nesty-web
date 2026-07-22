@@ -30,6 +30,14 @@ const config: Config = {
           soft: "#F1F1F0",
           strong: "#0B0B0B",
         },
+        // Agency-customizable palette (dashboard only). Defaults to the ink
+        // monochrome; each agency can recolor these from Settings → Appearance.
+        primary: {
+          DEFAULT: "rgb(var(--c-primary) / <alpha-value>)",
+          fg: "rgb(var(--c-primary-fg) / <alpha-value>)",
+        },
+        secondary: "rgb(var(--c-secondary) / <alpha-value>)",
+        tertiary: "rgb(var(--c-tertiary) / <alpha-value>)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],

@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { useTranslations } from "next-intl";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dots } from "@/components/ui/dots";
+import { Avatar } from "@/components/dashboard/avatar";
 import { updateProfile, type ProfileState } from "@/lib/actions/profile";
 import type { Profile } from "@/lib/queries";
 
@@ -38,6 +40,7 @@ function SaveButton() {
 
 export function ProfileSettings({ profile }: { profile: Profile }) {
   const t = useTranslations("dashboard.settings.profile");
+  const [avatar, setAvatar] = useState(profile.avatarUrl ?? "");
   const [state, formAction] = useFormState<ProfileState, FormData>(
     updateProfile,
     {},
@@ -67,13 +70,22 @@ export function ProfileSettings({ profile }: { profile: Profile }) {
       </Field>
 
       <Field label={t("avatar")}>
-        <Input
-          name="avatarUrl"
-          type="url"
-          defaultValue={profile.avatarUrl ?? ""}
-          placeholder={t("avatarPlaceholder")}
-          inputMode="url"
-        />
+        <div className="flex items-center gap-3">
+          <Avatar
+            src={avatar || null}
+            name={profile.fullName || profile.email}
+            size={44}
+          />
+          <Input
+            name="avatarUrl"
+            type="url"
+            value={avatar}
+            onChange={(e) => setAvatar(e.target.value)}
+            placeholder={t("avatarPlaceholder")}
+            inputMode="url"
+            className="flex-1"
+          />
+        </div>
       </Field>
 
       {state?.error && (

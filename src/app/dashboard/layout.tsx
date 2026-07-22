@@ -11,6 +11,7 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { signOut } from "@/lib/actions/auth";
 import { AssistantWidget } from "@/components/assistant/assistant-widget";
 import { assistantConfig } from "@/lib/assistant/config";
+import { DASH_THEME_SCRIPT } from "@/lib/dashboard-theme";
 
 export const metadata: Metadata = {
   title: "Agency dashboard",
@@ -38,10 +39,12 @@ export default async function DashboardLayout({
   const initial = (data.fullName || data.email || "A").charAt(0);
 
   return (
-    <div className="surface-aura flex min-h-screen">
+    <div id="nesty-dash" suppressHydrationWarning className="surface-aura flex min-h-screen">
+      {/* Apply the agency's saved palette before paint to avoid a flash. */}
+      <script dangerouslySetInnerHTML={{ __html: DASH_THEME_SCRIPT }} />
       <Sidebar pending={data.pending} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar pending={data.pending} initial={initial} />
+        <Topbar pending={data.pending} initial={initial} avatarUrl={data.avatarUrl} />
         <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-8">
           {children}
         </main>

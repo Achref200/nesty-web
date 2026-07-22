@@ -115,6 +115,7 @@ export interface DashboardData {
   role: "seeker" | "host" | "partner";
   fullName: string;
   email: string;
+  avatarUrl: string | null;
   listings: Listing[];
   reservations: Reservation[];
   pending: number;
@@ -181,6 +182,7 @@ export async function getDashboardData(): Promise<DashboardData | null> {
     role: profileRes.data?.role ?? "host",
     fullName: profileRes.data?.full_name ?? user.email?.split("@")[0] ?? "there",
     email: user.email ?? "",
+    avatarUrl: profileRes.data?.avatar_url ?? null,
     listings,
     reservations,
     pending,

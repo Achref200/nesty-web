@@ -184,6 +184,61 @@ export type Database = {
         Update: { type?: "view" | "save" | "unsave" | "tour" | "reservation" };
         Relationships: [];
       };
+      support_tickets: {
+        Row: {
+          id: string;
+          reporter_id: string;
+          reporter_role: string | null;
+          type: "bug" | "error" | "failure" | "feature_request" | "question" | "other";
+          severity: "low" | "medium" | "high" | "critical";
+          subject: string;
+          description: string | null;
+          area: string | null;
+          status: "open" | "in_progress" | "resolved" | "closed";
+          assignee_id: string | null;
+          attachments: string[];
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          reporter_id: string;
+          reporter_role?: string | null;
+          type?: "bug" | "error" | "failure" | "feature_request" | "question" | "other";
+          severity?: "low" | "medium" | "high" | "critical";
+          subject: string;
+          description?: string | null;
+          area?: string | null;
+          status?: "open" | "in_progress" | "resolved" | "closed";
+          attachments?: string[];
+        };
+        Update: {
+          subject?: string;
+          description?: string | null;
+          status?: "open" | "in_progress" | "resolved" | "closed";
+          assignee_id?: string | null;
+        };
+        Relationships: [];
+      };
+      ticket_messages: {
+        Row: {
+          id: string;
+          ticket_id: string;
+          author_id: string;
+          author_role: string;
+          body: string;
+          attachments: string[];
+          created_at: string;
+        };
+        Insert: {
+          ticket_id: string;
+          author_id: string;
+          author_role?: string;
+          body: string;
+          attachments?: string[];
+        };
+        Update: { body?: string };
+        Relationships: [];
+      };
     };
     Views: { [_ in never]: never };
     Functions: { [_ in never]: never };

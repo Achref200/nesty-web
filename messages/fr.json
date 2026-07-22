@@ -295,6 +295,7 @@
       "listings": "Annonces",
       "calendar": "Calendrier",
       "requests": "Demandes",
+      "support": "Assistance",
       "settings": "Paramètres"
     },
     "signOut": "Se déconnecter",
@@ -492,6 +493,79 @@
       "invalidPrice": "Saisissez un prix valide.",
       "reservationNotFound": "Réservation introuvable."
     },
+    "support": {
+      "title": "Assistance",
+      "subtitle": "Signalez un problème à l'équipe Nesty et suivez la conversation ici.",
+      "new": "Nouveau ticket",
+      "emptyTitle": "Aucun ticket pour l'instant",
+      "emptyBody": "Un souci ? Ouvrez un ticket et l'équipe Nesty vous répondra ici — sans appel téléphonique.",
+      "openFirst": "Ouvrir votre premier ticket",
+      "messagesCount": "{count} messages",
+      "reportedOn": "Signalé le {date}",
+      "you": "Vous",
+      "supportTeam": "Support Nesty",
+      "screenshots": "Captures d'écran",
+      "status": {
+        "open": "Ouvert",
+        "in_progress": "En cours",
+        "resolved": "Résolu",
+        "closed": "Fermé"
+      },
+      "types": {
+        "bug": "Bogue",
+        "error": "Erreur",
+        "failure": "Panne",
+        "question": "Question",
+        "feature_request": "Demande de fonctionnalité",
+        "other": "Autre"
+      },
+      "severities": {
+        "low": "Faible",
+        "medium": "Moyenne",
+        "high": "Élevée",
+        "critical": "Critique"
+      },
+      "areas": {
+        "listings": "Annonces",
+        "reservations": "Réservations",
+        "calendar": "Calendrier",
+        "billing": "Facturation",
+        "account": "Compte",
+        "verification": "Vérification",
+        "tours_3d": "Visites 3D",
+        "app": "Application mobile",
+        "other": "Autre"
+      },
+      "form": {
+        "title": "Signaler un problème",
+        "subtitle": "Dites-nous ce qui ne va pas. Ajoutez des captures pour qu'on voie exactement ce que vous voyez.",
+        "back": "Retour aux tickets",
+        "subject": "Titre",
+        "subjectPlaceholder": "Résumé court du problème",
+        "category": "Catégorie",
+        "type": "Type",
+        "severity": "Gravité",
+        "description": "Description",
+        "descriptionPlaceholder": "Ce qui s'est passé, ce que vous attendiez et les étapes pour reproduire…",
+        "screenshots": "Captures d'écran (facultatif)",
+        "submit": "Envoyer le ticket",
+        "submitting": "Envoi"
+      },
+      "reply": {
+        "placeholder": "Écrire une réponse…",
+        "send": "Envoyer",
+        "sending": "Envoi",
+        "closed": "Ce ticket est fermé. Ouvrez-en un nouveau si vous avez encore besoin d'aide."
+      },
+      "errors": {
+        "signedOut": "Vous devez être connecté.",
+        "subjectRequired": "Ajoutez un titre court.",
+        "descriptionRequired": "Décrivez le problème.",
+        "messageRequired": "Écrivez d'abord une réponse.",
+        "setupNeeded": "L'assistance n'est pas encore configurée côté base de données. Appliquez la dernière migration Supabase (ticket_messages), puis réessayez.",
+        "failed": "Une erreur est survenue. Réessayez."
+      }
+    },
     "settings": {
       "title": "Paramètres",
       "profile": {
@@ -514,12 +588,19 @@
       "language": {
         "title": "Langue",
         "subtitle": "Choisissez la langue de votre espace de travail."
+      },
+      "appearance": {
+        "title": "Apparence",
+        "subtitle": "Personnalisez les couleurs de votre espace — palette, texte et arrière-plan.",
+        "reset": "Réinitialiser",
+        "presets": { "mono": "Monochrome", "ocean": "Océan", "forest": "Forêt", "sunset": "Coucher de soleil" },
+        "fields": { "primary": "Primaire", "secondary": "Secondaire", "tertiary": "Tertiaire", "text": "Texte", "background": "Arrière-plan" }
       }
     }
   },
   "space": {
     "ariaLabel": "Choisissez votre espace",
-    "seeker": "Voyageurs",
+    "seeker": "Chercheurs",
     "agency": "Hôtes",
     "downloadApp": "Télécharger l'app",
     "getApp": "Obtenir l'app",
@@ -575,7 +656,7 @@
     },
     "benefits": {
       "eyebrow": "pourquoi nesty",
-      "title": "Tout ce qu'un voyageur attend, dans une seule app.",
+      "title": "Tout ce qu'un chercheur attend, dans une seule app.",
       "items": [
         { "title": "Logements vérifiés", "body": "Chaque annonce est contrôlée par notre équipe avant sa mise en ligne — pas de logements fantômes, pas de prix trompeurs." },
         { "title": "Visite en 3D", "body": "Parcourez tout le logement dans votre navigateur avant même de réserver une visite." },
@@ -594,7 +675,7 @@
     "about": {
       "eyebrow": "à propos de nesty",
       "title": "La plateforme de location tunisienne, fondée sur la confiance.",
-      "body": "Nesty réunit tous les types de locations tunisiennes — séjours à la nuit, locations au mois et baux longue durée — en un seul endroit vérifié et visitable en 3D. Nous travaillons avec les agences locales pour que chaque logement soit réel, et offrons aux voyageurs une façon plus sereine de trouver leur prochain logement."
+      "body": "Nesty réunit tous les types de locations tunisiennes — séjours à la nuit, locations au mois et baux longue durée — en un seul endroit vérifié et visitable en 3D. Nous travaillons avec les agences locales pour que chaque logement soit réel, et offrons aux chercheurs une façon plus sereine de trouver leur prochain logement."
     },
     "modal": {
       "title": "Réservez sur l'application Nesty",
@@ -608,9 +689,9 @@
   "host": {
     "eyebrow": "devenir hôte",
     "title": "Publiez votre bien sur Nesty.",
-    "lead": "Touchez des voyageurs vérifiés partout en Tunisie, présentez votre logement en 3D et gardez un seul calendrier fiable. Choisissez le parcours qui vous correspond.",
+    "lead": "Touchez des chercheurs vérifiés partout en Tunisie, présentez votre logement en 3D et gardez un seul calendrier fiable. Choisissez le parcours qui vous correspond.",
     "benefits": [
-      { "title": "Une demande vérifiée", "body": "Les voyageurs arrivent déjà vérifiés et prêts \u2014 moins de curieux, plus de vraies réservations." },
+      { "title": "Une demande vérifiée", "body": "Les chercheurs arrivent déjà vérifiés et prêts \u2014 moins de curieux, plus de vraies réservations." },
       { "title": "Des visites 3D qui convertissent", "body": "Nous transformons vos photos en visite immersive, pour séduire les voyageurs avant même la visite." },
       { "title": "Un calendrier honnête", "body": "Nuitées, mois et baux longue durée au même endroit \u2014 jamais de double réservation." }
     ],

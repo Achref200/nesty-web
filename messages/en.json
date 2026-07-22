@@ -295,6 +295,7 @@
       "listings": "Listings",
       "calendar": "Calendar",
       "requests": "Requests",
+      "support": "Support",
       "settings": "Settings"
     },
     "signOut": "Sign out",
@@ -492,6 +493,79 @@
       "invalidPrice": "Enter a valid price.",
       "reservationNotFound": "Reservation not found."
     },
+    "support": {
+      "title": "Support",
+      "subtitle": "Report an issue to the Nesty team and follow the conversation here.",
+      "new": "New ticket",
+      "emptyTitle": "No tickets yet",
+      "emptyBody": "Something not working? Open a ticket and the Nesty team will reply here — no phone calls needed.",
+      "openFirst": "Open your first ticket",
+      "messagesCount": "{count} messages",
+      "reportedOn": "Reported {date}",
+      "you": "You",
+      "supportTeam": "Nesty Support",
+      "screenshots": "Screenshots",
+      "status": {
+        "open": "Open",
+        "in_progress": "In progress",
+        "resolved": "Resolved",
+        "closed": "Closed"
+      },
+      "types": {
+        "bug": "Bug",
+        "error": "Error",
+        "failure": "Failure",
+        "question": "Question",
+        "feature_request": "Feature request",
+        "other": "Other"
+      },
+      "severities": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+      },
+      "areas": {
+        "listings": "Listings",
+        "reservations": "Reservations",
+        "calendar": "Calendar",
+        "billing": "Billing",
+        "account": "Account",
+        "verification": "Verification",
+        "tours_3d": "3D tours",
+        "app": "Mobile app",
+        "other": "Other"
+      },
+      "form": {
+        "title": "Report a problem",
+        "subtitle": "Tell us what's wrong. Add screenshots so we can see exactly what you see.",
+        "back": "Back to tickets",
+        "subject": "Title",
+        "subjectPlaceholder": "Short summary of the problem",
+        "category": "Category",
+        "type": "Type",
+        "severity": "Severity",
+        "description": "Description",
+        "descriptionPlaceholder": "What happened, what you expected, and the steps to reproduce it…",
+        "screenshots": "Screenshots (optional)",
+        "submit": "Submit ticket",
+        "submitting": "Submitting"
+      },
+      "reply": {
+        "placeholder": "Write a reply…",
+        "send": "Send reply",
+        "sending": "Sending",
+        "closed": "This ticket is closed. Open a new one if you still need help."
+      },
+      "errors": {
+        "signedOut": "You need to be signed in.",
+        "subjectRequired": "Add a short title.",
+        "descriptionRequired": "Describe the problem.",
+        "messageRequired": "Write a reply first.",
+        "setupNeeded": "Support isn't set up on the database yet. Apply the latest Supabase migration (ticket_messages), then try again.",
+        "failed": "Something went wrong. Try again."
+      }
+    },
     "settings": {
       "title": "Settings",
       "profile": {
@@ -514,12 +588,19 @@
       "language": {
         "title": "Language",
         "subtitle": "Choose the language for your workspace."
+      },
+      "appearance": {
+        "title": "Appearance",
+        "subtitle": "Personalize your workspace colours — palette, text and background.",
+        "reset": "Reset to default",
+        "presets": { "mono": "Monochrome", "ocean": "Ocean", "forest": "Forest", "sunset": "Sunset" },
+        "fields": { "primary": "Primary", "secondary": "Secondary", "tertiary": "Tertiary", "text": "Text", "background": "Background" }
       }
     }
   },
   "space": {
     "ariaLabel": "Choose your space",
-    "seeker": "Travellers",
+    "seeker": "Seekers",
     "agency": "Hosts",
     "downloadApp": "Download app",
     "getApp": "Get the app",
@@ -575,7 +656,7 @@
     },
     "benefits": {
       "eyebrow": "why nesty",
-      "title": "Everything a traveller needs, in one app.",
+      "title": "Everything a seeker needs, in one app.",
       "items": [
         { "title": "Verified homes", "body": "Every listing is checked by our team before it goes live — no phantom flats, no bait pricing." },
         { "title": "Tour in 3D", "body": "Walk through the whole home in your browser before you ever book a visit." },
@@ -594,7 +675,7 @@
     "about": {
       "eyebrow": "about nesty",
       "title": "Tunisia's rental platform, built on trust.",
-      "body": "Nesty brings every kind of Tunisian rental — nightly stays, monthly rentals and long leases — into one verified place you can tour in 3D. We partner with local agencies so every home is real, and give travellers a calmer way to find their next place."
+      "body": "Nesty brings every kind of Tunisian rental — nightly stays, monthly rentals and long leases — into one verified place you can tour in 3D. We partner with local agencies so every home is real, and give seekers a calmer way to find their next place."
     },
     "modal": {
       "title": "Reserve on the Nesty app",
@@ -608,9 +689,9 @@
   "host": {
     "eyebrow": "become a host",
     "title": "List your place on Nesty.",
-    "lead": "Reach verified travellers across Tunisia, show your home in 3D, and keep one honest calendar. Pick the path that fits you.",
+    "lead": "Reach verified seekers across Tunisia, show your home in 3D, and keep one honest calendar. Pick the path that fits you.",
     "benefits": [
-      { "title": "Verified demand", "body": "Travellers arrive pre-vetted and ready \u2014 fewer tyre-kickers, more real bookings." },
+      { "title": "Verified demand", "body": "Seekers arrive pre-vetted and ready \u2014 fewer tyre-kickers, more real bookings." },
       { "title": "3D tours that sell", "body": "We turn your photos into an immersive walkthrough, so guests fall for the space before they visit." },
       { "title": "One honest calendar", "body": "Nightly, monthly and long leases in one place \u2014 no double bookings, ever." }
     ],
