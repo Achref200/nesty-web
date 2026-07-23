@@ -13,6 +13,8 @@ function titleKey(pathname: string): string {
   if (pathname.startsWith("/dashboard/listings")) return "listings";
   if (pathname.startsWith("/dashboard/calendar")) return "calendar";
   if (pathname.startsWith("/dashboard/requests")) return "requests";
+  if (pathname.startsWith("/dashboard/incidents")) return "incidents";
+  if (pathname.startsWith("/dashboard/notifications")) return "notifications";
   if (pathname.startsWith("/dashboard/support")) return "support";
   if (pathname.startsWith("/dashboard/settings")) return "settings";
   return "overview";
@@ -37,8 +39,8 @@ export function Topbar({
         {t(`nav.${titleKey(pathname)}`)}
       </h1>
       <LanguageToggle variant="light" />
-      <button
-        type="button"
+      <Link
+        href="/dashboard/notifications"
         aria-label={t("notifications")}
         className="relative grid h-10 w-10 place-items-center rounded-xl border border-separator bg-card text-ink hover:bg-fill"
       >
@@ -46,7 +48,7 @@ export function Topbar({
         {pending > 0 && (
           <span className="absolute right-2 top-2 h-2 w-2 rounded-pill bg-tertiary ring-2 ring-paper" />
         )}
-      </button>
+      </Link>
       <Link href="/dashboard/settings" aria-label={t("account")} className="shrink-0">
         <Avatar src={avatarUrl} name={initial} size={40} />
       </Link>

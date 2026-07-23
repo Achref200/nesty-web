@@ -294,7 +294,9 @@
       "overview": "Aperçu",
       "listings": "Annonces",
       "calendar": "Calendrier",
-      "requests": "Demandes",
+      "requests": "Réservations",
+      "incidents": "Incidents",
+      "notifications": "Notifications",
       "support": "Assistance",
       "settings": "Paramètres"
     },
@@ -352,15 +354,28 @@
       "editListing": "Modifier l'annonce"
     },
     "reservation": {
-      "guest": "voyageur",
-      "guests": "voyageurs",
+      "guest": "personne",
+      "guests": "personnes",
       "nights": "nuits",
       "confirm": "Confirmer",
       "markDone": "Terminer",
       "decline": "Refuser",
+      "cancel": "Annuler",
+      "keep": "Conserver",
+      "expiresIn": "Expire dans {time}",
+      "expired": "Expirée",
+      "reasonPlaceholder": "Ajoutez un motif court (partagé avec le chercheur)",
+      "reasonRequired": "Un motif est requis.",
+      "declineTitle": "Refuser cette demande ?",
+      "declineBody": "Les dates verrouillées sont libérées immédiatement et le chercheur est averti.",
+      "declineConfirm": "Refuser la demande",
+      "cancelTitle": "Annuler cette réservation ?",
+      "cancelBody": "Un motif est requis. Le chercheur est averti, les dates sont libérées et l’action est enregistrée dans l’historique.",
+      "cancelConfirm": "Annuler la réservation",
       "toastConfirmed": "Réservation confirmée",
       "toastCompleted": "Marquée comme terminée",
-      "toastDeclined": "Réservation refusée"
+      "toastDeclined": "Réservation refusée",
+      "toastCancelled": "Réservation annulée"
     },
     "requests": {
       "all": "Toutes",
@@ -368,8 +383,19 @@
       "confirmed": "Confirmées",
       "completed": "Terminées",
       "cancelled": "Annulées",
+      "searchPlaceholder": "Rechercher par référence ou chercheur",
+      "filterStatus": "Filtrer par statut",
+      "filterListing": "Filtrer par annonce",
+      "allListings": "Toutes les annonces",
+      "sort": "Trier",
+      "sort_recent": "Plus récentes",
+      "sort_checkin": "Date d’arrivée",
+      "sort_created": "Plus anciennes",
+      "showing": "{from}–{to} sur {total}",
+      "prev": "Précédent",
+      "next": "Suivant",
       "emptyTitle": "Rien ici pour l'instant",
-      "emptyBody": "Lorsque des voyageurs réservent une visite ou des dates, les demandes apparaissent dans cette vue."
+      "emptyBody": "Lorsque des chercheurs réservent une visite ou des dates, les demandes apparaissent dans cette vue."
     },
     "calendar": {
       "months": ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
@@ -378,6 +404,21 @@
       "nextMonth": "Mois suivant",
       "stay": "Séjour",
       "visit": "Visite",
+      "confirmed": "Confirmée",
+      "pending": "En attente",
+      "blocked": "Bloquée",
+      "listing": "Annonce",
+      "allListings": "Toutes les annonces",
+      "pickListing": "Choisissez une annonce pour bloquer des dates.",
+      "pickDates": "Choisissez une date de début et de fin.",
+      "unblocked": "Dates libérées",
+      "blockTitle": "Bloquer des dates",
+      "from": "Du",
+      "to": "Au",
+      "reason": "Motif",
+      "reasonPlaceholder": "Motif (facultatif)",
+      "blockButton": "Bloquer ces dates",
+      "unblock": "Retirer le blocage",
       "bookingsOne": "{count} réservation ce mois-ci",
       "bookingsOther": "{count} réservations ce mois-ci",
       "nothingBooked": "Rien de réservé ce jour-là."
@@ -386,7 +427,89 @@
       "pending": "En attente",
       "confirmed": "Confirmée",
       "cancelled": "Annulée",
-      "completed": "Terminée"
+      "completed": "Terminée",
+      "rejected": "Refusée",
+      "expired": "Expirée"
+    },
+    "detail": {
+      "back": "Réservations",
+      "reference": "Référence",
+      "city": "Ville",
+      "guests": "Personnes",
+      "total": "Total",
+      "createdOn": "Demandée le",
+      "cancellationReason": "Motif d’annulation",
+      "note": "Note du chercheur",
+      "timeline": "Historique"
+    },
+    "timeline": {
+      "empty": "Aucune activité pour l’instant.",
+      "event": {
+        "created": "Réservation demandée",
+        "confirmed": "Réservation confirmée",
+        "rejected": "Demande refusée",
+        "cancelled": "Réservation annulée",
+        "expired": "Verrou expiré",
+        "completed": "Séjour terminé",
+        "modified": "Réservation modifiée"
+      }
+    },
+    "incidents": {
+      "title": "Incidents",
+      "subtitle": "Signalez les problèmes de réservation à l’équipe Nesty et suivez leur résolution.",
+      "report": "Signaler un incident",
+      "none": "Aucun incident signalé pour cette réservation.",
+      "emptyTitle": "Aucun incident",
+      "emptyBody": "En cas de problème sur une réservation — conflit, dégât ou souci d’accès — signalez-le et l’équipe Nesty s’en charge.",
+      "estimatedCost": "Coût estimé",
+      "resolution": "Résolution",
+      "types": {
+        "conflict": "Conflit de réservation",
+        "double_booking": "Double réservation",
+        "unavailable": "Bien indisponible",
+        "access": "Problème d’accès",
+        "payment": "Problème de paiement",
+        "damage": "Dégât dans le logement",
+        "cleaning": "Problème de ménage",
+        "other": "Autre"
+      },
+      "status": {
+        "created": "Créé",
+        "under_review": "En cours d’examen",
+        "resolved": "Résolu",
+        "closed": "Clôturé"
+      },
+      "form": {
+        "type": "Type",
+        "occurredOn": "Date de l’incident",
+        "description": "Ce qui s’est passé",
+        "descriptionPlaceholder": "Décrivez l’incident en quelques mots",
+        "estimatedCost": "Coût estimé des dégâts (DT)",
+        "cancel": "Annuler",
+        "submit": "Envoyer l’incident",
+        "submitting": "Envoi",
+        "success": "Incident signalé"
+      },
+      "errors": {
+        "signedOut": "Vous devez être connecté.",
+        "reservationRequired": "Réservation introuvable.",
+        "descriptionRequired": "Décrivez ce qui s’est passé.",
+        "migrationNeeded": "Les incidents ne sont pas encore disponibles. Appliquez la dernière migration Supabase (reservation_module)."
+      }
+    },
+    "notificationsPage": {
+      "subtitle": "Tout ce qui s’est passé sur vos réservations.",
+      "markAll": "Tout marquer comme lu",
+      "emptyTitle": "Aucune notification",
+      "emptyBody": "L’activité des réservations — nouvelles demandes, confirmations et annulations — apparaîtra ici.",
+      "type": {
+        "reservation_requested": "Nouvelle demande de réservation {reference}",
+        "reservation_confirmed": "Réservation {reference} confirmée",
+        "reservation_rejected": "Réservation {reference} refusée",
+        "reservation_cancelled": "Réservation {reference} annulée",
+        "reservation_expired": "Réservation {reference} expirée",
+        "reservation_completed": "Réservation {reference} terminée"
+      }
     },
     "rowActions": {
       "manage": "Gérer l'annonce",
@@ -668,6 +791,14 @@
       "listingNotFound": "Bien introuvable.",
       "invalidPrice": "Saisissez un prix valide.",
       "reservationNotFound": "Réservation introuvable.",
+      "overlapConflict": "Ces dates chevauchent une autre réservation en attente ou confirmée.",
+      "migrationNeeded": "Cette action nécessite l’application de la dernière migration Supabase (reservation_module).",
+      "datesBlocked": "Ces dates sont bloquées pour cette annonce.",
+      "notPending": "Cette demande n’est plus en attente.",
+      "notConfirmed": "Seule une réservation confirmée peut être modifiée ici.",
+      "notModifiable": "Cette réservation ne peut plus être modifiée.",
+      "reasonRequired": "Un motif d’annulation est requis.",
+      "invalidRange": "Choisissez une plage de dates valide.",
       "fixErrors": "Veuillez compléter chaque étape avant de terminer."
     },
     "support": {

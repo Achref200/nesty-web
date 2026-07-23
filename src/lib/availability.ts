@@ -14,10 +14,17 @@
  * one-hour viewing slot from its start time.
  */
 
-import type { ReservationStatus, ReservationType } from "@/data/types";
+import type {
+  DayState,
+  ReservationStatus,
+  ReservationType,
+} from "@/data/types";
 
 const DAY_MS = 86_400_000;
 const VISIT_SLOT_MS = 60 * 60 * 1000; // a viewing occupies a 1-hour slot
+
+/** 48h soft-lock window, matching the DB `expire_stale_reservations` job. */
+export const SOFT_LOCK_MS = 48 * 60 * 60 * 1000;
 
 /** The minimal reservation shape these rules need. `Reservation` satisfies it. */
 export interface ReservationLike {
@@ -161,6 +168,126 @@ export function canConfirmReservation(
     allowed: false,
     reason:
       "Another reservation for these dates is already confirmed. Decline it first to confirm this one.",
+    conflicts,
+  };
+}
+
+/* ─────────────────────── Soft-lock (Airbnb-style) ─────────────────────── */
+
+/** Milliseconds left before a pending soft-lock expires (0 once elapsed). */
+export function remainingSoftLock(
+  expiresAt: string | undefined,
+  now: number = Date.now(),
+): number {
+  if (!expiresAt) return 0;
+  return Math.max(0, new Date(expiresAt).getTime() - now);
+}
+
+/** A pending reservation whose 48h window has elapsed is effectively expired. */
+export function isSoftLockExpired(
+  status: ReservationStatus,
+  expiresAt: string | undefined,
+  now: number = Date.now(),
+): boolean {
+  return status === "pending" && remainingSoftLock(expiresAt, now) === 0 && !!expiresAt;
+}
+
+/* ─────────────────────── Calendar availability engine ─────────────────────── */
+
+/** A manual block occupies `[start_date, end_date)` (checkout day free). */
+export interface BlockLike {
+  id: string;
+  listingId: string;
+  startDate: string;
+  endDate: string;
+}
+
+export interface DayCell {
+  /** `YYYY-MM-DD`. */
+  key: string;
+  state: DayState;
+}
+
+function ymd(ms: number): string {
+  const d = new Date(ms);
+  const mm = `${d.getMonth() + 1}`.padStart(2, "0");
+  const dd = `${d.getDate()}`.padStart(2, "0");
+  return `${d.getFullYear()}-${mm}-${dd}`;
+}
+
+/** Priority when several sources touch the same day (highest wins). */
+const STATE_RANK: Record<DayState, number> = {
+  available: 0,
+  pending: 1,
+  blocked: 2,
+  confirmed: 3,
+};
+
+/**
+ * The single source of truth for a listing's day-by-day availability. Merges
+ * confirmed + pending (soft-locked) reservations and manual blocks into one map
+ * of `YYYY-MM-DD → DayState`. Days with no entry are Available.
+ *
+ * Pure and side-effect free so both the calendar UI and server actions share it.
+ */
+export function computeCalendar(
+  reservations: ReservationLike[],
+  blocks: BlockLike[],
+  now: number = Date.now(),
+): Map<string, DayState> {
+  const map = new Map<string, DayState>();
+  const set = (key: string, state: DayState) => {
+    const cur = map.get(key);
+    if (!cur || STATE_RANK[state] > STATE_RANK[cur]) map.set(key, state);
+  };
+
+  for (const r of reservations) {
+    if (r.status !== "pending" && r.status !== "confirmed") continue;
+    // A lapsed soft-lock no longer holds the days.
+    const window = occupancy(r);
+    const state: DayState = r.status === "confirmed" ? "confirmed" : "pending";
+    for (let t = startOfDay(window.start); t < window.end; t += DAY_MS) {
+      set(ymd(t), state);
+    }
+  }
+
+  for (const b of blocks) {
+    const start = startOfDay(new Date(b.startDate).getTime());
+    const end = startOfDay(new Date(b.endDate).getTime());
+    for (let t = start; t < Math.max(end, start + DAY_MS); t += DAY_MS) {
+      set(ymd(t), "blocked");
+    }
+  }
+
+  return map;
+}
+
+/**
+ * Whether a manual block can be placed over `[start, end)` — refused when it
+ * overlaps any active reservation (you can't block dates people already hold).
+ */
+export function canBlock(
+  listingId: string,
+  start: string,
+  end: string,
+  reservations: ReservationLike[],
+): RuleResult {
+  const window: Interval = {
+    start: startOfDay(new Date(start).getTime()),
+    end: startOfDay(new Date(end).getTime()),
+  };
+  if (window.end <= window.start) window.end = window.start + DAY_MS;
+  const conflicts = reservations.filter(
+    (r) =>
+      r.listingId === listingId &&
+      isActiveStatus(r.status) &&
+      intervalsOverlap(window, occupancy(r)),
+  );
+  if (conflicts.length === 0) return ok();
+  return {
+    allowed: false,
+    reason:
+      "These dates overlap a pending or confirmed reservation and can't be blocked.",
     conflicts,
   };
 }

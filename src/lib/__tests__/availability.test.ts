@@ -1,12 +1,16 @@
 import { describe, expect, it } from "vitest";
 import {
   blockingReservations,
+  canBlock,
   canConfirmReservation,
   canModifyListing,
   canReserve,
+  computeCalendar,
   intervalsOverlap,
   isBlocking,
+  isSoftLockExpired,
   occupancy,
+  remainingSoftLock,
   type ReservationLike,
 } from "@/lib/availability";
 
@@ -225,5 +229,76 @@ describe("blockingReservations", () => {
     ];
     const ids = blockingReservations(list, NOW).map((r) => r.id).sort();
     expect(ids).toEqual(["confirmed-future", "pending-future"]);
+  });
+});
+
+describe("remainingSoftLock / isSoftLockExpired", () => {
+  it("returns the ms left before a soft-lock expires", () => {
+    const expires = new Date(NOW + 60 * 60 * 1000).toISOString();
+    expect(remainingSoftLock(expires, NOW)).toBe(60 * 60 * 1000);
+  });
+
+  it("clamps a lapsed lock to zero", () => {
+    const expires = new Date(NOW - 1000).toISOString();
+    expect(remainingSoftLock(expires, NOW)).toBe(0);
+  });
+
+  it("flags an expired pending soft-lock", () => {
+    const expires = new Date(NOW - 1000).toISOString();
+    expect(isSoftLockExpired("pending", expires, NOW)).toBe(true);
+    expect(isSoftLockExpired("confirmed", expires, NOW)).toBe(false);
+  });
+});
+
+describe("computeCalendar", () => {
+  it("maps confirmed, pending and blocked days into the right states", () => {
+    const reservations: ReservationLike[] = [
+      res({ id: "c", status: "confirmed", start: "2026-08-10T00:00:00", end: "2026-08-12T00:00:00" }),
+      res({ id: "p", status: "pending", start: "2026-08-20T00:00:00", end: "2026-08-22T00:00:00" }),
+    ];
+    const blocks = [
+      { id: "b", listingId: "L1", startDate: "2026-08-15", endDate: "2026-08-17" },
+    ];
+    const map = computeCalendar(reservations, blocks, NOW);
+    expect(map.get("2026-08-10")).toBe("confirmed");
+    expect(map.get("2026-08-11")).toBe("confirmed");
+    // Check-out day is free.
+    expect(map.get("2026-08-12")).toBeUndefined();
+    expect(map.get("2026-08-20")).toBe("pending");
+    expect(map.get("2026-08-15")).toBe("blocked");
+    expect(map.get("2026-08-16")).toBe("blocked");
+    expect(map.get("2026-08-17")).toBeUndefined();
+  });
+
+  it("lets a confirmed day outrank a pending one", () => {
+    const reservations: ReservationLike[] = [
+      res({ id: "p", status: "pending", start: "2026-08-10T00:00:00", end: "2026-08-12T00:00:00" }),
+      res({ id: "c", status: "confirmed", start: "2026-08-11T00:00:00", end: "2026-08-13T00:00:00" }),
+    ];
+    const map = computeCalendar(reservations, [], NOW);
+    expect(map.get("2026-08-11")).toBe("confirmed");
+  });
+
+  it("ignores cancelled/expired reservations", () => {
+    const reservations: ReservationLike[] = [
+      res({ id: "x", status: "cancelled", start: "2026-08-10T00:00:00", end: "2026-08-12T00:00:00" }),
+      res({ id: "e", status: "expired", start: "2026-08-13T00:00:00", end: "2026-08-15T00:00:00" }),
+    ];
+    const map = computeCalendar(reservations, [], NOW);
+    expect(map.size).toBe(0);
+  });
+});
+
+describe("canBlock", () => {
+  it("refuses to block dates overlapping an active reservation", () => {
+    const reservations = [res({ id: "c", status: "confirmed" })]; // 08-10 → 08-14
+    const r = canBlock("L1", "2026-08-12", "2026-08-16", reservations);
+    expect(r.allowed).toBe(false);
+    expect(r.conflicts.map((c) => c.id)).toContain("c");
+  });
+
+  it("allows blocking free dates", () => {
+    const reservations = [res({ id: "c", status: "confirmed" })];
+    expect(canBlock("L1", "2026-09-01", "2026-09-05", reservations).allowed).toBe(true);
   });
 });

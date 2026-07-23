@@ -3,6 +3,7 @@ import {
   Building2,
   CalendarDays,
   Inbox,
+  ShieldAlert,
   LifeBuoy,
   Settings,
   type LucideIcon,
@@ -20,6 +21,7 @@ export const DASHBOARD_NAV: DashboardNavItem[] = [
   { href: "/dashboard/listings", key: "listings", icon: Building2 },
   { href: "/dashboard/calendar", key: "calendar", icon: CalendarDays },
   { href: "/dashboard/requests", key: "requests", icon: Inbox },
+  { href: "/dashboard/incidents", key: "incidents", icon: ShieldAlert },
   { href: "/dashboard/support", key: "support", icon: LifeBuoy },
   { href: "/dashboard/settings", key: "settings", icon: Settings },
 ];

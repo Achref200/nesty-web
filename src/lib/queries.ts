@@ -111,24 +111,53 @@ function mapReservation(row: ReservationRow): Reservation {
     listingId: row.listing_id,
     listingTitle: row.listings?.title ?? "Listing",
     city: row.listings?.city ?? "",
-    guestName: row.guest_name ?? "Guest",
+    seekerName: row.guest_name ?? "Seeker",
     type: row.type as ReservationType,
     start: row.start_at,
     end: row.end_at ?? undefined,
     guests: row.guests,
-    status: row.status as ReservationStatus,
+    status: effectiveStatus(row),
     note: row.note ?? undefined,
     estimatedTotal: row.estimated_total ?? undefined,
+    reference: row.reference ?? `NBK-${row.id.slice(0, 6).toUpperCase()}`,
+    expiresAt: row.expires_at ?? undefined,
+    cancellationReason: row.cancellation_reason ?? undefined,
+    createdAt: row.created_at,
   };
 }
 
-function isReservedNow(rows: { status: string; start_at: string }[]): boolean {
+/**
+ * Read-time soft-lock expiry: a pending reservation past its 48h window is
+ * surfaced as `expired` even before the background job persists the change, so
+ * the UI never shows a stale hold.
+ */
+function effectiveStatus(row: {
+  status: string;
+  expires_at?: string | null;
+}): ReservationStatus {
+  if (
+    row.status === "pending" &&
+    row.expires_at &&
+    new Date(row.expires_at).getTime() < Date.now()
+  ) {
+    return "expired";
+  }
+  return row.status as ReservationStatus;
+}
+
+function isReservedNow(rows: { status: string; start_at: string; expires_at?: string | null }[]): boolean {
   const grace = Date.now() - 864e5;
-  return rows.some(
-    (r) =>
+  return rows.some((r) => {
+    const notExpired =
+      r.status !== "pending" ||
+      !r.expires_at ||
+      new Date(r.expires_at).getTime() >= Date.now();
+    return (
       (r.status === "pending" || r.status === "confirmed") &&
-      new Date(r.start_at).getTime() >= grace,
-  );
+      notExpired &&
+      new Date(r.start_at).getTime() >= grace
+    );
+  });
 }
 
 export interface DashboardData {
@@ -176,11 +205,13 @@ export async function getDashboardData(): Promise<DashboardData | null> {
   const grace = Date.now() - 864e5;
   const reservedIds = new Set(
     reservationRows
-      .filter(
-        (r) =>
-          (r.status === "pending" || r.status === "confirmed") &&
-          new Date(r.start_at).getTime() >= grace,
-      )
+      .filter((r) => {
+        const status = effectiveStatus(r);
+        return (
+          (status === "pending" || status === "confirmed") &&
+          new Date(r.start_at).getTime() >= grace
+        );
+      })
       .map((r) => r.listing_id),
   );
 
@@ -441,4 +472,342 @@ export async function getListingDetail(
     byListing.get(id) ?? emptyStats(),
   );
   return { listing, reservations };
+}
+
+/* ───────────────────────── Reservation module ───────────────────────── */
+
+import type {
+  AvailabilityBlock,
+  IncidentStatus,
+  IncidentType,
+  ReservationEvent,
+  ReservationIncident,
+} from "@/data/types";
+
+type BlockRow = Database["public"]["Tables"]["availability_blocks"]["Row"];
+type EventRow = Database["public"]["Tables"]["reservation_events"]["Row"];
+type IncidentRow = Database["public"]["Tables"]["reservation_incidents"]["Row"];
+
+function mapBlock(row: BlockRow): AvailabilityBlock {
+  return {
+    id: row.id,
+    listingId: row.listing_id,
+    startDate: row.start_date,
+    endDate: row.end_date,
+    reason: row.reason ?? undefined,
+  };
+}
+
+function mapIncident(row: IncidentRow): ReservationIncident {
+  return {
+    id: row.id,
+    reservationId: row.reservation_id,
+    type: row.type as IncidentType,
+    description: row.description,
+    occurredOn: row.occurred_on,
+    status: row.status as IncidentStatus,
+    estimatedCost: row.estimated_cost ?? undefined,
+    attachments: row.attachments ?? [],
+    resolution: row.resolution ?? undefined,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export interface ReservationFilters {
+  status?: "all" | ReservationStatus;
+  listingId?: string;
+  search?: string;
+  sort?: "recent" | "checkin" | "created";
+  page?: number;
+  pageSize?: number;
+}
+
+export interface ReservationsResult {
+  items: Reservation[];
+  total: number;
+  hasMore: boolean;
+  counts: Record<"all" | ReservationStatus, number>;
+  listings: { id: string; title: string }[];
+}
+
+const EMPTY_COUNTS: Record<"all" | ReservationStatus, number> = {
+  all: 0,
+  pending: 0,
+  confirmed: 0,
+  rejected: 0,
+  cancelled: 0,
+  expired: 0,
+  completed: 0,
+};
+
+/**
+ * A filtered, sorted, paginated page of the signed-in agency's reservations.
+ * Filtering/sorting/paging happen in Postgres so it scales past thousands of
+ * rows. Status counts and the listing filter options are computed from the
+ * agency's full set (cheap id/status columns) for the tab badges.
+ */
+export async function getReservations(
+  filters: ReservationFilters = {},
+): Promise<ReservationsResult> {
+  const empty: ReservationsResult = {
+    items: [],
+    total: 0,
+    hasMore: false,
+    counts: { ...EMPTY_COUNTS },
+    listings: [],
+  };
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return empty;
+
+  const pageSize = Math.min(Math.max(filters.pageSize ?? 20, 1), 100);
+  const page = Math.max(filters.page ?? 0, 0);
+  const from = page * pageSize;
+  const to = from + pageSize - 1;
+
+  // Lightweight pass for tab counts + listing filter options.
+  const [{ data: allRows }, listingsRes] = await Promise.all([
+    supabase
+      .from("reservations")
+      .select("status, expires_at")
+      .eq("host_id", user.id),
+    supabase
+      .from("listings")
+      .select("id, title")
+      .eq("host_id", user.id)
+      .order("title", { ascending: true }),
+  ]);
+
+  const counts = { ...EMPTY_COUNTS };
+  for (const r of (allRows ?? []) as {
+    status: string;
+    expires_at: string | null;
+  }[]) {
+    const status = effectiveStatus(r);
+    counts.all += 1;
+    counts[status] += 1;
+  }
+
+  let q = supabase
+    .from("reservations")
+    .select("*, listings(title, city)", { count: "exact" })
+    .eq("host_id", user.id);
+
+  if (filters.status && filters.status !== "all") {
+    q = q.eq("status", filters.status);
+  }
+  if (filters.listingId && filters.listingId !== "all") {
+    q = q.eq("listing_id", filters.listingId);
+  }
+  if (filters.search?.trim()) {
+    const term = `%${filters.search.trim()}%`;
+    q = q.or(`guest_name.ilike.${term},reference.ilike.${term}`);
+  }
+
+  const sort = filters.sort ?? "recent";
+  if (sort === "checkin") q = q.order("start_at", { ascending: true });
+  else if (sort === "created") q = q.order("created_at", { ascending: true });
+  else q = q.order("created_at", { ascending: false });
+
+  const { data, count } = await q.range(from, to);
+  const rows = (data ?? []) as unknown as ReservationRow[];
+  const items = rows.map(mapReservation);
+  const total = count ?? items.length;
+
+  return {
+    items,
+    total,
+    hasMore: from + items.length < total,
+    counts,
+    listings: (listingsRes.data ?? []).map((l) => ({
+      id: (l as { id: string }).id,
+      title: (l as { title: string }).title,
+    })),
+  };
+}
+
+export interface ReservationDetail {
+  reservation: Reservation;
+  timeline: ReservationEvent[];
+  incidents: ReservationIncident[];
+}
+
+/** A single reservation the agency owns, with its audit timeline + incidents. */
+export async function getReservationDetail(
+  id: string,
+): Promise<ReservationDetail | null> {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data: row } = await supabase
+    .from("reservations")
+    .select("*, listings(title, city)")
+    .eq("id", id)
+    .eq("host_id", user.id)
+    .maybeSingle();
+  if (!row) return null;
+
+  const [eventsRes, incidentsRes] = await Promise.all([
+    supabase
+      .from("reservation_events")
+      .select("*")
+      .eq("reservation_id", id)
+      .order("created_at", { ascending: true }),
+    supabase
+      .from("reservation_incidents")
+      .select("*")
+      .eq("reservation_id", id)
+      .order("created_at", { ascending: false }),
+  ]);
+
+  return {
+    reservation: mapReservation(row as unknown as ReservationRow),
+    timeline: ((eventsRes.data ?? []) as EventRow[]).map((e) => ({
+      id: e.id,
+      reservationId: e.reservation_id,
+      actorRole: e.actor_role,
+      eventType: e.event_type,
+      fromStatus: e.from_status,
+      toStatus: e.to_status,
+      reason: e.reason,
+      createdAt: e.created_at,
+    })),
+    incidents: ((incidentsRes.data ?? []) as IncidentRow[]).map(mapIncident),
+  };
+}
+
+export interface CalendarData {
+  reservations: Reservation[];
+  blocks: AvailabilityBlock[];
+  listings: { id: string; title: string }[];
+}
+
+/** Reservations + manual blocks for the agency, feeding the availability engine. */
+export async function getCalendarData(): Promise<CalendarData> {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { reservations: [], blocks: [], listings: [] };
+
+  const [reservationsRes, blocksRes, listingsRes] = await Promise.all([
+    supabase
+      .from("reservations")
+      .select("*, listings(title, city)")
+      .eq("host_id", user.id)
+      .order("start_at", { ascending: true }),
+    supabase.from("availability_blocks").select("*").eq("host_id", user.id),
+    supabase
+      .from("listings")
+      .select("id, title")
+      .eq("host_id", user.id)
+      .order("title", { ascending: true }),
+  ]);
+
+  return {
+    reservations: (
+      (reservationsRes.data ?? []) as unknown as ReservationRow[]
+    ).map(mapReservation),
+    blocks: ((blocksRes.data ?? []) as BlockRow[]).map(mapBlock),
+    listings: (listingsRes.data ?? []).map((l) => ({
+      id: (l as { id: string }).id,
+      title: (l as { title: string }).title,
+    })),
+  };
+}
+
+export interface IncidentSummary extends ReservationIncident {
+  reservationReference: string;
+  listingTitle: string;
+}
+
+/** Every incident the signed-in agency has filed, newest activity first. */
+export async function getAgencyIncidents(): Promise<IncidentSummary[]> {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("reservation_incidents")
+    .select("*, reservations(reference, listings(title))")
+    .eq("reporter_id", user.id)
+    .order("updated_at", { ascending: false })
+    .limit(100);
+
+  return ((data ?? []) as unknown as (IncidentRow & {
+    reservations?: {
+      reference: string | null;
+      listings?: { title: string | null } | null;
+    } | null;
+  })[]).map((row) => ({
+    ...mapIncident(row),
+    reservationReference: row.reservations?.reference ?? "—",
+    listingTitle: row.reservations?.listings?.title ?? "Listing",
+  }));
+}
+
+export interface AppNotification {
+  id: string;
+  type: string;
+  reservationId: string | null;
+  reference: string | null;
+  reason: string | null;
+  readAt: string | null;
+  createdAt: string;
+}
+
+/** The signed-in user's most recent in-app notifications. */
+export async function getNotifications(): Promise<AppNotification[]> {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("notifications")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  type Row = Database["public"]["Tables"]["notifications"]["Row"];
+  return ((data ?? []) as Row[]).map((n) => {
+    const payload = (n.payload ?? {}) as {
+      reference?: string;
+      reason?: string;
+    };
+    return {
+      id: n.id,
+      type: n.type,
+      reservationId: n.reservation_id,
+      reference: payload.reference ?? null,
+      reason: payload.reason ?? null,
+      readAt: n.read_at,
+      createdAt: n.created_at,
+    };
+  });
+}
+
+/** Count of unread notifications for the signed-in user. */
+export async function getUnreadNotificationCount(): Promise<number> {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return 0;
+  const { count } = await supabase
+    .from("notifications")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user.id)
+    .is("read_at", null);
+  return count ?? 0;
 }

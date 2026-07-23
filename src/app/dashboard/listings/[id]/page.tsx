@@ -160,7 +160,7 @@ export default async function ListingDetailPage({
           ) : (
             <div className="flex flex-col gap-3">
               {reservations.map((r) => (
-                <ReservationItem key={r.id} reservation={r} manage showGuest />
+                <ReservationItem key={r.id} reservation={r} manage showSeeker />
               ))}
             </div>
           )}

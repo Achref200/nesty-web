@@ -61,7 +61,9 @@ export type ReservationType = "visit" | "stay";
 export type ReservationStatus =
   | "pending"
   | "confirmed"
+  | "rejected"
   | "cancelled"
+  | "expired"
   | "completed";
 
 export interface Reservation {
@@ -69,7 +71,8 @@ export interface Reservation {
   listingId: string;
   listingTitle: string;
   city: string;
-  guestName: string;
+  /** The seeker (chercheur) who requested the reservation. */
+  seekerName: string;
   type: ReservationType;
   /** ISO date (visit: date + time; stay: check-in). */
   start: string;
@@ -79,15 +82,78 @@ export interface Reservation {
   status: ReservationStatus;
   note?: string;
   estimatedTotal?: number;
+  /** Human-friendly booking reference, e.g. "NBK-1A2B3C". */
+  reference: string;
+  /** ISO timestamp when a pending soft-lock expires (48h). */
+  expiresAt?: string;
+  cancellationReason?: string;
+  createdAt: string;
 }
 
 export const RESERVATION_STATUS_LABEL: Record<ReservationStatus, string> = {
   pending: "Pending",
   confirmed: "Confirmed",
+  rejected: "Rejected",
   cancelled: "Cancelled",
+  expired: "Expired",
   completed: "Completed",
 };
 
+/** A reservation holds its slot only while pending or confirmed. */
 export function isActive(status: ReservationStatus): boolean {
   return status === "pending" || status === "confirmed";
+}
+
+/** Reservation states an agency can act on. */
+export function isOpen(status: ReservationStatus): boolean {
+  return status === "pending" || status === "confirmed";
+}
+
+/** The four availability states a calendar day can be in. */
+export type DayState = "available" | "blocked" | "pending" | "confirmed";
+
+/** An agency-defined blocked period on a listing's calendar. */
+export interface AvailabilityBlock {
+  id: string;
+  listingId: string;
+  startDate: string;
+  endDate: string;
+  reason?: string;
+}
+
+export type IncidentType =
+  | "conflict"
+  | "double_booking"
+  | "unavailable"
+  | "access"
+  | "payment"
+  | "damage"
+  | "cleaning"
+  | "other";
+
+export type IncidentStatus = "created" | "under_review" | "resolved" | "closed";
+
+export interface ReservationIncident {
+  id: string;
+  reservationId: string;
+  type: IncidentType;
+  description: string;
+  occurredOn: string;
+  status: IncidentStatus;
+  estimatedCost?: number;
+  attachments: string[];
+  resolution?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReservationEvent {
+  id: string;
+  reservationId: string;
+  actorRole: string | null;
+  eventType: string;
+  fromStatus: string | null;
+  toStatus: string | null;
+  reason: string | null;
+  createdAt: string;
 }

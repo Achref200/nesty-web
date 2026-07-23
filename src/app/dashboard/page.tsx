@@ -104,7 +104,7 @@ export default async function OverviewPage() {
           ) : (
             <div className="flex flex-col gap-3">
               {upcoming.slice(0, 4).map((r) => (
-                <ReservationItem key={r.id} reservation={r} manage showGuest />
+                <ReservationItem key={r.id} reservation={r} manage showSeeker />
               ))}
             </div>
           )}

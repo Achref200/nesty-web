@@ -294,7 +294,9 @@
       "overview": "Overview",
       "listings": "Listings",
       "calendar": "Calendar",
-      "requests": "Requests",
+      "requests": "Reservations",
+      "incidents": "Incidents",
+      "notifications": "Notifications",
       "support": "Support",
       "settings": "Settings"
     },
@@ -358,9 +360,22 @@
       "confirm": "Confirm",
       "markDone": "Mark done",
       "decline": "Decline",
+      "cancel": "Cancel",
+      "keep": "Keep it",
+      "expiresIn": "Expires in {time}",
+      "expired": "Expired",
+      "reasonPlaceholder": "Add a short reason (shared with the seeker)",
+      "reasonRequired": "A reason is required.",
+      "declineTitle": "Decline this request?",
+      "declineBody": "The soft-locked dates are released immediately and the seeker is notified.",
+      "declineConfirm": "Decline request",
+      "cancelTitle": "Cancel this reservation?",
+      "cancelBody": "A reason is required. The seeker is notified, the dates are released and this is recorded in the timeline.",
+      "cancelConfirm": "Cancel reservation",
       "toastConfirmed": "Reservation confirmed",
       "toastCompleted": "Marked as complete",
-      "toastDeclined": "Reservation declined"
+      "toastDeclined": "Reservation declined",
+      "toastCancelled": "Reservation cancelled"
     },
     "requests": {
       "all": "All",
@@ -368,6 +383,17 @@
       "confirmed": "Confirmed",
       "completed": "Completed",
       "cancelled": "Cancelled",
+      "searchPlaceholder": "Search by reference or seeker",
+      "filterStatus": "Filter by status",
+      "filterListing": "Filter by listing",
+      "allListings": "All listings",
+      "sort": "Sort",
+      "sort_recent": "Newest first",
+      "sort_checkin": "Check-in date",
+      "sort_created": "Oldest first",
+      "showing": "{from}–{to} of {total}",
+      "prev": "Previous",
+      "next": "Next",
       "emptyTitle": "Nothing here yet",
       "emptyBody": "When seekers book a visit or reserve dates, requests in this view land here."
     },
@@ -378,6 +404,21 @@
       "nextMonth": "Next month",
       "stay": "Stay",
       "visit": "Visit",
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "blocked": "Blocked",
+      "listing": "Listing",
+      "allListings": "All listings",
+      "pickListing": "Pick a listing to block dates.",
+      "pickDates": "Choose a start and end date.",
+      "unblocked": "Dates released",
+      "blockTitle": "Block dates",
+      "from": "From",
+      "to": "To",
+      "reason": "Reason",
+      "reasonPlaceholder": "Reason (optional)",
+      "blockButton": "Block these dates",
+      "unblock": "Remove block",
       "bookingsOne": "{count} booking this month",
       "bookingsOther": "{count} bookings this month",
       "nothingBooked": "Nothing booked on this day."
@@ -386,7 +427,89 @@
       "pending": "Pending",
       "confirmed": "Confirmed",
       "cancelled": "Cancelled",
-      "completed": "Completed"
+      "completed": "Completed",
+      "rejected": "Rejected",
+      "expired": "Expired"
+    },
+    "detail": {
+      "back": "Reservations",
+      "reference": "Reference",
+      "city": "City",
+      "guests": "Guests",
+      "total": "Total",
+      "createdOn": "Requested",
+      "cancellationReason": "Cancellation reason",
+      "note": "Note from seeker",
+      "timeline": "Timeline"
+    },
+    "timeline": {
+      "empty": "No activity yet.",
+      "event": {
+        "created": "Reservation requested",
+        "confirmed": "Reservation confirmed",
+        "rejected": "Request rejected",
+        "cancelled": "Reservation cancelled",
+        "expired": "Soft-lock expired",
+        "completed": "Stay completed",
+        "modified": "Reservation modified"
+      }
+    },
+    "incidents": {
+      "title": "Incidents",
+      "subtitle": "Report reservation problems to the Nesty team and track their resolution.",
+      "report": "Report incident",
+      "none": "No incidents reported for this reservation.",
+      "emptyTitle": "No incidents",
+      "emptyBody": "When something goes wrong with a reservation — a conflict, damage or access issue — report it and the Nesty team will take it from there.",
+      "estimatedCost": "Estimated cost",
+      "resolution": "Resolution",
+      "types": {
+        "conflict": "Reservation conflict",
+        "double_booking": "Double booking",
+        "unavailable": "Property unavailable",
+        "access": "Access issue",
+        "payment": "Payment problem",
+        "damage": "Accommodation damage",
+        "cleaning": "Cleaning issue",
+        "other": "Other"
+      },
+      "status": {
+        "created": "Created",
+        "under_review": "Under review",
+        "resolved": "Resolved",
+        "closed": "Closed"
+      },
+      "form": {
+        "type": "Type",
+        "occurredOn": "Occurred on",
+        "description": "What happened",
+        "descriptionPlaceholder": "Describe the incident in a few words",
+        "estimatedCost": "Estimated damage cost (DT)",
+        "cancel": "Cancel",
+        "submit": "Submit incident",
+        "submitting": "Submitting",
+        "success": "Incident reported"
+      },
+      "errors": {
+        "signedOut": "You need to be signed in.",
+        "reservationRequired": "Reservation not found.",
+        "descriptionRequired": "Describe what happened.",
+        "migrationNeeded": "Incidents aren’t available yet. Apply the latest Supabase migration (reservation_module)."
+      }
+    },
+    "notificationsPage": {
+      "subtitle": "Everything that happened across your reservations.",
+      "markAll": "Mark all read",
+      "emptyTitle": "No notifications",
+      "emptyBody": "Reservation activity — new requests, confirmations and cancellations — will show up here.",
+      "type": {
+        "reservation_requested": "New reservation request {reference}",
+        "reservation_confirmed": "Reservation {reference} confirmed",
+        "reservation_rejected": "Reservation {reference} rejected",
+        "reservation_cancelled": "Reservation {reference} cancelled",
+        "reservation_expired": "Reservation {reference} expired",
+        "reservation_completed": "Reservation {reference} completed"
+      }
     },
     "rowActions": {
       "manage": "Manage listing",
@@ -668,6 +791,14 @@
       "listingNotFound": "Listing not found.",
       "invalidPrice": "Enter a valid price.",
       "reservationNotFound": "Reservation not found.",
+      "overlapConflict": "These dates overlap another pending or confirmed reservation.",
+      "migrationNeeded": "This action needs the latest Supabase migration (reservation_module) to be applied.",
+      "datesBlocked": "These dates are blocked for this listing.",
+      "notPending": "This request is no longer pending.",
+      "notConfirmed": "Only a confirmed reservation can be changed here.",
+      "notModifiable": "This reservation can no longer be modified.",
+      "reasonRequired": "A cancellation reason is required.",
+      "invalidRange": "Choose a valid date range.",
       "fixErrors": "Please complete every step before finishing."
     },
     "support": {

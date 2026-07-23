@@ -10,6 +10,8 @@ const VARIANT: Record<
   pending: "soft",
   completed: "muted",
   cancelled: "muted",
+  rejected: "muted",
+  expired: "outline",
 };
 
 export function StatusBadge({ status }: { status: ReservationStatus }) {

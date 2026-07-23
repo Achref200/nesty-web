@@ -1,8 +1,13 @@
 import { MonthCalendar } from "@/components/dashboard/month-calendar";
-import { getDashboardData } from "@/lib/queries";
+import { getCalendarData } from "@/lib/queries";
 
 export default async function CalendarPage() {
-  const data = await getDashboardData();
-  if (!data) return null;
-  return <MonthCalendar reservations={data.reservations} />;
+  const data = await getCalendarData();
+  return (
+    <MonthCalendar
+      reservations={data.reservations}
+      blocks={data.blocks}
+      listings={data.listings}
+    />
+  );
 }

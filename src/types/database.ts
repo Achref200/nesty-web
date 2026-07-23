@@ -154,9 +154,21 @@ export type Database = {
           start_at: string;
           end_at: string | null;
           guests: number;
-          status: "pending" | "confirmed" | "cancelled" | "completed";
+          status:
+            | "pending"
+            | "confirmed"
+            | "rejected"
+            | "cancelled"
+            | "expired"
+            | "completed";
           note: string | null;
           estimated_total: number | null;
+          reference: string | null;
+          expires_at: string | null;
+          confirmed_at: string | null;
+          cancellation_reason: string | null;
+          cancelled_by: string | null;
+          updated_at: string;
           created_at: string;
         };
         Insert: {
@@ -171,7 +183,133 @@ export type Database = {
           estimated_total?: number | null;
         };
         Update: {
-          status?: "pending" | "confirmed" | "cancelled" | "completed";
+          status?:
+            | "pending"
+            | "confirmed"
+            | "rejected"
+            | "cancelled"
+            | "expired"
+            | "completed";
+          start_at?: string;
+          end_at?: string | null;
+          guests?: number;
+          cancellation_reason?: string | null;
+          cancelled_by?: string | null;
+        };
+        Relationships: [];
+      };
+      availability_blocks: {
+        Row: {
+          id: string;
+          listing_id: string;
+          host_id: string;
+          start_date: string;
+          end_date: string;
+          reason: string | null;
+          created_at: string;
+        };
+        Insert: {
+          listing_id: string;
+          host_id: string;
+          start_date: string;
+          end_date: string;
+          reason?: string | null;
+        };
+        Update: {
+          start_date?: string;
+          end_date?: string;
+          reason?: string | null;
+        };
+        Relationships: [];
+      };
+      reservation_events: {
+        Row: {
+          id: string;
+          reservation_id: string;
+          actor_id: string | null;
+          actor_role: string | null;
+          event_type: string;
+          from_status: string | null;
+          to_status: string | null;
+          reason: string | null;
+          metadata: Json;
+          created_at: string;
+        };
+        Insert: {
+          reservation_id: string;
+          actor_id?: string | null;
+          actor_role?: string | null;
+          event_type: string;
+          from_status?: string | null;
+          to_status?: string | null;
+          reason?: string | null;
+          metadata?: Json;
+        };
+        Update: { reason?: string | null };
+        Relationships: [];
+      };
+      notifications: {
+        Row: {
+          id: string;
+          user_id: string;
+          type: string;
+          reservation_id: string | null;
+          payload: Json;
+          read_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          user_id: string;
+          type: string;
+          reservation_id?: string | null;
+          payload?: Json;
+        };
+        Update: { read_at?: string | null };
+        Relationships: [];
+      };
+      reservation_incidents: {
+        Row: {
+          id: string;
+          reservation_id: string;
+          reporter_id: string;
+          type:
+            | "conflict"
+            | "double_booking"
+            | "unavailable"
+            | "access"
+            | "payment"
+            | "damage"
+            | "cleaning"
+            | "other";
+          description: string;
+          occurred_on: string;
+          status: "created" | "under_review" | "resolved" | "closed";
+          estimated_cost: number | null;
+          attachments: string[];
+          resolution: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          reservation_id: string;
+          reporter_id: string;
+          type?:
+            | "conflict"
+            | "double_booking"
+            | "unavailable"
+            | "access"
+            | "payment"
+            | "damage"
+            | "cleaning"
+            | "other";
+          description: string;
+          occurred_on?: string;
+          estimated_cost?: number | null;
+          attachments?: string[];
+        };
+        Update: {
+          status?: "created" | "under_review" | "resolved" | "closed";
+          resolution?: string | null;
         };
         Relationships: [];
       };
