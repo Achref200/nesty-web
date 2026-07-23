@@ -45,7 +45,7 @@ export default async function DashboardLayout({
       <Sidebar pending={data.pending} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar pending={data.pending} initial={initial} avatarUrl={data.avatarUrl} />
-        <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-8">
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
           {children}
         </main>
       </div>

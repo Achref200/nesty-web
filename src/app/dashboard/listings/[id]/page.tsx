@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import { getListingDetail } from "@/lib/queries";
+import { isEditable } from "@/lib/listings/schema";
 import { formatDinars } from "@/lib/utils";
 
 export default async function ListingDetailPage({
@@ -33,7 +34,9 @@ export default async function ListingDetailPage({
   const { listing, reservations } = detail;
   const saveRate =
     listing.views > 0 ? Math.round((listing.saves / listing.views) * 100) : 0;
-  const hidden = listing.status === "hidden";
+  const isDraft = listing.status === "draft" || listing.status === "completed";
+  const isDisabled = listing.status === "disabled";
+  const editable = isEditable(listing.status);
 
   return (
     <div className="flex flex-col gap-6">
@@ -43,6 +46,13 @@ export default async function ListingDetailPage({
             <ArrowLeft className="h-4 w-4" /> {t("back")}
           </Link>
         </Button>
+        {editable && (
+          <Button asChild size="sm" className="ml-auto">
+            <Link href={`/dashboard/listings/${listing.id}/edit`}>
+              {t("editListing")}
+            </Link>
+          </Button>
+        )}
       </div>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -65,7 +75,9 @@ export default async function ListingDetailPage({
             <h1 className="font-display text-2xl font-extrabold tracking-tight">
               {listing.title}
             </h1>
-            {hidden ? (
+            {isDraft ? (
+              <Badge variant="outline">{t("draft")}</Badge>
+            ) : isDisabled ? (
               <Badge variant="soft">{t("hidden")}</Badge>
             ) : (
               <Badge variant={listing.state === "reserved" ? "solid" : "soft"}>

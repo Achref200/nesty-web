@@ -301,6 +301,8 @@
     "signOut": "Sign out",
     "notifications": "Notifications",
     "account": "Account settings",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "overview": {
       "welcome": "Welcome back, <b>{name}</b>.",
       "pendingRequests": "Pending requests",
@@ -345,7 +347,9 @@
       "tourRequests": "Tour requests",
       "saveRate": "Save rate",
       "bookings": "Bookings & tours",
-      "noRequests": "No requests for this place yet."
+      "noRequests": "No requests for this place yet.",
+      "draft": "Draft",
+      "editListing": "Edit listing"
     },
     "reservation": {
       "guest": "guest",
@@ -430,11 +434,16 @@
       "hintEditable": "Upload from your desktop — the first photo is the cover, all photos feed the 3D tour.",
       "hintLocked": "Photos are locked in view mode. Switch to edit mode to add, remove, or reorder by re-uploading.",
       "failed": "Upload failed.",
-      "photoAlt": "Photo {n}"
+      "photoAlt": "Photo {n}",
+      "tooMany": "Up to {max} photos.",
+      "badFormat": "Use JPG, PNG or WebP images.",
+      "moveLeft": "Move earlier",
+      "moveRight": "Move later"
     },
     "location": {
       "pinned": "Pinned at {lat}, {lng}",
-      "tapToPin": "Tap the map to drop the exact pin for this property."
+      "tapToPin": "Tap the map to drop the exact pin for this property.",
+      "outsideTunisia": "Pick a location inside Tunisia."
     },
     "newListing": {
       "back": "Back to listings",
@@ -473,6 +482,173 @@
       "publishing": "Publishing",
       "publish": "Publish listing"
     },
+    "wizard": {
+      "back": "Back",
+      "next": "Next",
+      "cancel": "Cancel",
+      "saveDraft": "Save draft",
+      "finish": "Finish",
+      "finishing": "Saving",
+      "stepOf": "Step {current} of {total}",
+      "draftSaved": "Draft saved",
+      "finished": "Listing saved as a draft",
+      "fixStep": "Fix the highlighted fields to continue.",
+      "fixAll": "Some steps still need attention.",
+      "restored": "Restored your unsaved draft.",
+      "steps": {
+        "general": "General information",
+        "photos": "Photos",
+        "location": "Location",
+        "amenities": "Amenities & rules",
+        "pricing": "Pricing & conditions",
+        "review": "Review"
+      },
+      "general": {
+        "title": "Listing title",
+        "titlePlaceholder": "Bright sea-view apartment in La Marsa",
+        "propertyType": "Property type",
+        "phone": "Responsible phone number",
+        "phonePlaceholder": "+216 20 000 000",
+        "maxGuests": "Max guests",
+        "bedrooms": "Bedrooms",
+        "bathrooms": "Bathrooms",
+        "description": "Description",
+        "descriptionPlaceholder": "What makes this place special…"
+      },
+      "photos": {
+        "heading": "Add your photos",
+        "hint": "Upload {min}–{max} photos. The first one is the cover — drag with the arrows to reorder.",
+        "count": "{n} added · at least {min} required"
+      },
+      "location": {
+        "city": "City",
+        "cityPlaceholder": "Tunis",
+        "district": "District (optional)",
+        "districtPlaceholder": "La Marsa",
+        "address": "Address",
+        "addressPlaceholder": "Rue du Lac, Les Berges du Lac",
+        "pinHeading": "Pin the exact location"
+      },
+      "amenities": {
+        "heading": "Amenities",
+        "selectAll": "Select all",
+        "clearAll": "Clear",
+        "tagsHeading": "Tags",
+        "rulesHeading": "House rules",
+        "pets": "Pets allowed",
+        "smoking": "Smoking allowed",
+        "party": "Parties allowed",
+        "instructions": "Additional instructions",
+        "instructionsPlaceholder": "Anything guests should know…"
+      },
+      "pricing": {
+        "model": "Pricing model",
+        "amount": "Price (TND)",
+        "minNights": "Minimum nights",
+        "discount": "Long-stay discount (%)",
+        "extraFee": "Additional fee (TND)",
+        "cancellation": "Cancellation policy",
+        "paymentMethods": "Accepted payment methods",
+        "paymentPolicy": "Payment policy",
+        "advance": "Advance payment (%)",
+        "advanceHint": "Share of the total collected up front."
+      },
+      "review": {
+        "edit": "Edit",
+        "gallery": "Gallery",
+        "general": "General information",
+        "amenities": "Amenities",
+        "location": "Location",
+        "pricing": "Pricing"
+      },
+      "opt": {
+        "property": {
+          "apartment": "Apartment",
+          "villa": "Villa",
+          "house": "House",
+          "studio": "Studio",
+          "room": "Room",
+          "riad": "Riad",
+          "other": "Other"
+        },
+        "amenity": {
+          "wifi": "WiFi",
+          "ac": "Air conditioning",
+          "heating": "Heating",
+          "hotWater": "Hot water",
+          "kitchen": "Equipped kitchen",
+          "fridge": "Refrigerator",
+          "washer": "Washing machine",
+          "tv": "TV",
+          "parking": "Parking",
+          "pool": "Swimming pool",
+          "balcony": "Balcony",
+          "garden": "Garden",
+          "elevator": "Elevator",
+          "babyBed": "Baby bed",
+          "workspace": "Workspace"
+        },
+        "tag": {
+          "seaView": "Sea view",
+          "beachfront": "Beachfront",
+          "cityCenter": "City center",
+          "quietArea": "Quiet area",
+          "nearBeach": "Near beach",
+          "nearShops": "Near shops",
+          "luxury": "Luxury",
+          "family": "Family",
+          "romantic": "Romantic",
+          "remoteWork": "Remote work",
+          "nature": "Nature",
+          "authenticTunisian": "Authentic Tunisian"
+        },
+        "pricingModel": {
+          "night": "Per night",
+          "week": "Per week",
+          "month": "Per month"
+        },
+        "payMethod": {
+          "cash": "Cash",
+          "card": "Card",
+          "bankTransfer": "Bank transfer"
+        },
+        "payPolicy": {
+          "mandatoryAdvance": "Mandatory advance payment",
+          "optionalAdvance": "Optional advance payment"
+        },
+        "cancellation": {
+          "flexible": "Flexible",
+          "moderate": "Moderate",
+          "strict": "Strict"
+        }
+      },
+      "err": {
+        "titleRequired": "Give your place a title.",
+        "titleTooLong": "Title is too long.",
+        "descriptionTooLong": "Description is too long.",
+        "propertyTypeRequired": "Choose a property type.",
+        "phoneRequired": "Add a contact phone number.",
+        "phoneInvalid": "Enter a valid Tunisian phone number.",
+        "guestsInvalid": "Guests must be at least 1.",
+        "bedroomsInvalid": "Enter a valid number of bedrooms.",
+        "bathroomsInvalid": "Enter a valid number of bathrooms.",
+        "photosTooFew": "Add at least 5 photos.",
+        "photosTooMany": "Remove some photos — 30 max.",
+        "cityRequired": "Add a city.",
+        "addressRequired": "Add an address.",
+        "addressTooLong": "Address is too long.",
+        "pinRequired": "Drop a pin on the map.",
+        "pinOutsideTunisia": "Pick a location inside Tunisia.",
+        "instructionsTooLong": "Instructions are too long.",
+        "pricingModelRequired": "Choose a pricing model.",
+        "priceRequired": "Enter a valid price.",
+        "minNightsInvalid": "Minimum nights must be at least 1.",
+        "discountInvalid": "Discount must be between 0 and 100.",
+        "feeInvalid": "Fee can't be negative.",
+        "paymentMethodRequired": "Pick at least one payment method.",
+        "advanceInvalid": "Advance must be between 0 and 100."
+      }
+    },
     "layout": {
       "agenciesTitle": "Agencies only",
       "agenciesBody": "This dashboard is for real-estate agencies. If you're looking for a home, use the Nesty mobile app instead.",
@@ -491,7 +667,8 @@
       "cityRequired": "Add a city or area.",
       "listingNotFound": "Listing not found.",
       "invalidPrice": "Enter a valid price.",
-      "reservationNotFound": "Reservation not found."
+      "reservationNotFound": "Reservation not found.",
+      "fixErrors": "Please complete every step before finishing."
     },
     "support": {
       "title": "Support",

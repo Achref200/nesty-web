@@ -301,6 +301,8 @@
     "signOut": "Se déconnecter",
     "notifications": "Notifications",
     "account": "Paramètres du compte",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
     "overview": {
       "welcome": "Bon retour, <b>{name}</b>.",
       "pendingRequests": "Demandes en attente",
@@ -345,7 +347,9 @@
       "tourRequests": "Demandes de visite",
       "saveRate": "Taux d'enregistrement",
       "bookings": "Réservations et visites",
-      "noRequests": "Aucune demande pour ce bien pour l'instant."
+      "noRequests": "Aucune demande pour ce bien pour l'instant.",
+      "draft": "Brouillon",
+      "editListing": "Modifier l'annonce"
     },
     "reservation": {
       "guest": "voyageur",
@@ -430,11 +434,16 @@
       "hintEditable": "Importez depuis votre ordinateur — la première photo est la couverture, toutes les photos alimentent la visite 3D.",
       "hintLocked": "Les photos sont verrouillées en mode consultation. Passez en mode édition pour ajouter, supprimer ou réorganiser en réimportant.",
       "failed": "Échec de l'import.",
-      "photoAlt": "Photo {n}"
+      "photoAlt": "Photo {n}",
+      "tooMany": "{max} photos maximum.",
+      "badFormat": "Utilisez des images JPG, PNG ou WebP.",
+      "moveLeft": "Déplacer avant",
+      "moveRight": "Déplacer après"
     },
     "location": {
       "pinned": "Épinglé à {lat}, {lng}",
-      "tapToPin": "Touchez la carte pour placer le repère exact de ce bien."
+      "tapToPin": "Touchez la carte pour placer le repère exact de ce bien.",
+      "outsideTunisia": "Choisissez un emplacement en Tunisie."
     },
     "newListing": {
       "back": "Retour aux annonces",
@@ -473,6 +482,173 @@
       "publishing": "Publication",
       "publish": "Publier l'annonce"
     },
+    "wizard": {
+      "back": "Retour",
+      "next": "Suivant",
+      "cancel": "Annuler",
+      "saveDraft": "Enregistrer le brouillon",
+      "finish": "Terminer",
+      "finishing": "Enregistrement",
+      "stepOf": "Étape {current} sur {total}",
+      "draftSaved": "Brouillon enregistré",
+      "finished": "Annonce enregistrée comme brouillon",
+      "fixStep": "Corrigez les champs en surbrillance pour continuer.",
+      "fixAll": "Certaines étapes nécessitent encore votre attention.",
+      "restored": "Brouillon non enregistré restauré.",
+      "steps": {
+        "general": "Informations générales",
+        "photos": "Photos",
+        "location": "Localisation",
+        "amenities": "Équipements et règles",
+        "pricing": "Tarifs et conditions",
+        "review": "Vérification"
+      },
+      "general": {
+        "title": "Titre de l'annonce",
+        "titlePlaceholder": "Appartement lumineux vue mer à La Marsa",
+        "propertyType": "Type de bien",
+        "phone": "Numéro de téléphone du responsable",
+        "phonePlaceholder": "+216 20 000 000",
+        "maxGuests": "Voyageurs max",
+        "bedrooms": "Chambres",
+        "bathrooms": "Salles de bain",
+        "description": "Description",
+        "descriptionPlaceholder": "Ce qui rend ce lieu spécial…"
+      },
+      "photos": {
+        "heading": "Ajoutez vos photos",
+        "hint": "Importez {min} à {max} photos. La première est la couverture — réorganisez avec les flèches.",
+        "count": "{n} ajoutée(s) · {min} minimum requis"
+      },
+      "location": {
+        "city": "Ville",
+        "cityPlaceholder": "Tunis",
+        "district": "Quartier (facultatif)",
+        "districtPlaceholder": "La Marsa",
+        "address": "Adresse",
+        "addressPlaceholder": "Rue du Lac, Les Berges du Lac",
+        "pinHeading": "Placez la localisation exacte"
+      },
+      "amenities": {
+        "heading": "Équipements",
+        "selectAll": "Tout sélectionner",
+        "clearAll": "Effacer",
+        "tagsHeading": "Étiquettes",
+        "rulesHeading": "Règlement intérieur",
+        "pets": "Animaux autorisés",
+        "smoking": "Fumeur autorisé",
+        "party": "Fêtes autorisées",
+        "instructions": "Instructions supplémentaires",
+        "instructionsPlaceholder": "Ce que les voyageurs doivent savoir…"
+      },
+      "pricing": {
+        "model": "Modèle de tarification",
+        "amount": "Prix (TND)",
+        "minNights": "Nuits minimum",
+        "discount": "Remise longue durée (%)",
+        "extraFee": "Frais supplémentaires (TND)",
+        "cancellation": "Politique d'annulation",
+        "paymentMethods": "Moyens de paiement acceptés",
+        "paymentPolicy": "Politique de paiement",
+        "advance": "Acompte (%)",
+        "advanceHint": "Part du total perçue à l'avance."
+      },
+      "review": {
+        "edit": "Modifier",
+        "gallery": "Galerie",
+        "general": "Informations générales",
+        "amenities": "Équipements",
+        "location": "Localisation",
+        "pricing": "Tarifs"
+      },
+      "opt": {
+        "property": {
+          "apartment": "Appartement",
+          "villa": "Villa",
+          "house": "Maison",
+          "studio": "Studio",
+          "room": "Chambre",
+          "riad": "Riad",
+          "other": "Autre"
+        },
+        "amenity": {
+          "wifi": "WiFi",
+          "ac": "Climatisation",
+          "heating": "Chauffage",
+          "hotWater": "Eau chaude",
+          "kitchen": "Cuisine équipée",
+          "fridge": "Réfrigérateur",
+          "washer": "Machine à laver",
+          "tv": "Télévision",
+          "parking": "Parking",
+          "pool": "Piscine",
+          "balcony": "Balcon",
+          "garden": "Jardin",
+          "elevator": "Ascenseur",
+          "babyBed": "Lit bébé",
+          "workspace": "Espace de travail"
+        },
+        "tag": {
+          "seaView": "Vue mer",
+          "beachfront": "Bord de mer",
+          "cityCenter": "Centre-ville",
+          "quietArea": "Quartier calme",
+          "nearBeach": "Proche plage",
+          "nearShops": "Proche commerces",
+          "luxury": "Luxe",
+          "family": "Famille",
+          "romantic": "Romantique",
+          "remoteWork": "Télétravail",
+          "nature": "Nature",
+          "authenticTunisian": "Authentique tunisien"
+        },
+        "pricingModel": {
+          "night": "Par nuit",
+          "week": "Par semaine",
+          "month": "Par mois"
+        },
+        "payMethod": {
+          "cash": "Espèces",
+          "card": "Carte",
+          "bankTransfer": "Virement bancaire"
+        },
+        "payPolicy": {
+          "mandatoryAdvance": "Acompte obligatoire",
+          "optionalAdvance": "Acompte facultatif"
+        },
+        "cancellation": {
+          "flexible": "Flexible",
+          "moderate": "Modérée",
+          "strict": "Stricte"
+        }
+      },
+      "err": {
+        "titleRequired": "Donnez un titre à votre bien.",
+        "titleTooLong": "Le titre est trop long.",
+        "descriptionTooLong": "La description est trop longue.",
+        "propertyTypeRequired": "Choisissez un type de bien.",
+        "phoneRequired": "Ajoutez un numéro de téléphone.",
+        "phoneInvalid": "Saisissez un numéro tunisien valide.",
+        "guestsInvalid": "Au moins 1 voyageur.",
+        "bedroomsInvalid": "Nombre de chambres invalide.",
+        "bathroomsInvalid": "Nombre de salles de bain invalide.",
+        "photosTooFew": "Ajoutez au moins 5 photos.",
+        "photosTooMany": "Retirez des photos — 30 maximum.",
+        "cityRequired": "Ajoutez une ville.",
+        "addressRequired": "Ajoutez une adresse.",
+        "addressTooLong": "L'adresse est trop longue.",
+        "pinRequired": "Placez un repère sur la carte.",
+        "pinOutsideTunisia": "Choisissez un emplacement en Tunisie.",
+        "instructionsTooLong": "Les instructions sont trop longues.",
+        "pricingModelRequired": "Choisissez un modèle de tarification.",
+        "priceRequired": "Saisissez un prix valide.",
+        "minNightsInvalid": "Au moins 1 nuit minimum.",
+        "discountInvalid": "La remise doit être entre 0 et 100.",
+        "feeInvalid": "Les frais ne peuvent pas être négatifs.",
+        "paymentMethodRequired": "Choisissez au moins un moyen de paiement.",
+        "advanceInvalid": "L'acompte doit être entre 0 et 100."
+      }
+    },
     "layout": {
       "agenciesTitle": "Agences uniquement",
       "agenciesBody": "Ce tableau de bord est destiné aux agences immobilières. Si vous cherchez un logement, utilisez plutôt l'application mobile Nesty.",
@@ -491,7 +667,8 @@
       "cityRequired": "Ajoutez une ville ou un quartier.",
       "listingNotFound": "Bien introuvable.",
       "invalidPrice": "Saisissez un prix valide.",
-      "reservationNotFound": "Réservation introuvable."
+      "reservationNotFound": "Réservation introuvable.",
+      "fixErrors": "Veuillez compléter chaque étape avant de terminer."
     },
     "support": {
       "title": "Assistance",

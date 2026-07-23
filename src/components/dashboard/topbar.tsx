@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Bell } from "lucide-react";
 import { LanguageToggle } from "@/components/landing/language-toggle";
 import { Avatar } from "@/components/dashboard/avatar";
+import { MobileNav } from "@/components/dashboard/mobile-nav";
 
 /** Maps a dashboard pathname to its `dashboard.nav.*` translation key. */
 function titleKey(pathname: string): string {
@@ -30,11 +31,11 @@ export function Topbar({
   const t = useTranslations("dashboard");
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-separator bg-paper/80 px-6 backdrop-blur-md">
-      <h1 className="font-display text-xl font-bold tracking-tight">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-separator bg-paper/80 px-4 backdrop-blur-md sm:px-6">
+      <MobileNav pending={pending} />
+      <h1 className="min-w-0 flex-1 truncate font-display text-lg font-bold tracking-tight sm:text-xl">
         {t(`nav.${titleKey(pathname)}`)}
       </h1>
-      <div className="flex-1" />
       <LanguageToggle variant="light" />
       <button
         type="button"

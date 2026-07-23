@@ -3,27 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import {
-  LayoutGrid,
-  Building2,
-  CalendarDays,
-  Inbox,
-  LifeBuoy,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/lib/actions/auth";
-
-const NAV = [
-  { href: "/dashboard", key: "overview", icon: LayoutGrid },
-  { href: "/dashboard/listings", key: "listings", icon: Building2 },
-  { href: "/dashboard/calendar", key: "calendar", icon: CalendarDays },
-  { href: "/dashboard/requests", key: "requests", icon: Inbox },
-  { href: "/dashboard/support", key: "support", icon: LifeBuoy },
-  { href: "/dashboard/settings", key: "settings", icon: Settings },
-] as const;
+import { DASHBOARD_NAV } from "./dashboard-nav";
 
 export function Sidebar({ pending = 0 }: { pending?: number }) {
   const pathname = usePathname();
@@ -36,7 +20,7 @@ export function Sidebar({ pending = 0 }: { pending?: number }) {
       </div>
 
       <nav className="mt-8 flex flex-1 flex-col gap-1">
-        {NAV.map((item) => {
+        {DASHBOARD_NAV.map((item) => {
           const active =
             item.href === "/dashboard"
               ? pathname === item.href

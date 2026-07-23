@@ -10,9 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   deleteListing,
-  setListingStatus,
+  disableListing,
+  publishListing,
+  reactivateListing,
   updateListingPrice,
 } from "@/lib/actions/listings";
+import type { ListingStatus } from "@/lib/listings/schema";
 
 export function ListingControls({
   id,
@@ -21,13 +24,16 @@ export function ListingControls({
 }: {
   id: string;
   price: number;
-  status: "active" | "hidden";
+  status: ListingStatus;
 }) {
   const router = useRouter();
   const t = useTranslations("dashboard.controls");
   const [value, setValue] = useState(String(price));
   const [confirming, setConfirming] = useState(false);
   const [pending, startTransition] = useTransition();
+
+  const isPublished = status === "published";
+  const isDisabled = status === "disabled";
 
   function savePrice() {
     const next = Number(value);
@@ -47,13 +53,16 @@ export function ListingControls({
   }
 
   function toggleStatus() {
-    const next = status === "active" ? "hidden" : "active";
     startTransition(async () => {
-      const res = await setListingStatus(id, next);
+      const res = isPublished
+        ? await disableListing(id)
+        : isDisabled
+          ? await reactivateListing(id)
+          : await publishListing(id);
       if (res.error) {
         toast.error(res.error);
       } else {
-        toast.success(next === "hidden" ? t("toastHidden") : t("toastLive"));
+        toast.success(isPublished ? t("toastHidden") : t("toastLive"));
         router.refresh();
       }
     });
@@ -104,13 +113,11 @@ export function ListingControls({
         <div className="min-w-0 flex-1">
           <p className="font-display text-[15px] font-bold">{t("visibility")}</p>
           <p className="mt-0.5 text-[13px] text-muted">
-            {status === "active"
-              ? t("visibilityLive")
-              : t("visibilityHidden")}
+            {isPublished ? t("visibilityLive") : t("visibilityHidden")}
           </p>
         </div>
         <Button variant="outline" onClick={toggleStatus} disabled={pending}>
-          {status === "active" ? (
+          {isPublished ? (
             <>
               <EyeOff className="h-4 w-4" /> {t("hide")}
             </>

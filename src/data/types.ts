@@ -1,5 +1,13 @@
 /** Domain types shared across the web app — mirrors the mobile app's model. */
 
+import type {
+  BookingConditions,
+  HouseRules,
+  ListingStatus,
+  Pricing,
+  PropertyType,
+} from "@/lib/listings/schema";
+
 export type ListingType = "entirePlace" | "privateRoom" | "sharedRoom";
 
 export type ListingState = "available" | "reserved";
@@ -30,11 +38,22 @@ export interface Listing {
   state: ListingState;
   latitude: number | null;
   longitude: number | null;
-  status: "active" | "hidden";
+  status: ListingStatus;
   tags: string[];
   views: number;
   saves: number;
   tours: number;
+  // Host Listing Management wizard fields (additive; null when pre-migration).
+  propertyType: PropertyType | null;
+  maxGuests: number;
+  district: string | null;
+  contactPhone: string | null;
+  description: string | null;
+  address: string | null;
+  amenities: string[];
+  rules: HouseRules | null;
+  pricing: Pricing | null;
+  conditions: BookingConditions | null;
 }
 
 export type ReservationType = "visit" | "stay";

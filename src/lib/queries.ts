@@ -9,6 +9,13 @@ import type {
   ReservationStatus,
   ReservationType,
 } from "@/data/types";
+import {
+  normalizeStatus,
+  type BookingConditions,
+  type HouseRules,
+  type Pricing,
+  type PropertyType,
+} from "@/lib/listings/schema";
 
 type ListingRow = Database["public"]["Tables"]["listings"]["Row"];
 type ReservationRow = Database["public"]["Tables"]["reservations"]["Row"] & {
@@ -58,6 +65,9 @@ function mapListing(
   reserved: boolean,
   stats: ListingStats,
 ): Listing {
+  const rules = (row.house_rules ?? null) as HouseRules | null;
+  const pricing = (row.pricing ?? null) as Pricing | null;
+  const conditions = (row.booking_conditions ?? null) as BookingConditions | null;
   return {
     id: row.id,
     hostId: row.host_id,
@@ -77,11 +87,21 @@ function mapListing(
     state: reserved ? "reserved" : "available",
     latitude: row.latitude ?? null,
     longitude: row.longitude ?? null,
-    status: row.status,
+    status: normalizeStatus(row.status),
     tags: row.tags ?? [],
     views: stats.views,
     saves: stats.saves,
     tours: stats.tours,
+    propertyType: (row.property_type as PropertyType | null) ?? null,
+    maxGuests: row.max_guests ?? 0,
+    district: row.district ?? null,
+    contactPhone: row.contact_phone ?? null,
+    description: row.description ?? null,
+    address: row.address ?? null,
+    amenities: row.amenities ?? [],
+    rules: rules && Object.keys(rules).length ? rules : null,
+    pricing: pricing && Object.keys(pricing).length ? pricing : null,
+    conditions: conditions && Object.keys(conditions).length ? conditions : null,
   };
 }
 

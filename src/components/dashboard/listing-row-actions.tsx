@@ -6,7 +6,13 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { MoreHorizontal, Pencil, Eye, EyeOff, Trash2 } from "lucide-react";
-import { setListingStatus, deleteListing } from "@/lib/actions/listings";
+import {
+  deleteListing,
+  disableListing,
+  publishListing,
+  reactivateListing,
+} from "@/lib/actions/listings";
+import type { ListingStatus } from "@/lib/listings/schema";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,22 +35,30 @@ import { cn } from "@/lib/utils";
 /** Manage menu (edit / hide / delete) for a listing row — shadcn primitives. */
 export function ListingRowActions({
   id,
-  hidden,
+  status,
 }: {
   id: string;
-  hidden: boolean;
+  status: ListingStatus;
 }) {
   const [pending, start] = useTransition();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
   const t = useTranslations("dashboard.rowActions");
 
+  const isPublished = status === "published";
+  const isDisabled = status === "disabled";
+  const editable = status === "draft" || status === "completed";
+
   function toggleHide() {
     start(async () => {
-      const res = await setListingStatus(id, hidden ? "active" : "hidden");
+      const res = isPublished
+        ? await disableListing(id)
+        : isDisabled
+          ? await reactivateListing(id)
+          : await publishListing(id);
       if (res.error) toast.error(res.error);
       else {
-        toast.success(hidden ? t("toastLive") : t("toastHidden"));
+        toast.success(isPublished ? t("toastHidden") : t("toastLive"));
         router.refresh();
       }
     });
@@ -79,18 +93,24 @@ export function ListingRowActions({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild>
-            <Link href={`/dashboard/listings/${id}`}>
+            <Link
+              href={
+                editable
+                  ? `/dashboard/listings/${id}/edit`
+                  : `/dashboard/listings/${id}`
+              }
+            >
               <Pencil className="h-4 w-4" /> {t("edit")}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={toggleHide}>
-            {hidden ? (
+            {isPublished ? (
               <>
-                <Eye className="h-4 w-4" /> {t("publish")}
+                <EyeOff className="h-4 w-4" /> {t("hide")}
               </>
             ) : (
               <>
-                <EyeOff className="h-4 w-4" /> {t("hide")}
+                <Eye className="h-4 w-4" /> {t("publish")}
               </>
             )}
           </DropdownMenuItem>

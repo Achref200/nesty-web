@@ -10,7 +10,9 @@ import type { Listing } from "@/data/types";
 
 export function ListingItem({ listing }: { listing: Listing }) {
   const t = useTranslations("dashboard.listing");
-  const hidden = listing.status === "hidden";
+  const isDraft = listing.status === "draft" || listing.status === "completed";
+  const isDisabled = listing.status === "disabled";
+  const dim = listing.status !== "published";
   return (
     <Card className="flex items-center gap-4 p-3 transition-colors hover:border-ink/20">
       <Link
@@ -25,7 +27,7 @@ export function ListingItem({ listing }: { listing: Listing }) {
               fill
               sizes="80px"
               unoptimized
-              className={hidden ? "object-cover opacity-40" : "object-cover"}
+              className={dim ? "object-cover opacity-40" : "object-cover"}
             />
           ) : (
             <Building2 className="h-6 w-6 text-muted-soft" />
@@ -62,14 +64,16 @@ export function ListingItem({ listing }: { listing: Listing }) {
           <Badge variant="outline">
             {listing.rentalTerm === "shortTerm" ? t("termShort") : t("termLong")}
           </Badge>
-          {hidden ? (
+          {isDraft ? (
+            <Badge variant="outline">{t("draft")}</Badge>
+          ) : isDisabled ? (
             <Badge variant="soft">{t("hidden")}</Badge>
           ) : (
             <Badge variant={listing.state === "reserved" ? "solid" : "soft"}>
               {listing.state === "reserved" ? t("reserved") : t("available")}
             </Badge>
           )}
-          <ListingRowActions id={listing.id} hidden={hidden} />
+          <ListingRowActions id={listing.id} status={listing.status} />
         </div>
       </div>
     </Card>
