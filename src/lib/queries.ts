@@ -11,6 +11,7 @@ import type {
 } from "@/data/types";
 import {
   normalizeStatus,
+  PUBLIC_VISIBLE_STATUSES,
   type BookingConditions,
   type HouseRules,
   type Pricing,
@@ -369,7 +370,7 @@ export async function getPublicListings(
   let q = supabase
     .from("listings")
     .select(PUBLIC_COLUMNS, { count: "exact" })
-    .eq("status", "active");
+    .in("status", PUBLIC_VISIBLE_STATUSES);
 
   if (query.city && query.city !== "all") q = q.eq("city", query.city);
   if (query.term && query.term !== "all") {
@@ -402,11 +403,15 @@ export async function getListingFacets(): Promise<ListingFacets> {
   if (!isSupabaseConfigured) return { cities: [], maxPrice: 0 };
   const supabase = createClient();
   const [citiesRes, priceRes] = await Promise.all([
-    supabase.from("listings").select("city").eq("status", "active").limit(1000),
+    supabase
+      .from("listings")
+      .select("city")
+      .in("status", PUBLIC_VISIBLE_STATUSES)
+      .limit(1000),
     supabase
       .from("listings")
       .select("price_per_month")
-      .eq("status", "active")
+      .in("status", PUBLIC_VISIBLE_STATUSES)
       .order("price_per_month", { ascending: false })
       .limit(1),
   ]);
@@ -519,6 +524,10 @@ export interface ReservationFilters {
   listingId?: string;
   search?: string;
   sort?: "recent" | "checkin" | "created";
+  /** Inclusive `YYYY-MM-DD` lower bound on the stay's start date. */
+  dateFrom?: string;
+  /** Inclusive `YYYY-MM-DD` upper bound on the stay's start date. */
+  dateTo?: string;
   page?: number;
   pageSize?: number;
 }
@@ -605,6 +614,16 @@ export async function getReservations(
   if (filters.search?.trim()) {
     const term = `%${filters.search.trim()}%`;
     q = q.or(`guest_name.ilike.${term},reference.ilike.${term}`);
+  }
+  // Date window on the stay's start (#21). `dateTo` is inclusive, so compare
+  // against the following midnight rather than the day itself.
+  if (filters.dateFrom) {
+    q = q.gte("start_at", `${filters.dateFrom}T00:00:00.000Z`);
+  }
+  if (filters.dateTo) {
+    const next = new Date(`${filters.dateTo}T00:00:00.000Z`);
+    next.setUTCDate(next.getUTCDate() + 1);
+    q = q.lt("start_at", next.toISOString());
   }
 
   const sort = filters.sort ?? "recent";

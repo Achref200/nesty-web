@@ -74,12 +74,17 @@ export async function confirmReservation(id: string): Promise<ActionResult> {
   return { ok: true };
 }
 
-/** Reject a pending request — immediately releases the soft-locked dates. */
+/**
+ * Reject a pending request — immediately releases the soft-locked dates.
+ * A reason is mandatory: it is written to the immutable timeline and relayed to
+ * the seeker, so a decline is never unexplained.
+ */
 export async function rejectReservation(
   id: string,
-  reason?: string,
+  reason: string,
 ): Promise<ActionResult> {
   const t = await getTranslations("dashboard.actions");
+  if (!reason?.trim()) return { error: t("rejectReasonRequired") };
   const supabase = createClient();
   const owned = await ownedReservation(supabase, id);
   if (!owned) return { error: t("reservationNotFound") };
@@ -87,7 +92,7 @@ export async function rejectReservation(
 
   const { error } = await supabase
     .from("reservations")
-    .update({ status: "rejected", cancellation_reason: reason?.trim() || null })
+    .update({ status: "rejected", cancellation_reason: reason.trim() })
     .eq("id", id);
   if (error) return { error: describe(error.message, t) };
   revalidateReservations(id);

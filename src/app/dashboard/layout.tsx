@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Database, ShieldAlert } from "lucide-react";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { Topbar } from "@/components/dashboard/topbar";
+import { RealtimeRefresh } from "@/components/dashboard/realtime-refresh";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { getDashboardData } from "@/lib/queries";
@@ -42,6 +43,8 @@ export default async function DashboardLayout({
     <div id="nesty-dash" suppressHydrationWarning className="surface-aura flex min-h-screen">
       {/* Apply the agency's saved palette before paint to avoid a flash. */}
       <script dangerouslySetInnerHTML={{ __html: DASH_THEME_SCRIPT }} />
+      {/* Re-renders the current route whenever this agency's rows change. */}
+      <RealtimeRefresh />
       <Sidebar pending={data.pending} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar pending={data.pending} initial={initial} avatarUrl={data.avatarUrl} />

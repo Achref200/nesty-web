@@ -37,6 +37,17 @@ export function isEditable(status: ListingStatus): boolean {
   return status === "draft" || status === "completed";
 }
 
+/**
+ * Statuses a traveller-facing query treats as live.
+ *
+ * The lifecycle migration renamed `active` → `published`, but rows written
+ * before it ran (and the legacy fallback path in `actions/listings.ts`, which
+ * downgrades the status when the migration hasn't been applied) can still hold
+ * `active`. Querying either value keeps both schema generations visible —
+ * filtering on one alone silently empties the public catalog.
+ */
+export const PUBLIC_VISIBLE_STATUSES: readonly string[] = ["published", "active"];
+
 /* ─────────────────────────── Field options ─────────────────────────── */
 
 export const PROPERTY_TYPES = [

@@ -286,7 +286,8 @@
     "language": "Langue",
     "errors": {
       "invalidEmail": "Saisissez une adresse e-mail valide.",
-      "enterPassword": "Saisissez votre mot de passe."
+      "enterPassword": "Saisissez votre mot de passe.",
+      "invalidCredentials": "Identifiants incorrects, ou ce compte agence n’est pas actif. Contactez Nesty si le problème persiste."
     }
   },
   "dashboard": {
@@ -387,6 +388,9 @@
       "filterStatus": "Filtrer par statut",
       "filterListing": "Filtrer par annonce",
       "allListings": "Toutes les annonces",
+      "filterDateFrom": "Séjours à partir du",
+      "filterDateTo": "Séjours jusqu’au",
+      "clearDates": "Effacer les dates",
       "sort": "Trier",
       "sort_recent": "Plus récentes",
       "sort_checkin": "Date d’arrivée",
@@ -494,6 +498,7 @@
         "signedOut": "Vous devez être connecté.",
         "reservationRequired": "Réservation introuvable.",
         "descriptionRequired": "Décrivez ce qui s’est passé.",
+        "damageBeforeStay": "Un dommage ne peut être déclaré qu’à partir du début du séjour.",
         "migrationNeeded": "Les incidents ne sont pas encore disponibles. Appliquez la dernière migration Supabase (reservation_module)."
       }
     },
@@ -798,6 +803,8 @@
       "notConfirmed": "Seule une réservation confirmée peut être modifiée ici.",
       "notModifiable": "Cette réservation ne peut plus être modifiée.",
       "reasonRequired": "Un motif d’annulation est requis.",
+      "rejectReasonRequired": "Indiquez un motif de refus — le voyageur en sera informé.",
+      "listingNotEditable": "Cette annonce est publiée et ne peut plus être modifiée. Désactivez-la d’abord.",
       "invalidRange": "Choisissez une plage de dates valide.",
       "fixErrors": "Veuillez compléter chaque étape avant de terminer."
     },

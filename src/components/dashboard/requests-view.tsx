@@ -48,6 +48,8 @@ export function RequestsView({
     listingId: string;
     search: string;
     sort: string;
+    dateFrom: string;
+    dateTo: string;
   };
 }) {
   const t = useTranslations("dashboard.requests");
@@ -129,6 +131,33 @@ export function RequestsView({
               </option>
             ))}
           </select>
+
+          {/* Stay-date window (#21). Empty = unbounded on that side. */}
+          <input
+            type="date"
+            aria-label={t("filterDateFrom")}
+            className={selectClass}
+            value={filters.dateFrom}
+            max={filters.dateTo || undefined}
+            onChange={(e) => setParam({ from: e.target.value })}
+          />
+          <input
+            type="date"
+            aria-label={t("filterDateTo")}
+            className={selectClass}
+            value={filters.dateTo}
+            min={filters.dateFrom || undefined}
+            onChange={(e) => setParam({ to: e.target.value })}
+          />
+          {(filters.dateFrom || filters.dateTo) && (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setParam({ from: null, to: null })}
+            >
+              {t("clearDates")}
+            </Button>
+          )}
         </div>
       </div>
 

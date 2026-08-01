@@ -286,7 +286,8 @@
     "language": "Language",
     "errors": {
       "invalidEmail": "Enter a valid email address.",
-      "enterPassword": "Enter your password."
+      "enterPassword": "Enter your password.",
+      "invalidCredentials": "Those credentials didn't match, or this agency account isn't active. Contact Nesty if this persists."
     }
   },
   "dashboard": {
@@ -387,6 +388,9 @@
       "filterStatus": "Filter by status",
       "filterListing": "Filter by listing",
       "allListings": "All listings",
+      "filterDateFrom": "Stays from",
+      "filterDateTo": "Stays until",
+      "clearDates": "Clear dates",
       "sort": "Sort",
       "sort_recent": "Newest first",
       "sort_checkin": "Check-in date",
@@ -494,6 +498,7 @@
         "signedOut": "You need to be signed in.",
         "reservationRequired": "Reservation not found.",
         "descriptionRequired": "Describe what happened.",
+        "damageBeforeStay": "Damage can only be reported once the stay has started.",
         "migrationNeeded": "Incidents aren’t available yet. Apply the latest Supabase migration (reservation_module)."
       }
     },
@@ -798,6 +803,8 @@
       "notConfirmed": "Only a confirmed reservation can be changed here.",
       "notModifiable": "This reservation can no longer be modified.",
       "reasonRequired": "A cancellation reason is required.",
+      "rejectReasonRequired": "Give a reason for declining — the traveller will be told.",
+      "listingNotEditable": "This listing is published and can no longer be edited. Deactivate it first.",
       "invalidRange": "Choose a valid date range.",
       "fixErrors": "Please complete every step before finishing."
     },

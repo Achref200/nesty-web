@@ -28,21 +28,12 @@ export async function signIn(
   const supabase = createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
-    // Surface the real cause so provisioning issues are easy to diagnose.
-    const msg = error.message.toLowerCase();
-    if (msg.includes("email not confirmed")) {
-      return {
-        error:
-          "This account exists but its email isn't confirmed. In Supabase → Authentication → Users, open the user and confirm it (or enable Auto Confirm).",
-      };
-    }
-    if (msg.includes("invalid login credentials")) {
-      return {
-        error:
-          "No account matched that email/password. Create the agency user in Supabase (Add user → Auto Confirm) with these exact values.",
-      };
-    }
-    return { error: error.message };
+    // One generic message for every failure mode (#19). Distinguishing "wrong
+    // password" from "no such account" — or echoing Supabase's raw text — leaks
+    // whether an agency email exists and exposes internal provisioning detail
+    // on a public page. The real cause goes to the server log instead.
+    console.error("[auth] agency sign-in failed:", error.message);
+    return { error: t("invalidCredentials") };
   }
 
   redirect("/dashboard");

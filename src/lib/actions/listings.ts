@@ -7,7 +7,9 @@ import { createClient } from "@/lib/supabase/server";
 import { canModifyListing, type ReservationLike } from "@/lib/availability";
 import type { Database } from "@/types/database";
 import {
+  isEditable,
   mergeDraft,
+  normalizeStatus,
   validateAll,
   type ListingDraft,
   type ListingStatus,
@@ -179,6 +181,12 @@ async function persist(
   if (draft.id) {
     const owned = await ownedListing(draft.id);
     if (owned.error) return { error: owned.error };
+    // Business rule (#15): only a listing still in preparation may be edited.
+    // The edit route already redirects, but the guard has to live here too —
+    // a server action is a public endpoint and the route check is bypassable.
+    if (owned.status && !isEditable(owned.status)) {
+      return { error: t("listingNotEditable") };
+    }
     const { error } = await updateRow(supabase, draft.id, row);
     if (error) return { error };
     revalidateListing(draft.id);
@@ -211,7 +219,32 @@ export async function submitListing(
     const t = await getTranslations("dashboard.actions");
     return { error: t("fixErrors") };
   }
-  return persist(draft, "completed", 6);
+  const result = await persist(draft, "completed", 6);
+  if (result.ok && result.id) await notifyListingSubmitted(result.id, draft.title);
+  return result;
+}
+
+/**
+ * Confirm the submission in the host's notification inbox (#12). Best-effort:
+ * the listing is already saved, so a failure here (e.g. the notifications table
+ * predates the reservation migration) must never fail the submit.
+ */
+async function notifyListingSubmitted(listingId: string, title: string) {
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+    await supabase.from("notifications").insert({
+      user_id: user.id,
+      type: "listing_submitted",
+      payload: { listing_id: listingId, title: title.trim() },
+    });
+    revalidatePath("/dashboard/notifications");
+  } catch {
+    // Non-fatal — see doc comment.
+  }
 }
 
 async function ownedListing(id: string) {
@@ -220,15 +253,23 @@ async function ownedListing(id: string) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { supabase, error: t("signedOut") as string };
+  if (!user) {
+    return { supabase, error: t("signedOut") as string, status: undefined };
+  }
   const { data } = await supabase
     .from("listings")
-    .select("id")
+    .select("id, status")
     .eq("id", id)
     .eq("host_id", user.id)
     .maybeSingle();
-  if (!data) return { supabase, error: t("listingNotFound") as string };
-  return { supabase, error: undefined };
+  if (!data) {
+    return { supabase, error: t("listingNotFound") as string, status: undefined };
+  }
+  return {
+    supabase,
+    error: undefined,
+    status: normalizeStatus((data as { status: string | null }).status),
+  };
 }
 
 /** Pending & confirmed reservations for a listing, as availability inputs. */

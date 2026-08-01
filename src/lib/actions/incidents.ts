@@ -7,6 +7,9 @@ import { INCIDENT_TYPES, type IncidentType } from "@/lib/incidents-config";
 
 export type CreateIncidentState = { error?: string; ok?: boolean };
 
+/** Incident types that describe damage to the property itself (see #24). */
+const DAMAGE_TYPES: IncidentType[] = ["damage", "cleaning"];
+
 function pickType(value: FormDataEntryValue | null): IncidentType {
   const v = String(value ?? "");
   return (INCIDENT_TYPES as readonly string[]).includes(v)
@@ -46,11 +49,23 @@ export async function createIncident(
   // Ownership guard (RLS also enforces this).
   const { data: reservation } = await supabase
     .from("reservations")
-    .select("id")
+    .select("id, start_at")
     .eq("id", reservationId)
     .eq("host_id", user.id)
     .maybeSingle();
   if (!reservation) return { error: t("reservationRequired") };
+
+  // Business rule (#24): property damage can only be reported once the stay has
+  // actually begun — there is nothing to damage before check-in.
+  const type = pickType(formData.get("type"));
+  const startAt = (reservation as { start_at: string | null }).start_at;
+  if (
+    DAMAGE_TYPES.includes(type) &&
+    startAt &&
+    new Date(startAt).getTime() > Date.now()
+  ) {
+    return { error: t("damageBeforeStay") };
+  }
 
   const rawCost = String(formData.get("estimatedCost") ?? "").trim();
   const estimatedCost = rawCost ? Number(rawCost) : null;
@@ -58,7 +73,7 @@ export async function createIncident(
   const { error } = await supabase.from("reservation_incidents").insert({
     reservation_id: reservationId,
     reporter_id: user.id,
-    type: pickType(formData.get("type")),
+    type,
     description,
     occurred_on: occurredOn || new Date().toISOString().slice(0, 10),
     estimated_cost:

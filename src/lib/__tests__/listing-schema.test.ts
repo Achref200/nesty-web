@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   emptyDraft,
+  isEditable,
   isInTunisia,
   isValidPhone,
   normalizeStatus,
+  PUBLIC_VISIBLE_STATUSES,
   validateAll,
   validateGeneral,
   validateLocation,
@@ -108,6 +110,41 @@ describe("validateLocation", () => {
       longitude: 2.35,
     });
     expect(e.map).toBe("pinOutsideTunisia");
+  });
+});
+
+describe("PUBLIC_VISIBLE_STATUSES", () => {
+  // Regression guard: the lifecycle migration renamed `active` → `published`.
+  // A traveller-facing query that filters on only one of the two silently
+  // returns an empty catalog on the other schema generation.
+  it("covers both the lifecycle and the legacy live status", () => {
+    expect(PUBLIC_VISIBLE_STATUSES).toContain("published");
+    expect(PUBLIC_VISIBLE_STATUSES).toContain("active");
+  });
+
+  it("normalises every visible status to published", () => {
+    for (const s of PUBLIC_VISIBLE_STATUSES) {
+      expect(normalizeStatus(s)).toBe("published");
+    }
+  });
+
+  it("never exposes a status a host can still edit", () => {
+    for (const s of PUBLIC_VISIBLE_STATUSES) {
+      expect(isEditable(normalizeStatus(s))).toBe(false);
+    }
+  });
+});
+
+describe("isEditable", () => {
+  it("allows only listings still in preparation", () => {
+    expect(isEditable("draft")).toBe(true);
+    expect(isEditable("completed")).toBe(true);
+  });
+
+  it("blocks a published or disabled listing", () => {
+    expect(isEditable("published")).toBe(false);
+    expect(isEditable("disabled")).toBe(false);
+    expect(isEditable("deleted")).toBe(false);
   });
 });
 

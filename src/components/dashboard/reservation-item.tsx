@@ -114,7 +114,9 @@ export function ReservationItem({
 
   function submitReason() {
     const value = reason.trim();
-    if (isCancel && !value) {
+    // A reason is mandatory for both paths: cancelling a confirmed stay and
+    // declining a pending request (the seeker is told why in each case).
+    if (!value) {
       toast.error(t("reasonRequired"));
       return;
     }
