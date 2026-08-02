@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export type AuthState = { error?: string };
 
@@ -23,6 +24,13 @@ export async function signIn(
   }
   if (password.length < 1) {
     return { error: t("enterPassword") };
+  }
+
+  // /login renders without credentials, so this action is reachable before
+  // Supabase is configured. Say so plainly instead of throwing out of the
+  // client factory and showing an unhandled runtime error.
+  if (!isSupabaseConfigured) {
+    return { error: t("notConfigured") };
   }
 
   const supabase = createClient();

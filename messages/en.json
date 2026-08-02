@@ -80,7 +80,6 @@
     ]
   },
   "pillars": {
-    "eyebrow": "three surfaces, one idea",
     "title1": "Two apps for two people.",
     "title2": "One calendar that never lies.",
     "lead": "Nesty is not a CRM you glue to a website. It's a platform designed as one thing, split across the three places where real estate actually happens.",
@@ -132,20 +131,16 @@
   },
   "product": {
     "eyebrow": "the product",
-    "title1": "The workspace your agents open first,",
-    "title2": "and the app your renters keep on the home screen.",
     "lead": "One dashboard for every rental you manage. One app for every home a renter falls for. A single calendar that keeps nightly stays, monthly rentals and yearly leases in perfect sync."
   },
   "features": {
     "eyebrow": "the specifics",
-    "title1": "Six things Nesty does",
-    "title2": "the way you'd hope.",
     "shipped": "shipped",
     "items": [
       {
         "title": "Verified before published",
         "body": "Every address is checked against a real map, every photo is scanned for stock-image reuse, and every owner ID is manually reviewed before a rental ever appears in the app. No phantom flats, no bait pricing.",
-        "note": "Reviewed in under 24h, most within 4."
+        "note": "Nothing goes live without passing this."
       },
       {
         "title": "Browser-native 3D tours",
@@ -154,21 +149,21 @@
       },
       {
         "title": "Nightly & monthly, one calendar",
-        "body": "The workspace, the app and every agent's phone show the same reservation the same second. Short stays and long leases share one calendar — conflicts are impossible by design.",
+        "body": "The workspace, the app and every agent's phone show the same reservation the same second. Short stays and long leases share one calendar, and two bookings cannot overlap — the database itself refuses. You can block dates by hand too: repairs, an owner's own stay, a booking taken over the phone.",
         "note": "Realtime, not 'refresh to see'."
       },
       {
-        "title": "Requests with SLA timers",
-        "body": "Every visit request, booking or lease inquiry gets a countdown, a suggested reply, and a fallback assignee. If nobody answers in 30 minutes, it re-routes. Your response time stops depending on who happens to be on WhatsApp.",
-        "note": "Median response cut from 4h to 11min."
+        "title": "48 hours to answer, never longer",
+        "body": "A request holds the dates the moment it lands, and you have 48 hours to accept or decline. After that it expires on its own and the dates go back on sale — nothing sits stuck because nobody checked WhatsApp. Declining always asks for a reason, and the traveller receives it.",
+        "note": "The countdown is visible on both sides."
       },
       {
-        "title": "Roles for the whole team",
-        "body": "Owners see only their rentals. Agents see only their assignments. Managers see everything, plus a weekly digest of what moved. No more shared logins on a sticky note.",
-        "note": "Owner, agent, manager, viewer."
+        "title": "Incidents tracked, not forgotten",
+        "body": "Double booking, damage after a checkout, lost keys, a payment problem: report it from the reservation itself, with photos and an estimated cost. It goes to Nesty support, who move it through to resolution — and you follow the status without chasing anyone.",
+        "note": "Reported, under review, resolved, closed."
       },
       {
-        "title": "Offline-first mobile",
+        "title": "The app works when the network doesn't",
         "body": "The app remembers your last search, your saved rentals, and any 3D tour you opened — so a rider on the metro or a beach in Djerba can still browse the shortlist without a bar of signal.",
         "note": "Because 4G in Sidi Bou isn't magic."
       }
@@ -287,7 +282,8 @@
     "errors": {
       "invalidEmail": "Enter a valid email address.",
       "enterPassword": "Enter your password.",
-      "invalidCredentials": "Those credentials didn't match, or this agency account isn't active. Contact Nesty if this persists."
+      "invalidCredentials": "Those credentials didn't match, or this agency account isn't active. Contact Nesty if this persists.",
+      "notConfigured": "Sign-in isn't configured on this environment yet. Contact Nesty."
     }
   },
   "dashboard": {

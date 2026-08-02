@@ -174,6 +174,11 @@ export interface DashboardData {
 
 /** Everything the agency dashboard needs for the signed-in host. */
 export async function getDashboardData(): Promise<DashboardData | null> {
+  // The layout renders a "connect Supabase" screen when credentials are
+  // missing, but the page below it still runs and used to reach this line —
+  // `createClient()` throws on empty config, so the agency got the error
+  // boundary instead of the explanation. Return null and let the layout speak.
+  if (!isSupabaseConfigured) return null;
   const supabase = createClient();
   const {
     data: { user },
@@ -251,6 +256,7 @@ export interface Profile {
 
 /** The signed-in agency's editable profile (settings page). */
 export async function getProfile(): Promise<Profile | null> {
+  if (!isSupabaseConfigured) return null;
   const supabase = createClient();
   const {
     data: { user },
@@ -441,6 +447,7 @@ export interface ListingDetail {
 export async function getListingDetail(
   id: string,
 ): Promise<ListingDetail | null> {
+  if (!isSupabaseConfigured) return null;
   const supabase = createClient();
   const {
     data: { user },
@@ -566,6 +573,7 @@ export async function getReservations(
     counts: { ...EMPTY_COUNTS },
     listings: [],
   };
+  if (!isSupabaseConfigured) return empty;
   const supabase = createClient();
   const {
     data: { user },
@@ -658,6 +666,7 @@ export interface ReservationDetail {
 export async function getReservationDetail(
   id: string,
 ): Promise<ReservationDetail | null> {
+  if (!isSupabaseConfigured) return null;
   const supabase = createClient();
   const {
     data: { user },
@@ -709,6 +718,9 @@ export interface CalendarData {
 
 /** Reservations + manual blocks for the agency, feeding the availability engine. */
 export async function getCalendarData(): Promise<CalendarData> {
+  if (!isSupabaseConfigured) {
+    return { reservations: [], blocks: [], listings: [] };
+  }
   const supabase = createClient();
   const {
     data: { user },
@@ -748,6 +760,7 @@ export interface IncidentSummary extends ReservationIncident {
 
 /** Every incident the signed-in agency has filed, newest activity first. */
 export async function getAgencyIncidents(): Promise<IncidentSummary[]> {
+  if (!isSupabaseConfigured) return [];
   const supabase = createClient();
   const {
     data: { user },
@@ -785,6 +798,7 @@ export interface AppNotification {
 
 /** The signed-in user's most recent in-app notifications. */
 export async function getNotifications(): Promise<AppNotification[]> {
+  if (!isSupabaseConfigured) return [];
   const supabase = createClient();
   const {
     data: { user },
@@ -818,6 +832,7 @@ export async function getNotifications(): Promise<AppNotification[]> {
 
 /** Count of unread notifications for the signed-in user. */
 export async function getUnreadNotificationCount(): Promise<number> {
+  if (!isSupabaseConfigured) return 0;
   const supabase = createClient();
   const {
     data: { user },

@@ -48,12 +48,10 @@ export function Product() {
           <p className="text-[12px] uppercase tracking-[0.22em] text-white/40">
             {t("eyebrow")}
           </p>
-          <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-paper md:text-5xl">
-            {t("title1")}
-            <br />
-            <span className="text-white/50">{t("title2")}</span>
-          </h2>
-          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/55">
+          {/* Heading dropped per #6 — it repeated the pillars section almost
+              word for word. The lead reads as the opening line now, so it steps
+              up to heading scale and takes the spacing the h2 used to. */}
+          <p className="mt-4 max-w-xl font-display text-xl font-medium leading-relaxed text-white/70 md:text-2xl">
             {t("lead")}
           </p>
         </Reveal>

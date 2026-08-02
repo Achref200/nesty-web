@@ -30,10 +30,9 @@ export function Pillars() {
 
       <div className="mx-auto max-w-wide px-5 md:px-8">
         <Reveal className="max-w-2xl">
-          <p className="text-[12px] uppercase tracking-[0.22em] text-white/40">
-            {t("eyebrow")}
-          </p>
-          <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-paper md:text-5xl">
+          {/* Eyebrow dropped per #6 — it restated the section below it. The
+              heading now leads, so it carries no top margin. */}
+          <h2 className="font-display text-3xl font-semibold leading-tight tracking-tight text-paper md:text-5xl">
             {t("title1")}
             <br />
             <span className="text-white/50">{t("title2")}</span>

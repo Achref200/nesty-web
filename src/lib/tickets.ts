@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 import type {
   TicketSeverity,
   TicketStatus,
@@ -36,6 +37,7 @@ export interface TicketDetail extends TicketSummary {
 
 /** Tickets opened by the signed-in agency, most-recently-active first. */
 export async function getAgencyTickets(): Promise<TicketSummary[]> {
+  if (!isSupabaseConfigured) return [];
   const supabase = createClient();
   const {
     data: { user },
@@ -63,6 +65,7 @@ export async function getAgencyTickets(): Promise<TicketSummary[]> {
 
 /** A single ticket owned by the current agency, with its full conversation. */
 export async function getAgencyTicket(id: string): Promise<TicketDetail | null> {
+  if (!isSupabaseConfigured) return null;
   const supabase = createClient();
   const {
     data: { user },

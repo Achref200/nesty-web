@@ -80,7 +80,6 @@
     ]
   },
   "pillars": {
-    "eyebrow": "trois surfaces, une seule idée",
     "title1": "Deux applis pour deux personnes.",
     "title2": "Un calendrier qui ne ment jamais.",
     "lead": "Nesty n'est pas un CRM que l'on colle à un site web. C'est une plateforme pensée d'un seul tenant, répartie sur les trois endroits où l'immobilier se joue vraiment.",
@@ -132,20 +131,16 @@
   },
   "product": {
     "eyebrow": "le produit",
-    "title1": "L'espace de travail que vos agents ouvrent en premier,",
-    "title2": "et l'appli que vos locataires gardent sur l'écran d'accueil.",
     "lead": "Un seul tableau de bord pour chaque bien que vous gérez. Une seule appli pour chaque logement qui fait craquer un locataire. Un seul calendrier qui garde séjours à la nuit, locations au mois et baux à l'année parfaitement synchronisés."
   },
   "features": {
     "eyebrow": "les détails",
-    "title1": "Six choses que Nesty fait",
-    "title2": "comme vous l'espériez.",
     "shipped": "livré",
     "items": [
       {
         "title": "Vérifié avant publication",
         "body": "Chaque adresse est confrontée à une vraie carte, chaque photo est analysée pour repérer les images de banque, et chaque pièce d'identité de propriétaire est vérifiée manuellement avant qu'une location n'apparaisse dans l'appli. Pas d'appartements fantômes, pas de prix d'appât.",
-        "note": "Vérifié en moins de 24 h, la plupart en 4."
+        "note": "Aucune annonce ne part en ligne sans ce contrôle."
       },
       {
         "title": "Visites 3D natives dans le navigateur",
@@ -154,21 +149,21 @@
       },
       {
         "title": "À la nuit & au mois, un seul calendrier",
-        "body": "L'espace de travail, l'appli et le téléphone de chaque agent affichent la même réservation à la même seconde. Courts séjours et longs baux partagent un seul calendrier — les conflits sont impossibles par conception.",
+        "body": "L'espace de travail, l'appli et le téléphone de chaque agent affichent la même réservation à la même seconde. Courts séjours et longs baux partagent un seul calendrier, et deux réservations ne peuvent pas se chevaucher — la base de données elle-même le refuse. Vous pouvez aussi bloquer des dates à la main : travaux, séjour du propriétaire, réservation prise au téléphone.",
         "note": "En temps réel, pas « rafraîchir pour voir »."
       },
       {
-        "title": "Demandes avec chronomètres SLA",
-        "body": "Chaque demande de visite, réservation ou demande de bail reçoit un compte à rebours, une réponse suggérée et un responsable de secours. Si personne ne répond en 30 minutes, la demande est réattribuée. Votre délai de réponse ne dépend plus de qui se trouve sur WhatsApp.",
-        "note": "Réponse médiane passée de 4 h à 11 min."
+        "title": "48 h pour répondre, jamais plus",
+        "body": "Une demande bloque les dates dès son envoi, et vous avez 48 h pour l'accepter ou la refuser. Passé ce délai elle expire toute seule et les dates repartent à la vente — rien ne reste coincé parce que personne n'a regardé WhatsApp. Un refus demande toujours un motif, que le voyageur reçoit.",
+        "note": "Le compte à rebours est visible des deux côtés."
       },
       {
-        "title": "Des rôles pour toute l'équipe",
-        "body": "Les propriétaires ne voient que leurs biens. Les agents ne voient que leurs affectations. Les managers voient tout, plus un récap hebdomadaire de ce qui a bougé. Fini les identifiants partagés sur un post-it.",
-        "note": "Propriétaire, agent, manager, observateur."
+        "title": "Incidents suivis, pas oubliés",
+        "body": "Double réservation, dégâts après un départ, clés perdues, problème de paiement : déclarez l'incident depuis la réservation concernée, avec photos et montant estimé. Il part chez le support Nesty, qui le fait avancer jusqu'à sa clôture — et vous suivez son statut sans relancer personne.",
+        "note": "Déclaré, en analyse, résolu, clôturé."
       },
       {
-        "title": "Mobile hors ligne d'abord",
+        "title": "L'appli marche quand le réseau ne marche pas",
         "body": "L'appli se souvient de votre dernière recherche, de vos locations enregistrées et de chaque visite 3D ouverte — pour qu'un passager du métro ou un vacancier sur une plage de Djerba puisse parcourir sa sélection sans une barre de réseau.",
         "note": "Parce que la 4G à Sidi Bou n'est pas magique."
       }
@@ -287,7 +282,8 @@
     "errors": {
       "invalidEmail": "Saisissez une adresse e-mail valide.",
       "enterPassword": "Saisissez votre mot de passe.",
-      "invalidCredentials": "Identifiants incorrects, ou ce compte agence n’est pas actif. Contactez Nesty si le problème persiste."
+      "invalidCredentials": "Identifiants incorrects, ou ce compte agence n’est pas actif. Contactez Nesty si le problème persiste.",
+      "notConfigured": "La connexion n’est pas encore configurée sur cet environnement. Contactez Nesty."
     }
   },
   "dashboard": {

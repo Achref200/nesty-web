@@ -32,17 +32,15 @@ export function Features() {
     >
       <div className="mx-auto max-w-wide px-5 md:px-8">
         <Reveal className="max-w-2xl">
+          {/* Heading dropped per #6 — the cards below say it better than the
+              line above them did. Only the eyebrow remains as a section marker,
+              so the grid tightens up to sit under it. */}
           <p className="text-[12px] uppercase tracking-[0.22em] text-white/40">
             {t("eyebrow")}
           </p>
-          <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-paper md:text-5xl">
-            {t("title1")}
-            <br />
-            <span className="text-white/50">{t("title2")}</span>
-          </h2>
         </Reveal>
 
-        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
           {items.map((f, i) => {
             const meta = FEATURE_META[i];
             const Icon = meta.icon;
