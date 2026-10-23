@@ -357,11 +357,8 @@ function mapPublicRow(row: PublicRow): PublicListing {
 const PUBLIC_COLUMNS =
   "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, tags, host_name, is_demo";
 
-const PUBLIC_CATALOG_FILTER =
-  "and(status.in.(published,active),is_demo.eq.false),and(status.eq.draft,is_demo.eq.true)";
-
 /**
- * A page of published listings plus clearly marked draft demo previews.
+ * A page of published, bookable listings.
  * Filtering and pagination happen in the database (`.or/.lte/.range` + an exact count) so
  * this scales past thousands of listings — the client only ever holds one page
  * at a time. Returns an empty page when Supabase isn't configured or the query
@@ -382,7 +379,8 @@ export async function getPublicListings(
   let q = supabase
     .from("listings")
     .select(PUBLIC_COLUMNS, { count: "exact" })
-    .or(PUBLIC_CATALOG_FILTER);
+    .in("status", ["published", "active"])
+    .eq("is_demo", false);
 
   if (query.city && query.city !== "all") q = q.eq("city", query.city);
   if (query.term && query.term !== "all") {
@@ -419,12 +417,14 @@ export async function getListingFacets(): Promise<ListingFacets> {
     supabase
       .from("listings")
       .select("city")
-      .or(PUBLIC_CATALOG_FILTER)
+      .in("status", ["published", "active"])
+      .eq("is_demo", false)
       .limit(1000),
     supabase
       .from("listings")
       .select("price_per_month")
-      .or(PUBLIC_CATALOG_FILTER)
+      .in("status", ["published", "active"])
+      .eq("is_demo", false)
       .order("price_per_month", { ascending: false })
       .limit(1),
   ]);

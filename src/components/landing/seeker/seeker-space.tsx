@@ -36,7 +36,7 @@ function formatPrice(value: number) {
 
 /**
  * The traveller (seeker) experience. No hero — straight into a filterable,
- * paginated grid of published homes and clearly labeled demo previews.
+ * paginated grid of published homes.
  * Filtering and paging run in the database via
  * a server action, so it scales to thousands of listings (the browser only
  * holds one page at a time). Reserving anything opens the app modal — booking
@@ -57,7 +57,6 @@ export function SeekerSpace({
   const [maxPrice, setMaxPrice] = useState(facets.maxPrice);
 
   const [items, setItems] = useState<PublicListing[]>(initial.items);
-  const hasDemoListings = items.some((listing) => listing.isDemo);
   const [total, setTotal] = useState(initial.total);
   const [hasMore, setHasMore] = useState(initial.hasMore);
   const [page, setPage] = useState(0);
@@ -136,7 +135,7 @@ export function SeekerSpace({
   return (
     <>
       <main>
-        {/* Published homes and clearly labeled, non-bookable demo previews. */}
+        {/* Only published listings appear in the seeker catalog. */}
         <section id="stays" className="relative pb-16 pt-10 md:pb-24 md:pt-12">
           <div className="mx-auto max-w-wide px-5 md:px-8">
             <div className="flex flex-col gap-2">
@@ -147,15 +146,6 @@ export function SeekerSpace({
                 {t("filters.subtitle")}
               </h2>
             </div>
-
-            {hasDemoListings && (
-              <p
-                role="note"
-                className="mt-5 rounded-2xl border border-amber-300/25 bg-amber-200/[0.08] px-4 py-3 text-[13px] leading-relaxed text-amber-100/90"
-              >
-                {t("filters.previewNotice")}
-              </p>
-            )}
 
             {hasData && (
               <div className="mt-8 flex flex-col gap-4 rounded-3xl border border-white/[0.08] bg-white/[0.03] p-4 md:flex-row md:items-end md:gap-5 md:p-5">
@@ -261,7 +251,7 @@ export function SeekerSpace({
         </section>
 
         <SeekerBenefits />
-        <DownloadCta onWatchDemo={() => openApp()} />
+        <DownloadCta />
         <SeekerAbout />
       </main>
 
@@ -324,9 +314,7 @@ function ListingCard({
           <Image
             src={listing.cover}
             alt={
-              listing.isDemo
-                ? t("illustrativePhoto")
-                : `${listing.title} — ${listing.city}, Tunisia`
+              `${listing.title} — ${listing.city}, Tunisia`
             }
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -339,11 +327,6 @@ function ListingCard({
           </div>
         )}
         <div className="keep-dark absolute left-3 top-3 flex flex-wrap gap-1.5">
-          {listing.isDemo && (
-            <span className="inline-flex items-center rounded-pill bg-amber-300 px-2.5 py-1 text-[10.5px] font-bold uppercase text-black">
-              {t("demo")}
-            </span>
-          )}
           {has3d && (
             <span className="inline-flex items-center gap-1 rounded-pill bg-black/50 px-2.5 py-1 text-[10.5px] font-semibold text-paper backdrop-blur-sm">
               <Box className="h-3 w-3" strokeWidth={2} />
@@ -388,16 +371,10 @@ function ListingCard({
           </span>
           <button
             type="button"
-            onClick={listing.isDemo ? undefined : onReserve}
-            disabled={listing.isDemo}
-            className={cn(
-              "rounded-pill px-4 py-2 text-[13px] font-bold transition-transform",
-              listing.isDemo
-                ? "cursor-not-allowed border border-white/20 bg-white/[0.06] text-white/80"
-                : "bg-paper text-ink hover:-translate-y-px",
-            )}
+            onClick={onReserve}
+            className="rounded-pill bg-paper px-4 py-2 text-[13px] font-bold text-ink transition-transform hover:-translate-y-px"
           >
-            {listing.isDemo ? t("demoOnly") : t("reserve")}
+            {t("reserve")}
           </button>
         </div>
       </div>

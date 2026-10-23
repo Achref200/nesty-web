@@ -2,15 +2,11 @@
 
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { X, Play, Smartphone } from "lucide-react";
-import { appDemoVideo } from "@/lib/site";
+import { X, Smartphone } from "lucide-react";
 import { StoreButtons } from "./store-buttons";
 
 /**
- * The reservation moment for travellers. Booking lives in the mobile app, so
- * instead of a fake checkout we show a quick app demo (or a calm placeholder
- * until the clip ships) and the store buttons. Optionally names the listing the
- * visitor tapped so the intent carries over.
+ * Directs travellers to the mobile app to request a stay or visit.
  */
 export function AppModal({
   open,
@@ -61,35 +57,10 @@ export function AppModal({
           <X className="h-4 w-4" />
         </button>
 
-        {/* Video / demo area */}
-        <div className="relative aspect-video w-full bg-gradient-to-br from-white/[0.08] to-white/[0.02]">
-          {appDemoVideo ? (
-            <video
-              src={appDemoVideo}
-              className="h-full w-full object-cover"
-              controls
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
-          ) : (
-            <div className="absolute inset-0 grid place-items-center">
-              <div
-                aria-hidden="true"
-                className="dark-grid pointer-events-none absolute inset-0 opacity-40"
-              />
-              <div className="relative flex flex-col items-center gap-3 text-center">
-                <span className="grid h-16 w-16 place-items-center rounded-pill border border-white/20 bg-white/[0.06] backdrop-blur-sm">
-                  <Play className="h-6 w-6 translate-x-0.5 text-paper" fill="currentColor" />
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-white/50">
-                  <Smartphone className="h-3.5 w-3.5" />
-                  {t("videoFallback")}
-                </span>
-              </div>
-            </div>
-          )}
+        <div className="flex justify-center bg-gradient-to-br from-white/[0.08] to-white/[0.02] py-8">
+          <span className="grid h-16 w-16 place-items-center rounded-pill border border-white/20 bg-white/[0.06]">
+            <Smartphone className="h-6 w-6 text-paper" />
+          </span>
         </div>
 
         <div className="p-6">

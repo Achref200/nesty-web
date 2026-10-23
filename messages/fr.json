@@ -1010,8 +1010,7 @@
     },
     "filters": {
       "title": "Explorer les séjours",
-      "subtitle": "Annonces publiées et aperçus du catalogue Nesty.",
-      "previewNotice": "Catalogue d’exemple : annonces, prix et photos illustratifs. Les logements affichés ne sont pas réservables.",
+      "subtitle": "Découvrez les locations disponibles auprès des agences locales.",
       "city": "Destination",
       "allCities": "Toutes les destinations",
       "term": "Type de séjour",
@@ -1033,10 +1032,6 @@
       "beds": "ch.",
       "baths": "sdb",
       "reserve": "Réserver",
-      "verified": "Aperçu",
-      "demo": "Démo",
-      "demoOnly": "Non réservable",
-      "illustrativePhoto": "Photo illustrative",
       "tour3d": "Visite 3D"
     },
     "empty": {
@@ -1083,8 +1078,6 @@
       "title": "Réservez sur l'application Nesty",
       "titleWithName": "Réservez « {name} » dans l'app",
       "subtitle": "Consultez les annonces et envoyez une demande de visite ou de séjour dans Nesty. Confirmez les dates, conditions et paiements avec l'agence.",
-      "videoFallback": "Vidéo de démo bientôt disponible",
-      "watchDemo": "Voir la démo de l'app",
       "close": "Fermer"
     }
   },

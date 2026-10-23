@@ -1010,8 +1010,7 @@
     },
     "filters": {
       "title": "Explore stays",
-      "subtitle": "Published listings and previews from the Nesty catalog.",
-      "previewNotice": "Sample catalog: listings, prices and photos are illustrative. Homes shown here are unavailable for booking.",
+      "subtitle": "Explore available rentals from local agencies.",
       "city": "Destination",
       "allCities": "All destinations",
       "term": "Stay type",
@@ -1033,10 +1032,6 @@
       "beds": "beds",
       "baths": "baths",
       "reserve": "Reserve",
-      "verified": "Preview",
-      "demo": "Demo",
-      "demoOnly": "Not bookable",
-      "illustrativePhoto": "Illustrative photo",
       "tour3d": "3D tour"
     },
     "empty": {
@@ -1083,8 +1078,6 @@
       "title": "Reserve on the Nesty app",
       "titleWithName": "Reserve “{name}” on the app",
       "subtitle": "Browse listings and send a stay or visit request through Nesty. Confirm dates, terms and payment with the agency.",
-      "videoFallback": "Demo video coming soon",
-      "watchDemo": "Watch the app demo",
       "close": "Close"
     }
   },

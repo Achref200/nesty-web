@@ -6,11 +6,9 @@ import { StoreButtons } from "./store-buttons";
 
 /**
  * "Download the app" CTA — the primary conversion for the traveller space.
- * Store buttons plus a "watch demo" hook that opens the app modal.
  */
-export function DownloadCta({ onWatchDemo }: { onWatchDemo: () => void }) {
+export function DownloadCta() {
   const t = useTranslations("seeker.download");
-  const tModal = useTranslations("seeker.modal");
 
   return (
     <section className="relative border-t border-white/[0.06] py-20 md:py-28">
@@ -33,13 +31,6 @@ export function DownloadCta({ onWatchDemo }: { onWatchDemo: () => void }) {
 
             <div className="mx-auto mt-8 flex max-w-md flex-col items-center gap-3">
               <StoreButtons className="w-full" />
-              <button
-                type="button"
-                onClick={onWatchDemo}
-                className="text-[13px] font-semibold text-white/60 underline decoration-white/25 underline-offset-4 transition-colors hover:text-paper"
-              >
-                {tModal("watchDemo")}
-              </button>
             </div>
           </div>
         </Reveal>

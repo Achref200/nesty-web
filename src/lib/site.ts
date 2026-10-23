@@ -64,7 +64,7 @@ export const agencyAccessMailto = `mailto:${site.email}?subject=${encodeURICompo
 )}`;
 
 /**
- * Mobile app store links + demo video for the traveller (seeker) space. The app
+ * Mobile app store links for the traveller (seeker) space. The app
  * is still rolling out, so these read from the environment and fall back to
  * empty — the UI then shows a calm "coming soon" state instead of a dead link.
  */
@@ -72,6 +72,3 @@ export const appStores = {
   apple: process.env.NEXT_PUBLIC_APP_STORE_URL?.trim() ?? "",
   google: process.env.NEXT_PUBLIC_PLAY_STORE_URL?.trim() ?? "",
 } as const;
-
-/** Optional URL of the app demo shown in the reservation modal. */
-export const appDemoVideo = process.env.NEXT_PUBLIC_APP_DEMO_VIDEO?.trim() ?? "";
