@@ -69,7 +69,7 @@ export type Database = {
           status: string;
           tags: string[];
           property_type: string | null;
-          max_guests: number;
+          max_guests: number | null;
           district: string | null;
           contact_phone: string | null;
           house_rules: Json;
@@ -107,7 +107,7 @@ export type Database = {
           status?: string;
           tags?: string[];
           property_type?: string | null;
-          max_guests?: number;
+          max_guests?: number | null;
           district?: string | null;
           contact_phone?: string | null;
           house_rules?: Json;
@@ -135,7 +135,7 @@ export type Database = {
           status?: string;
           tags?: string[];
           property_type?: string | null;
-          max_guests?: number;
+          max_guests?: number | null;
           district?: string | null;
           contact_phone?: string | null;
           house_rules?: Json;

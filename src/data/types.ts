@@ -46,7 +46,7 @@ export interface Listing {
   tours: number;
   // Host Listing Management wizard fields (additive; null when pre-migration).
   propertyType: PropertyType | null;
-  maxGuests: number;
+  maxGuests: number | null;
   district: string | null;
   contactPhone: string | null;
   description: string | null;

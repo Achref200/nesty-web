@@ -14,6 +14,7 @@ import {
   type BookingConditions,
   type HouseRules,
   type Pricing,
+  type PricingModel,
   type PropertyType,
 } from "@/lib/listings/schema";
 
@@ -95,7 +96,7 @@ function mapListing(
     saves: stats.saves,
     tours: stats.tours,
     propertyType: (row.property_type as PropertyType | null) ?? null,
-    maxGuests: row.max_guests ?? 0,
+    maxGuests: row.max_guests,
     district: row.district ?? null,
     contactPhone: row.contact_phone ?? null,
     description: row.description ?? null,
@@ -289,6 +290,7 @@ export interface PublicListing {
   title: string;
   city: string;
   pricePerMonth: number;
+  priceModel: PricingModel;
   rentalTerm: RentalTerm;
   type: ListingType;
   bedrooms: number;
@@ -297,6 +299,9 @@ export interface PublicListing {
   cover: string | null;
   tags: string[];
   agency: string | null;
+  sourceAgency: string | null;
+  sourceUrl: string | null;
+  contactEmail: string | null;
   isDemo: boolean;
 }
 
@@ -325,6 +330,7 @@ type PublicRow = {
   city: string;
   price_per_month: number;
   rental_term: "short_term" | "long_term";
+  pricing: unknown;
   type: string;
   bedrooms: number;
   bathrooms: number;
@@ -333,15 +339,33 @@ type PublicRow = {
   gallery: string[] | null;
   tags: string[] | null;
   host_name: string | null;
+  booking_conditions: unknown;
   is_demo: boolean;
 };
 
 function mapPublicRow(row: PublicRow): PublicListing {
+  const pricing = row.pricing as Partial<Pricing> | null;
+  const source = (row.booking_conditions as {
+    source?: { agency?: unknown; url?: unknown };
+  } | null)?.source;
+  const publisher = (row.booking_conditions as {
+    publisher?: { email?: unknown };
+  } | null)?.publisher;
+  const priceModel: PricingModel =
+    pricing?.model === "night" ||
+    pricing?.model === "week" ||
+    pricing?.model === "month"
+      ? pricing.model
+      : row.rental_term === "short_term"
+        ? "night"
+        : "month";
+
   return {
     id: row.id,
     title: row.title,
     city: row.city,
     pricePerMonth: Number(row.price_per_month),
+    priceModel,
     rentalTerm: row.rental_term === "short_term" ? "shortTerm" : "longTerm",
     type: toListingType(row.type),
     bedrooms: row.bedrooms,
@@ -350,12 +374,17 @@ function mapPublicRow(row: PublicRow): PublicListing {
     cover: row.cover_image ?? row.gallery?.[0] ?? null,
     tags: row.tags ?? [],
     agency: row.is_demo ? null : (row.host_name ?? null),
+    sourceAgency:
+      typeof source?.agency === "string" ? source.agency : null,
+    sourceUrl: typeof source?.url === "string" ? source.url : null,
+    contactEmail:
+      typeof publisher?.email === "string" ? publisher.email : null,
     isDemo: row.is_demo,
   };
 }
 
 const PUBLIC_COLUMNS =
-  "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, tags, host_name, is_demo";
+  "id, title, city, price_per_month, rental_term, pricing, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, tags, host_name, booking_conditions, is_demo";
 
 /**
  * A page of published, bookable listings.

@@ -171,7 +171,13 @@ export function SeekerSpace({
                 <div className="flex flex-1 flex-col gap-1.5">
                   <span className="text-[11px] font-bold uppercase tracking-wide text-white/40">
                     {t("filters.maxPrice")} · {formatPrice(maxPrice)}{" "}
-                    {t("filters.priceUnit")}
+                    {t(
+                      term === "shortTerm"
+                        ? "filters.priceUnitNight"
+                        : term === "longTerm"
+                          ? "filters.priceUnitMonth"
+                          : "filters.priceUnit",
+                    )}
                   </span>
                   <input
                     type="range"
@@ -346,17 +352,46 @@ function ListingCard({
           <MapPin className="h-3.5 w-3.5" />
           {listing.city}
         </p>
+        {listing.agency && (
+          <p className="mt-1 text-[11.5px] text-white/40">
+            {t("listedBy", { agency: listing.agency })}
+          </p>
+        )}
+        {listing.sourceAgency && listing.sourceUrl && (
+          <a
+            href={listing.sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-1 w-fit text-[11.5px] text-white/40 underline decoration-white/20 underline-offset-2 hover:text-white/70"
+          >
+            {t("sourceFrom", { agency: listing.sourceAgency })}
+          </a>
+        )}
+        {listing.contactEmail && (
+          <a
+            href={`mailto:${listing.contactEmail}`}
+            className="mt-1 w-fit text-[11.5px] text-white/40 underline decoration-white/20 underline-offset-2 hover:text-white/70"
+          >
+            {t("contactAgency")}
+          </a>
+        )}
 
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12.5px] text-white/50">
-          <span className="inline-flex items-center gap-1">
-            <BedDouble className="h-3.5 w-3.5" /> {listing.bedrooms} {t("beds")}
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <Bath className="h-3.5 w-3.5" /> {listing.bathrooms} {t("baths")}
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <Maximize className="h-3.5 w-3.5" /> {listing.areaSqm} m²
-          </span>
+          {listing.bedrooms > 0 && (
+            <span className="inline-flex items-center gap-1">
+              <BedDouble className="h-3.5 w-3.5" /> {listing.bedrooms} {t("beds")}
+            </span>
+          )}
+          {listing.bathrooms > 0 && (
+            <span className="inline-flex items-center gap-1">
+              <Bath className="h-3.5 w-3.5" /> {listing.bathrooms} {t("baths")}
+            </span>
+          )}
+          {listing.areaSqm > 0 && (
+            <span className="inline-flex items-center gap-1">
+              <Maximize className="h-3.5 w-3.5" /> {listing.areaSqm} m²
+            </span>
+          )}
         </div>
 
         <div className="mt-4 flex items-end justify-between gap-2 border-t border-white/[0.06] pt-4">
@@ -365,7 +400,12 @@ function ListingCard({
             <span className="font-display text-lg font-bold text-paper">
               {formatPrice(listing.pricePerMonth)}{" "}
               <span className="text-[12px] font-medium text-white/50">
-                TND{t("perMonth")}
+                TND
+                {listing.priceModel === "night"
+                  ? t("perNight")
+                  : listing.priceModel === "week"
+                    ? t("perWeek")
+                    : t("perMonth")}
               </span>
             </span>
           </span>
