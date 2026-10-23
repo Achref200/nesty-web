@@ -180,24 +180,6 @@
       { "label": "Still pay in cash", "hint": "Why every booking can pay on arrival" }
     ]
   },
-  "voice": {
-    "eyebrow": "from the agency floor",
-    "title": "Not case studies. Three people who'd let us call them.",
-    "items": [
-      {
-        "quote": "We used to lose two weekends a month to double-booked keys. Since we moved our short-stay calendar onto Nesty, that number is zero — and the 3D tours cut the tyre-kicker visits by half.",
-        "role": "Head of Sales"
-      },
-      {
-        "quote": "Owners see their villa the way renters see it. That's what unlocked the exclusive-mandate conversations in Sidi Bou.",
-        "role": "Agency Director"
-      },
-      {
-        "quote": "The visit request lands on the agent's phone with the lease term already filled in. Our reply is a two-tap 'confirm' instead of a phone call.",
-        "role": "Operations"
-      }
-    ]
-  },
   "showcase": {
     "eyebrow": "one platform · every screen",
     "title1": "The same beautiful home,",
@@ -1016,8 +998,8 @@
     "agency": {
       "tag": "I'm an agency",
       "title": "Run your whole portfolio.",
-      "body": "A professional web workspace built for agencies \u2014 team roles, bulk listings, requests with SLAs and a live calendar across every property.",
-      "points": ["Team roles & permissions", "Bulk listing management", "Requests, calendar & analytics"],
+      "body": "A professional web workspace built for agencies \u2014 every listing, one shared calendar, and booking requests handled in one place.",
+      "points": ["One shared calendar across every property", "Booking requests with a clear accept or decline", "Incident reports and support in one place"],
       "cta": "Open agency workspace"
     }
   }

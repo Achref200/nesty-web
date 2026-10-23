@@ -236,7 +236,8 @@ export async function getDashboardData(): Promise<DashboardData | null> {
   const pending = reservations.filter((r) => r.status === "pending").length;
 
   return {
-    role: profileRes.data?.role ?? "host",
+    // Missing or unreadable profile data must never grant agency access.
+    role: profileRes.data?.role ?? "seeker",
     fullName: profileRes.data?.full_name ?? user.email?.split("@")[0] ?? "there",
     email: user.email ?? "",
     avatarUrl: profileRes.data?.avatar_url ?? null,
@@ -273,7 +274,7 @@ export async function getProfile(): Promise<Profile | null> {
     fullName: data?.full_name ?? "",
     email: user.email ?? "",
     avatarUrl: data?.avatar_url ?? null,
-    role: data?.role ?? "host",
+    role: data?.role ?? "seeker",
   };
 }
 

@@ -4,6 +4,8 @@
  * to normalised kinds. Runs on the Node runtime (needs env + outbound fetch).
  */
 import { NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 import { assistantConfig } from "@/lib/assistant/config";
 import { generateAssistantReply } from "@/lib/assistant/server/generate";
@@ -39,6 +41,29 @@ export async function POST(request: Request): Promise<NextResponse<AssistantResp
   const parsed = parseRequest(body);
   if (!parsed) {
     return NextResponse.json({ error: "server" }, { status: 400 });
+  }
+
+  if (parsed.surface === "dashboard") {
+    if (!isSupabaseConfigured) {
+      return NextResponse.json({ error: "config" }, { status: 503 });
+    }
+    const supabase = createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: "server" }, { status: 401 });
+    }
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+    if (profileError) {
+      console.error("[assistant] failed to resolve dashboard role:", profileError.message);
+      return NextResponse.json({ error: "config" }, { status: 503 });
+    }
+    if (profile?.role !== "host" && profile?.role !== "partner") {
+      return NextResponse.json({ error: "server" }, { status: 403 });
+    }
   }
 
   const result = await generateAssistantReply(parsed);

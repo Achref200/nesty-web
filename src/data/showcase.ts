@@ -248,42 +248,6 @@ export const PLATFORM_STATS: Stat[] = [
   { value: "56%", label: "Still pay in cash", hint: "Why every booking can pay on arrival" },
 ];
 
-export interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-  agency: string;
-  initials: string;
-}
-
-/** Agency voices — social proof for decision-makers. */
-export const TESTIMONIALS: Testimonial[] = [
-  {
-    quote:
-      "We used to lose two weekends a month to double-booked keys. With one shared calendar that stopped — and renters who tour a home in 3D turn up already sure about the place.",
-    name: "Amine Rekik",
-    role: "Head of Sales",
-    agency: "Atlas Realty · Tunis",
-    initials: "AR",
-  },
-  {
-    quote:
-      "Owners see their villa the way renters see it. That's what opens the exclusive-mandate conversations in Sidi Bou.",
-    name: "Sana Khaldi",
-    role: "Agency Director",
-    agency: "Carthage Prime Homes",
-    initials: "SK",
-  },
-  {
-    quote:
-      "The visit request lands on the agent's phone with the lease term already filled in. Our reply is a two-tap ‘confirm’ instead of a phone call.",
-    name: "Yassine Rahmani",
-    role: "Operations",
-    agency: "Lac Business Realty · Tunis",
-    initials: "YR",
-  },
-];
-
 export const TERM_LABEL: Record<ShowcaseListing["term"], string> = {
   shortTerm: "Short term",
   longTerm: "Long term",

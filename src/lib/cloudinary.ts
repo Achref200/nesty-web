@@ -1,51 +1,27 @@
 /** Cloudinary uploads for the web dashboard. */
-export const CLOUDINARY_CLOUD_NAME =
-  process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? "";
-export const CLOUDINARY_UPLOAD_PRESET =
-  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ?? "";
-
 /**
  * Uploads a file to Cloudinary and returns its secure delivery URL.
  *
- * Prefers a **signed** upload: it asks our server (`/api/cloudinary-sign`) for a
- * signature so the API secret never touches the browser and no preset is
- * needed. Falls back to an unsigned preset if signing isn't available.
+ * Uses a signed upload: the server verifies the agency account and signs an
+ * account-scoped folder. An unsigned fallback would bypass that guard.
  */
 export async function uploadToCloudinary(file: File): Promise<string> {
-  const folder = "nesty/listings";
-
-  // 1) Try a server-signed upload.
-  try {
-    const signRes = await fetch("/api/cloudinary-sign", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ folder }),
-    });
-    if (signRes.ok) {
-      const sign = await signRes.json();
-      const form = new FormData();
-      form.append("file", file);
-      form.append("api_key", sign.apiKey);
-      form.append("timestamp", String(sign.timestamp));
-      form.append("signature", sign.signature);
-      form.append("folder", sign.folder);
-      return await postToCloudinary(sign.cloudName, form);
-    }
-  } catch {
-    // fall through to unsigned
+  const signRes = await fetch("/api/cloudinary-sign", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+  const sign = await signRes.json().catch(() => null);
+  if (!signRes.ok || !sign) {
+    throw new Error(sign?.error ?? "Could not authorize image upload.");
   }
 
-  // 2) Fall back to an unsigned preset.
-  if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
-    throw new Error(
-      "Cloudinary isn't configured — add the server API key/secret, or an unsigned preset.",
-    );
-  }
   const form = new FormData();
   form.append("file", file);
-  form.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-  form.append("folder", folder);
-  return postToCloudinary(CLOUDINARY_CLOUD_NAME, form);
+  form.append("api_key", sign.apiKey);
+  form.append("timestamp", String(sign.timestamp));
+  form.append("signature", sign.signature);
+  form.append("folder", sign.folder);
+  return postToCloudinary(sign.cloudName, form);
 }
 
 async function postToCloudinary(

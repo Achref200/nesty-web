@@ -180,24 +180,6 @@
       { "label": "Paient encore en espèces", "hint": "Pourquoi chaque réservation peut se régler à l'arrivée" }
     ]
   },
-  "voice": {
-    "eyebrow": "depuis le terrain des agences",
-    "title": "Pas des études de cas. Trois personnes qui accepteraient qu'on les appelle.",
-    "items": [
-      {
-        "quote": "On perdait deux week-ends par mois à cause de clés doublement réservées. Depuis qu'on a mis notre calendrier courte durée sur Nesty, ce chiffre est à zéro — et les visites 3D ont réduit de moitié les visites de curieux.",
-        "role": "Directeur commercial"
-      },
-      {
-        "quote": "Les propriétaires voient leur villa comme la voient les locataires. C'est ce qui a débloqué les discussions de mandat exclusif à Sidi Bou.",
-        "role": "Directrice d'agence"
-      },
-      {
-        "quote": "La demande de visite arrive sur le téléphone de l'agent avec la durée du bail déjà remplie. Notre réponse, c'est « confirmer » en deux touches au lieu d'un appel.",
-        "role": "Opérations"
-      }
-    ]
-  },
   "showcase": {
     "eyebrow": "une plateforme · tous les écrans",
     "title1": "Le même beau logement,",
@@ -1016,8 +998,8 @@
     "agency": {
       "tag": "Je suis une agence",
       "title": "Pilotez tout votre portefeuille.",
-      "body": "Un espace de travail web professionnel pour les agences \u2014 rôles d'équipe, annonces en masse, demandes avec SLA et un calendrier en direct sur chaque bien.",
-      "points": ["Rôles et permissions d'équipe", "Gestion des annonces en masse", "Demandes, calendrier et analyses"],
+      "body": "Un espace de travail web professionnel pour les agences \u2014 toutes vos annonces, un calendrier partagé, et les demandes de réservation au même endroit.",
+      "points": ["Un calendrier partagé sur tous vos biens", "Des demandes de réservation acceptées ou refusées clairement", "Signalements d'incidents et assistance au même endroit"],
       "cta": "Ouvrir l'espace agence"
     }
   }

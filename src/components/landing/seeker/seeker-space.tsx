@@ -23,7 +23,6 @@ import { loadPublicListings } from "@/lib/actions/public-listings";
 import { cn } from "@/lib/utils";
 import { Dots } from "@/components/ui/dots";
 import { Reveal } from "../reveal";
-import { Voice } from "../voice";
 import { SeekerBenefits } from "./seeker-benefits";
 import { DownloadCta } from "./download-cta";
 import { SeekerAbout } from "./seeker-about";
@@ -252,7 +251,6 @@ export function SeekerSpace({
         </section>
 
         <SeekerBenefits />
-        <Voice />
         <DownloadCta onWatchDemo={() => openApp()} />
         <SeekerAbout />
       </main>
