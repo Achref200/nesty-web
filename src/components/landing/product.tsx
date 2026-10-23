@@ -5,7 +5,6 @@ import {
   Compass,
   Heart,
   Search,
-  Star,
   Bell,
   Plus,
   MapPin,
@@ -472,7 +471,7 @@ function AppPreview({
             <div className="relative aspect-[16/11] w-full bg-white/[0.05]">
               <Image
                 src={hero.image}
-                alt={`${hero.title} in ${hero.city} — verified rental on the Nesty app`}
+                alt={`${hero.title} in ${hero.city} — sample listing preview for the Nesty app`}
                 fill
                 sizes="240px"
                 className="object-cover"
@@ -482,7 +481,7 @@ function AppPreview({
                 <Box className="h-2.5 w-2.5" strokeWidth={2} /> 3D tour
               </span>
               <span className="absolute left-[68px] top-2 inline-flex items-center gap-1 rounded-pill bg-paper/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em] text-ink backdrop-blur-sm">
-                verified
+                Sample
               </span>
               <span className="absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-pill bg-black/45 text-paper backdrop-blur-sm">
                 <Heart className="h-3 w-3" strokeWidth={2} />
@@ -505,8 +504,6 @@ function AppPreview({
             </div>
             <div className="flex items-center justify-between gap-2 px-3 py-2">
               <span className="inline-flex items-center gap-1 truncate text-[10px] text-white/60">
-                <Star className="h-2.5 w-2.5 fill-current" />
-                {hero.rating}
                 <span className="text-white/30">
                   {" "}
                   · {hero.beds} bd

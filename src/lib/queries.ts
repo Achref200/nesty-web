@@ -289,11 +289,8 @@ export interface PublicListing {
   bathrooms: number;
   areaSqm: number;
   cover: string | null;
-  rating: number;
-  reviewCount: number;
   tags: string[];
   agency: string | null;
-  isDemo: boolean;
 }
 
 export interface PublicListingsQuery {
@@ -327,11 +324,8 @@ type PublicRow = {
   area_sqm: number;
   cover_image: string | null;
   gallery: string[] | null;
-  rating: number;
-  review_count: number;
   tags: string[] | null;
   host_name: string | null;
-  is_demo: boolean;
 };
 
 function mapPublicRow(row: PublicRow): PublicListing {
@@ -346,20 +340,16 @@ function mapPublicRow(row: PublicRow): PublicListing {
     bathrooms: row.bathrooms,
     areaSqm: Number(row.area_sqm),
     cover: row.cover_image ?? row.gallery?.[0] ?? null,
-    rating: Number(row.rating),
-    reviewCount: row.review_count,
     tags: row.tags ?? [],
     agency: row.host_name ?? null,
-    isDemo: row.is_demo,
   };
 }
 
 const PUBLIC_COLUMNS =
-  "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, rating, review_count, tags, host_name, is_demo";
+  "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, tags, host_name";
 
 /**
- * A page of published listings and clearly marked demo examples for the public
- * landing. Filtering
+ * A page of published, non-demo listings for the public landing. Filtering
  * and pagination happen in the database (`.eq/.lte/.range` + an exact count) so
  * this scales past thousands of listings — the client only ever holds one page
  * at a time. Returns an empty page when Supabase isn't configured or the query
@@ -380,7 +370,8 @@ export async function getPublicListings(
   let q = supabase
     .from("listings")
     .select(PUBLIC_COLUMNS, { count: "exact" })
-    .or("status.in.(published,active),is_demo.eq.true");
+    .in("status", ["published", "active"])
+    .eq("is_demo", false);
 
   if (query.city && query.city !== "all") q = q.eq("city", query.city);
   if (query.term && query.term !== "all") {
@@ -417,12 +408,14 @@ export async function getListingFacets(): Promise<ListingFacets> {
     supabase
       .from("listings")
       .select("city")
-      .or("status.in.(published,active),is_demo.eq.true")
+      .in("status", ["published", "active"])
+      .eq("is_demo", false)
       .limit(1000),
     supabase
       .from("listings")
       .select("price_per_month")
-      .or("status.in.(published,active),is_demo.eq.true")
+      .in("status", ["published", "active"])
+      .eq("is_demo", false)
       .order("price_per_month", { ascending: false })
       .limit(1),
   ]);

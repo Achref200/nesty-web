@@ -11,7 +11,6 @@ import { AssistantWidget } from "@/components/assistant/assistant-widget";
 import { site } from "@/lib/site";
 import { assistantConfig } from "@/lib/assistant/config";
 import { getPublicListings, getListingFacets } from "@/lib/queries";
-import { DESTINATIONS } from "@/data/showcase";
 
 // Title stays consumer-first to match the visible H1. Description reuses the
 // single source in site.ts, so OG/Twitter and the SERP snippet all agree.
@@ -35,17 +34,15 @@ export const metadata: Metadata = {
 };
 
 /**
- * JSON-LD structured data. Landing is a rental platform now, so the graph
- * leads with RealEstateAgent + a light Product/Offer per Tunisian city
- * (rich-result eligible). No Review or FAQPage nodes: there are no real
- * customer reviews yet, and the FAQ section no longer renders on the page.
+ * JSON-LD describes the Nesty organization and apps. It intentionally avoids
+ * property offers because the page has no verified live inventory to publish.
  */
 async function StructuredData() {
   const json = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": ["Organization", "RealEstateAgent"],
+        "@type": "Organization",
         "@id": `${site.url}/#org`,
         name: site.name,
         url: site.url,
@@ -67,32 +64,13 @@ async function StructuredData() {
         url: site.url,
         inLanguage: "en",
       },
-      // A light Product/Offer per destination — enough for Google to render
-      // "from X TND" snippets without pretending to be a full booking engine.
-      ...DESTINATIONS.map((d) => ({
-        "@type": "Product",
-        name: `Rentals in ${d.city}, Tunisia`,
-        description: d.vibe,
-        image: d.image,
-        brand: { "@id": `${site.url}/#org` },
-        offers: {
-          "@type": "AggregateOffer",
-          priceCurrency: "TND",
-          lowPrice: d.fromNightly,
-          highPrice: d.fromMonthly,
-          offerCount: d.stays,
-          availability: "https://schema.org/InStock",
-          areaServed: d.city,
-        },
-      })),
       {
         "@type": "SoftwareApplication",
         name: `${site.name} Agency Workspace`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        offers: { "@type": "Offer", price: "0", priceCurrency: "TND" },
         description:
-          "Web workspace where partner agencies list, verify and manage rentals across Tunisia.",
+          "Web workspace where agencies manage rental listings and stay or visit requests.",
       },
       {
         "@type": "MobileApplication",
@@ -100,8 +78,7 @@ async function StructuredData() {
         operatingSystem: "Android, iOS",
         applicationCategory: "LifestyleApplication",
         description:
-          "Tour homes in 3D, book a stay by the night or request a monthly lease — the Nesty app for renters in Tunisia.",
-        offers: { "@type": "Offer", price: "0", priceCurrency: "TND" },
+          "Browse published rental listings and send a stay or visit request through Nesty.",
       },
     ],
   };

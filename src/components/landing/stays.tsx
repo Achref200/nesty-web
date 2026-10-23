@@ -7,10 +7,8 @@ import { Parallax } from "./parallax";
 import { DESTINATIONS } from "@/data/showcase";
 
 /**
- * "Where you can stay in Tunisia" — the real-estate proof section. Six
- * destination cards, actual property photos, each with the neighborhood, a
- * stay count, and a from-price shown two ways (per night, per month) so the
- * visitor immediately sees Nesty covers both short and long-term rentals.
+ * "Where you can stay in Tunisia" — destination inspiration. The cards show
+ * cities and representative imagery, without implying live inventory or prices.
  *
  * Layout is a plain 3×2 grid on desktop, 2 columns on tablet, one column
  * stacked on mobile. Card presentation is intentionally simple: image, dark
@@ -100,14 +98,13 @@ function DestinationCard({
   region: string;
   vibe: string;
 }) {
-  const t = useTranslations("stays");
   return (
     <article className="keep-dark group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] transition-colors hover:border-white/20">
       {/* Image */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-white/[0.04]">
         <Image
           src={d.image}
-          alt={t("cardAlt", { city: d.city })}
+          alt={`Representative interior imagery for ${d.city}`}
           fill
           sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -139,25 +136,6 @@ function DestinationCard({
             {vibe}
           </p>
 
-          {/* Price + stays row */}
-          <div className="mt-4 flex items-end justify-between gap-3 border-t border-white/15 pt-3">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.14em] text-paper/50">
-                {t("from")}
-              </p>
-              <p className="mt-0.5 text-[13.5px] font-semibold text-paper">
-                {d.fromNightly} TND
-                <span className="text-paper/50"> {t("perNight")}</span>
-              </p>
-              <p className="text-[11.5px] text-paper/55">
-                {t("orPrefix")} {d.fromMonthly.toLocaleString("fr-FR")} TND
-                <span className="text-paper/40"> {t("perMonth")}</span>
-              </p>
-            </div>
-            <span className="rounded-pill border border-white/15 bg-ink/50 px-2.5 py-1 text-[10.5px] font-semibold text-paper backdrop-blur-sm">
-              {t("staysLabel", { count: d.stays })}
-            </span>
-          </div>
         </div>
       </div>
     </article>

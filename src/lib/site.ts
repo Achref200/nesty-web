@@ -18,15 +18,15 @@ export const site = {
   // ~57 chars — fits SERP title (~60 char cutoff), leads with the visible copy.
   title: "Nesty — Rent your next place in Tunisia",
   // ~154 chars — fits SERP description cutoff (~155–160). Consumer-first;
-  // still mentions verified agencies so B2B keywords stay on the page.
+  // describes published listings without claiming independent verification.
   description:
-    "Rent villas, apartments and rooms across Tunisia. Every stay verified by partner agencies, tourable in 3D, priced by the night or the month.",
+    "Discover villas, apartments and rooms across Tunisia. Browse published listings and contact local agencies through Nesty.",
   url: inferredUrl,
   // Facebook's OG spec expects a real locale code (language_TERRITORY from its
   // supported list). "en_TN" isn't valid; the landing experience is English, so
   // "en_US" is the correct signal until FR/AR variants ship with hreflang.
   locale: "en_US",
-  tagline: "Every stay verified. Every home tourable in 3D.",
+  tagline: "Explore rentals across Tunisia.",
   // Contact address. Temporary free Proton mailbox (no phone/domain needed)
   // until the nesty.tn domain is owned — then switch this single line to
   // "hello@nesty.tn". Every mailto link + JSON-LD contactPoint reads from here.
@@ -40,7 +40,7 @@ export const site = {
     "short term rental Tunisia",
     "long term rental Tunisia",
     "3D property tour",
-    "verified rentals Tunisia",
+    "agency rentals Tunisia",
     "Sidi Bou Said rental",
     "La Marsa rental",
     "Djerba rental",

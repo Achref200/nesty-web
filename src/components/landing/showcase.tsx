@@ -2,7 +2,6 @@ import Image from "next/image";
 import {
   Box,
   MapPin,
-  Star,
   ShieldCheck,
   Compass,
   Heart,
@@ -105,7 +104,7 @@ export function Showcase() {
                     <Box className="h-3 w-3" strokeWidth={2} /> {t("immersive3d")}
                   </span>
                   <span className="inline-flex items-center gap-1 rounded-pill bg-paper/90 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.06em] text-ink backdrop-blur-sm">
-                    {t("verified")}
+                    {t("preview")}
                   </span>
                 </div>
 
@@ -126,8 +125,7 @@ export function Showcase() {
                       <MapPin className="h-3 w-3" strokeWidth={1.8} />
                       {hero.city} · {hero.area}
                       <span className="text-paper/40">·</span>
-                      <Star className="h-3 w-3 fill-current" />
-                      {hero.rating}
+                      {hero.beds} bd · {hero.baths} ba · {hero.sqm} m²
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -193,8 +191,8 @@ export function Showcase() {
                           140 TND
                           <span className="ml-0.5 text-[8.5px] font-medium text-ink/60">{t("perNight")}</span>
                         </span>
-                        <span className="inline-flex items-center gap-1 rounded-pill bg-black/45 px-2.5 py-1 text-[10px] font-semibold text-paper backdrop-blur-sm">
-                          <Star className="h-2.5 w-2.5 fill-current" /> {secondary.rating}
+                        <span className="rounded-pill bg-black/45 px-2.5 py-1 text-[10px] font-semibold text-paper backdrop-blur-sm">
+                          {t("preview")}
                         </span>
                       </div>
                     </div>
