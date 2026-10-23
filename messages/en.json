@@ -1011,7 +1011,7 @@
     "filters": {
       "title": "Explore stays",
       "subtitle": "Published listings and previews from the Nesty catalog.",
-      "previewNotice": "Demo catalog: the sample homes shown here are fictional. Their prices, photos and details are illustrative. They are not available to rent and cannot be booked.",
+      "previewNotice": "Sample catalog: listings, prices and photos are illustrative. Homes shown here are unavailable for booking.",
       "city": "Destination",
       "allCities": "All destinations",
       "term": "Stay type",

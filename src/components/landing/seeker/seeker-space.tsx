@@ -351,11 +351,6 @@ function ListingCard({
             </span>
           )}
         </div>
-        {listing.isDemo && (
-          <span className="absolute bottom-2 left-2 rounded-pill bg-black/65 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
-            {t("illustrativePhoto")}
-          </span>
-        )}
       </div>
 
       <div className="flex flex-1 flex-col p-4">
@@ -398,7 +393,7 @@ function ListingCard({
             className={cn(
               "rounded-pill px-4 py-2 text-[13px] font-bold transition-transform",
               listing.isDemo
-                ? "cursor-not-allowed border border-amber-300/25 text-amber-100/70"
+                ? "cursor-not-allowed border border-white/20 bg-white/[0.06] text-white/80"
                 : "bg-paper text-ink hover:-translate-y-px",
             )}
           >

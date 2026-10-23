@@ -1011,7 +1011,7 @@
     "filters": {
       "title": "Explorer les séjours",
       "subtitle": "Annonces publiées et aperçus du catalogue Nesty.",
-      "previewNotice": "Catalogue de démonstration : les logements affichés ici sont fictifs. Leurs prix, photos et caractéristiques sont illustratifs. Ils ne sont pas disponibles à la location et ne peuvent pas être réservés.",
+      "previewNotice": "Catalogue d’exemple : annonces, prix et photos illustratifs. Les logements affichés ne sont pas réservables.",
       "city": "Destination",
       "allCities": "Toutes les destinations",
       "term": "Type de séjour",
