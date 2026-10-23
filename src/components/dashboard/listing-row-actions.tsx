@@ -36,9 +36,11 @@ import { cn } from "@/lib/utils";
 export function ListingRowActions({
   id,
   status,
+  isDemo = false,
 }: {
   id: string;
   status: ListingStatus;
+  isDemo?: boolean;
 }) {
   const [pending, start] = useTransition();
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -103,17 +105,19 @@ export function ListingRowActions({
               <Pencil className="h-4 w-4" /> {t("edit")}
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onSelect={toggleHide}>
-            {isPublished ? (
-              <>
-                <EyeOff className="h-4 w-4" /> {t("hide")}
-              </>
-            ) : (
-              <>
-                <Eye className="h-4 w-4" /> {t("publish")}
-              </>
-            )}
-          </DropdownMenuItem>
+          {!isDemo && (
+            <DropdownMenuItem onSelect={toggleHide}>
+              {isPublished ? (
+                <>
+                  <EyeOff className="h-4 w-4" /> {t("hide")}
+                </>
+              ) : (
+                <>
+                  <Eye className="h-4 w-4" /> {t("publish")}
+                </>
+              )}
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem
             destructive
@@ -131,12 +135,12 @@ export function ListingRowActions({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("deleteTitle")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("deleteBody")}
-            </AlertDialogDescription>
+            <AlertDialogDescription>{t("deleteBody")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={pending}>{t("cancel")}</AlertDialogCancel>
+            <AlertDialogCancel disabled={pending}>
+              {t("cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               variant="danger"
               disabled={pending}

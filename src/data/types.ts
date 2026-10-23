@@ -39,6 +39,7 @@ export interface Listing {
   latitude: number | null;
   longitude: number | null;
   status: ListingStatus;
+  isDemo: boolean;
   tags: string[];
   views: number;
   saves: number;
@@ -59,12 +60,7 @@ export interface Listing {
 export type ReservationType = "visit" | "stay";
 
 export type ReservationStatus =
-  | "pending"
-  | "confirmed"
-  | "rejected"
-  | "cancelled"
-  | "expired"
-  | "completed";
+  "pending" | "confirmed" | "rejected" | "cancelled" | "expired" | "completed";
 
 export interface Reservation {
   id: string;

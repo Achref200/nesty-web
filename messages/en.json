@@ -383,6 +383,7 @@
       "termShort": "Short term",
       "termLong": "Long term",
       "hidden": "Hidden",
+      "demoPreview": "Demo preview",
       "reserved": "Reserved",
       "available": "Available",
       "live": "Live",
@@ -862,6 +863,7 @@
       "reasonRequired": "A cancellation reason is required.",
       "rejectReasonRequired": "Give a reason for declining — the traveller will be told.",
       "listingNotEditable": "This listing is published and can no longer be edited. Deactivate it first.",
+      "demoCannotPublish": "Demo previews cannot be published. Replace the sample data with agency-approved details first.",
       "invalidRange": "Choose a valid date range.",
       "fixErrors": "Please complete every step before finishing."
     },

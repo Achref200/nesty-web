@@ -34,7 +34,10 @@ export function ListingItem({ listing }: { listing: Listing }) {
           )}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[15px] font-bold">{listing.title}</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="truncate text-[15px] font-bold">{listing.title}</p>
+            {listing.isDemo && <Badge variant="soft">{t("demoPreview")}</Badge>}
+          </div>
           <p className="truncate text-[13px] text-muted">{listing.city}</p>
           <div className="mt-1.5 flex flex-wrap items-center gap-3 text-xs text-muted">
             <span className="inline-flex items-center gap-1">
@@ -62,7 +65,9 @@ export function ListingItem({ listing }: { listing: Listing }) {
         </span>
         <div className="flex items-center gap-1.5">
           <Badge variant="outline">
-            {listing.rentalTerm === "shortTerm" ? t("termShort") : t("termLong")}
+            {listing.rentalTerm === "shortTerm"
+              ? t("termShort")
+              : t("termLong")}
           </Badge>
           {isDraft ? (
             <Badge variant="outline">{t("draft")}</Badge>
@@ -73,7 +78,11 @@ export function ListingItem({ listing }: { listing: Listing }) {
               {listing.state === "reserved" ? t("reserved") : t("available")}
             </Badge>
           )}
-          <ListingRowActions id={listing.id} status={listing.status} />
+          <ListingRowActions
+            id={listing.id}
+            status={listing.status}
+            isDemo={listing.isDemo}
+          />
         </div>
       </div>
     </Card>

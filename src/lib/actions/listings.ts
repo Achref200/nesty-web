@@ -139,7 +139,9 @@ async function updateRow(
       .update(stripNewColumns(row) as unknown as ListingUpdate)
       .eq("id", id);
   }
-  return { error: res.error ? friendlyColumnError(res.error.message) : undefined };
+  return {
+    error: res.error ? friendlyColumnError(res.error.message) : undefined,
+  };
 }
 
 function revalidateListing(id?: string) {
@@ -220,7 +222,8 @@ export async function submitListing(
     return { error: t("fixErrors") };
   }
   const result = await persist(draft, "completed", 6);
-  if (result.ok && result.id) await notifyListingSubmitted(result.id, draft.title);
+  if (result.ok && result.id)
+    await notifyListingSubmitted(result.id, draft.title);
   return result;
 }
 
@@ -254,21 +257,32 @@ async function ownedListing(id: string) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    return { supabase, error: t("signedOut") as string, status: undefined };
+    return {
+      supabase,
+      error: t("signedOut") as string,
+      status: undefined,
+      isDemo: false,
+    };
   }
   const { data } = await supabase
     .from("listings")
-    .select("id, status")
+    .select("id, status, is_demo")
     .eq("id", id)
     .eq("host_id", user.id)
     .maybeSingle();
   if (!data) {
-    return { supabase, error: t("listingNotFound") as string, status: undefined };
+    return {
+      supabase,
+      error: t("listingNotFound") as string,
+      status: undefined,
+      isDemo: false,
+    };
   }
   return {
     supabase,
     error: undefined,
     status: normalizeStatus((data as { status: string | null }).status),
+    isDemo: data.is_demo === true,
   };
 }
 
@@ -300,7 +314,9 @@ export async function updateListingPrice(
   price: number,
 ): Promise<ListingControlState> {
   if (!Number.isFinite(price) || price <= 0) {
-    return { error: (await getTranslations("dashboard.actions"))("invalidPrice") };
+    return {
+      error: (await getTranslations("dashboard.actions"))("invalidPrice"),
+    };
   }
   const { supabase, error } = await ownedListing(id);
   if (error) return { error };
@@ -344,8 +360,13 @@ async function transition(
   id: string,
   to: ListingStatus,
 ): Promise<ListingControlState> {
-  const { supabase, error } = await ownedListing(id);
+  const { supabase, error, isDemo } = await ownedListing(id);
   if (error) return { error };
+  if (isDemo && to === "published") {
+    return {
+      error: (await getTranslations("dashboard.actions"))("demoCannotPublish"),
+    };
+  }
   const { error: updateError } = await updateRow(supabase, id, { status: to });
   if (updateError) return { error: updateError };
   revalidateListing(id);

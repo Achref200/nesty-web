@@ -383,6 +383,7 @@
       "termShort": "Courte durée",
       "termLong": "Longue durée",
       "hidden": "Masquée",
+      "demoPreview": "Aperçu démo",
       "reserved": "Réservée",
       "available": "Disponible",
       "live": "En ligne",
@@ -862,6 +863,7 @@
       "reasonRequired": "Un motif d’annulation est requis.",
       "rejectReasonRequired": "Indiquez un motif de refus — le voyageur en sera informé.",
       "listingNotEditable": "Cette annonce est publiée et ne peut plus être modifiée. Désactivez-la d’abord.",
+      "demoCannotPublish": "Les aperçus démo ne peuvent pas être publiés. Remplacez d’abord les données fictives par des informations approuvées par l’agence.",
       "invalidRange": "Choisissez une plage de dates valide.",
       "fixErrors": "Veuillez compléter chaque étape avant de terminer."
     },

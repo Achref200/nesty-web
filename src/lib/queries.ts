@@ -89,6 +89,7 @@ function mapListing(
     latitude: row.latitude ?? null,
     longitude: row.longitude ?? null,
     status: normalizeStatus(row.status),
+    isDemo: row.is_demo,
     tags: row.tags ?? [],
     views: stats.views,
     saves: stats.saves,
