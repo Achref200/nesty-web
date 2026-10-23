@@ -38,7 +38,8 @@ function formatPrice(value: number) {
 
 /**
  * The traveller (seeker) experience. No hero — straight into a filterable,
- * paginated grid of real listings. Filtering and paging run in the database via
+ * paginated grid of published listings and clearly marked demo examples.
+ * Filtering and paging run in the database via
  * a server action, so it scales to thousands of listings (the browser only
  * holds one page at a time). Reserving anything opens the app modal — booking
  * itself happens in the mobile app.
@@ -135,7 +136,7 @@ export function SeekerSpace({
   return (
     <>
       <main>
-        {/* Filters + real listings */}
+        {/* Filters + published listings and clearly marked demo examples */}
         <section id="stays" className="relative pb-16 pt-10 md:pb-24 md:pt-12">
           <div className="mx-auto max-w-wide px-5 md:px-8">
             <div className="flex flex-col gap-2">
@@ -325,10 +326,16 @@ function ListingCard({
           </div>
         )}
         <div className="keep-dark absolute left-3 top-3 flex flex-wrap gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded-pill bg-paper/90 px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-[0.05em] text-ink backdrop-blur-sm">
-            <ShieldCheck className="h-3 w-3" strokeWidth={2.4} />
-            {t("verified")}
-          </span>
+          {listing.isDemo ? (
+            <span className="inline-flex items-center gap-1 rounded-pill bg-amber-200 px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-[0.05em] text-amber-950 backdrop-blur-sm">
+              {t("demo")}
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-pill bg-paper/90 px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-[0.05em] text-ink backdrop-blur-sm">
+              <ShieldCheck className="h-3 w-3" strokeWidth={2.4} />
+              {t("verified")}
+            </span>
+          )}
           {has3d && (
             <span className="inline-flex items-center gap-1 rounded-pill bg-black/50 px-2.5 py-1 text-[10.5px] font-semibold text-paper backdrop-blur-sm">
               <Box className="h-3 w-3" strokeWidth={2} />
@@ -377,13 +384,19 @@ function ListingCard({
               </span>
             </span>
           </span>
-          <button
-            type="button"
-            onClick={onReserve}
-            className="rounded-pill bg-paper px-4 py-2 text-[13px] font-bold text-ink transition-transform hover:-translate-y-px"
-          >
-            {t("reserve")}
-          </button>
+          {listing.isDemo ? (
+            <span className="rounded-pill border border-amber-200/30 px-3 py-2 text-center text-[11px] font-semibold text-amber-100/80">
+              {t("demoOnly")}
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={onReserve}
+              className="rounded-pill bg-paper px-4 py-2 text-[13px] font-bold text-ink transition-transform hover:-translate-y-px"
+            >
+              {t("reserve")}
+            </button>
+          )}
         </div>
       </div>
     </div>

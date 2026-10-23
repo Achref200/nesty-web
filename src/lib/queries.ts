@@ -11,7 +11,6 @@ import type {
 } from "@/data/types";
 import {
   normalizeStatus,
-  PUBLIC_VISIBLE_STATUSES,
   type BookingConditions,
   type HouseRules,
   type Pricing,
@@ -294,6 +293,7 @@ export interface PublicListing {
   reviewCount: number;
   tags: string[];
   agency: string | null;
+  isDemo: boolean;
 }
 
 export interface PublicListingsQuery {
@@ -331,6 +331,7 @@ type PublicRow = {
   review_count: number;
   tags: string[] | null;
   host_name: string | null;
+  is_demo: boolean;
 };
 
 function mapPublicRow(row: PublicRow): PublicListing {
@@ -349,18 +350,20 @@ function mapPublicRow(row: PublicRow): PublicListing {
     reviewCount: row.review_count,
     tags: row.tags ?? [],
     agency: row.host_name ?? null,
+    isDemo: row.is_demo,
   };
 }
 
 const PUBLIC_COLUMNS =
-  "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, rating, review_count, tags, host_name";
+  "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, rating, review_count, tags, host_name, is_demo";
 
 /**
- * A page of active listings for the public landing (traveller space). Filtering
+ * A page of published listings and clearly marked demo examples for the public
+ * landing. Filtering
  * and pagination happen in the database (`.eq/.lte/.range` + an exact count) so
  * this scales past thousands of listings — the client only ever holds one page
- * at a time. Real data only: returns an empty page when Supabase isn't
- * configured or the query fails, so the UI shows an honest empty state.
+ * at a time. Returns an empty page when Supabase isn't configured or the query
+ * fails, so the UI shows an honest empty state.
  */
 export async function getPublicListings(
   query: PublicListingsQuery = {},
@@ -377,7 +380,7 @@ export async function getPublicListings(
   let q = supabase
     .from("listings")
     .select(PUBLIC_COLUMNS, { count: "exact" })
-    .in("status", PUBLIC_VISIBLE_STATUSES);
+    .or("status.in.(published,active),is_demo.eq.true");
 
   if (query.city && query.city !== "all") q = q.eq("city", query.city);
   if (query.term && query.term !== "all") {
@@ -392,6 +395,7 @@ export async function getPublicListings(
 
   const { data, error, count } = await q
     .order("created_at", { ascending: false })
+    .order("id", { ascending: true })
     .range(from, to);
 
   if (error || !data) return empty;
@@ -413,12 +417,12 @@ export async function getListingFacets(): Promise<ListingFacets> {
     supabase
       .from("listings")
       .select("city")
-      .in("status", PUBLIC_VISIBLE_STATUSES)
+      .or("status.in.(published,active),is_demo.eq.true")
       .limit(1000),
     supabase
       .from("listings")
       .select("price_per_month")
-      .in("status", PUBLIC_VISIBLE_STATUSES)
+      .or("status.in.(published,active),is_demo.eq.true")
       .order("price_per_month", { ascending: false })
       .limit(1),
   ]);

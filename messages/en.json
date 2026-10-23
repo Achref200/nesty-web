@@ -918,7 +918,7 @@
     },
     "filters": {
       "title": "Explore stays",
-      "subtitle": "A preview of real homes on Nesty — reserve in the app.",
+      "subtitle": "Verified homes plus clearly marked demo examples. Demo examples are not bookable.",
       "city": "Destination",
       "allCities": "All destinations",
       "term": "Stay type",
@@ -927,8 +927,8 @@
       "longTerm": "Long term",
       "maxPrice": "Max budget",
       "priceUnit": "TND/mo",
-      "resultsOne": "1 stay",
-      "resultsOther": "{count} stays",
+      "resultsOne": "1 result",
+      "resultsOther": "{count} results",
       "clear": "Clear filters",
       "loadMore": "Show more stays",
       "showing": "Showing {shown} of {total}",
@@ -941,6 +941,8 @@
       "baths": "baths",
       "reserve": "Reserve",
       "verified": "Verified",
+      "demo": "Demo",
+      "demoOnly": "Not bookable",
       "tour3d": "3D tour"
     },
     "empty": {

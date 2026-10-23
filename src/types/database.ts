@@ -76,6 +76,7 @@ export type Database = {
           pricing: Json;
           booking_conditions: Json;
           wizard_step: number;
+          is_demo: boolean;
           created_at: string;
           updated_at: string;
         };
@@ -113,6 +114,7 @@ export type Database = {
           pricing?: Json;
           booking_conditions?: Json;
           wizard_step?: number;
+          is_demo?: boolean;
         };
         Update: {
           title?: string;
@@ -140,6 +142,7 @@ export type Database = {
           pricing?: Json;
           booking_conditions?: Json;
           wizard_step?: number;
+          is_demo?: boolean;
         };
         Relationships: [];
       };

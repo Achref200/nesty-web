@@ -918,7 +918,7 @@
     },
     "filters": {
       "title": "Explorer les séjours",
-      "subtitle": "Un aperçu de logements réels sur Nesty — réservez dans l'application.",
+      "subtitle": "Logements vérifiés et exemples de démonstration clairement signalés. Les exemples ne sont pas réservables.",
       "city": "Destination",
       "allCities": "Toutes les destinations",
       "term": "Type de séjour",
@@ -927,8 +927,8 @@
       "longTerm": "Longue durée",
       "maxPrice": "Budget max",
       "priceUnit": "TND/mois",
-      "resultsOne": "1 séjour",
-      "resultsOther": "{count} séjours",
+      "resultsOne": "1 résultat",
+      "resultsOther": "{count} résultats",
       "clear": "Réinitialiser",
       "loadMore": "Voir plus de séjours",
       "showing": "{shown} sur {total}",
@@ -941,6 +941,8 @@
       "baths": "sdb",
       "reserve": "Réserver",
       "verified": "Vérifié",
+      "demo": "Démo",
+      "demoOnly": "Non réservable",
       "tour3d": "Visite 3D"
     },
     "empty": {

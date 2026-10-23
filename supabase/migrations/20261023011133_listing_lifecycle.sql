@@ -31,12 +31,15 @@ end $$;
 
 alter table public.listings alter column status set default 'draft';
 
+-- Remove the legacy CHECK before backfilling: otherwise changing `active` to
+-- `published` violates the old ('active','hidden') vocabulary mid-migration.
+alter table public.listings drop constraint if exists listings_status_check;
+
 -- Backfill legacy values to lifecycle vocabulary.
 update public.listings set status = 'published' where status = 'active';
 update public.listings set status = 'disabled'  where status = 'hidden';
 
 -- Re-assert the allowed set (keep legacy values accepted for safety).
-alter table public.listings drop constraint if exists listings_status_check;
 alter table public.listings
   add constraint listings_status_check check (
     status in (
