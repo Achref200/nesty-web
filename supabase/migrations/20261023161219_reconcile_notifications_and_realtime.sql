@@ -55,16 +55,22 @@ alter table public.notifications alter column title drop not null;
 -- Mobile writes `read = true`; the dashboard writes `read_at = now()`. Whichever
 -- one a client sets, the other follows, so neither app sees a stale unread badge.
 create or replace function public.notifications_sync_read()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = '' as $$
 begin
-  if new.read and new.read_at is null then
-    new.read_at := now();
-  elsif new.read_at is not null and not new.read then
-    new.read := true;
-  elsif not new.read and new.read_at is not null
-        and (tg_op = 'UPDATE' and old.read) then
-    -- Explicitly marked unread again.
-    new.read_at := null;
+  if tg_op = 'INSERT' then
+    if new.read_at is not null then
+      new.read := true;
+    elsif new.read then
+      new.read_at := now();
+    end if;
+  elsif new.read is distinct from old.read then
+    if new.read then
+      new.read_at := coalesce(new.read_at, now());
+    else
+      new.read_at := null;
+    end if;
+  elsif new.read_at is distinct from old.read_at then
+    new.read := new.read_at is not null;
   end if;
   return new;
 end;
@@ -74,6 +80,7 @@ drop trigger if exists trg_notifications_sync_read on public.notifications;
 create trigger trg_notifications_sync_read
   before insert or update on public.notifications
   for each row execute function public.notifications_sync_read();
+revoke all on function public.notifications_sync_read() from public, anon, authenticated;
 
 -- Backfill both directions for rows written before this ran.
 update public.notifications set read_at = created_at
@@ -88,7 +95,7 @@ update public.notifications set read = true
 -- but every notification now carries a human title/body (what mobile renders)
 -- alongside the structured payload (what the dashboard renders).
 create or replace function public.reservations_log_event()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql security definer set search_path = '' as $$
 declare
   v_type    text;
   v_listing text;
@@ -122,7 +129,13 @@ begin
     insert into public.reservation_events
       (reservation_id, actor_id, actor_role, event_type,
        from_status, to_status, reason)
-    values (new.id, auth.uid(), 'agency', v_type, old.status, new.status,
+    values (
+            new.id,
+            auth.uid(),
+            case when auth.uid() = new.host_id then 'agency'
+                 when auth.uid() = new.guest_id then 'seeker'
+                 else 'system' end,
+            v_type, old.status, new.status,
             new.cancellation_reason);
 
     insert into public.notifications

@@ -158,7 +158,7 @@ create index if not exists reservation_incidents_reporter_idx
 -- Keeps active_range, host_id, reference, expires_at, confirmed_at, updated_at
 -- in sync and blocks any reservation that lands on a manually blocked period.
 create or replace function public.reservations_set_derived()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql security definer set search_path = '' as $$
 declare
   v_start timestamptz := new.start_at;
   v_end   timestamptz;
@@ -216,6 +216,74 @@ create trigger trg_reservations_set_derived
   before insert or update on public.reservations
   for each row execute function public.reservations_set_derived();
 
+-- Participant RLS scopes rows; this trigger also scopes reservation fields and
+-- allowed state changes so direct Data API updates follow the same rules.
+create or replace function public.reservations_enforce_actor()
+returns trigger language plpgsql set search_path = '' as $$
+declare
+  caller_id uuid := auth.uid();
+begin
+  -- Trusted server jobs (such as the expiry sweep) have no end-user id.
+  if caller_id is null then
+    return new;
+  end if;
+
+  if caller_id = old.guest_id then
+    if new.status is distinct from old.status
+       and not (old.status in ('pending', 'confirmed') and new.status = 'cancelled') then
+      raise exception 'Travellers may only cancel an active reservation.';
+    end if;
+    if (new.start_at, new.end_at, new.guests, new.note)
+       is distinct from (old.start_at, old.end_at, old.guests, old.note)
+       or (to_jsonb(new) - array['status', 'cancellation_reason', 'cancelled_by'])
+          is distinct from
+          (to_jsonb(old) - array['status', 'cancellation_reason', 'cancelled_by']) then
+      raise exception 'Travellers may not change reservation details.';
+    end if;
+    if new.status = 'cancelled' then
+      new.cancelled_by := caller_id;
+    end if;
+    return new;
+  end if;
+
+  if caller_id = old.host_id then
+    if new.status is distinct from old.status
+       and not (
+         (old.status = 'pending' and new.status in ('confirmed', 'rejected', 'cancelled'))
+         or (old.status = 'confirmed' and new.status in ('cancelled', 'completed'))
+       ) then
+      raise exception 'This reservation status transition is not allowed.';
+    end if;
+    if (new.start_at, new.end_at, new.guests)
+       is distinct from (old.start_at, old.end_at, old.guests)
+       and (old.status not in ('pending', 'confirmed') or new.status is distinct from old.status) then
+      raise exception 'Only an active reservation can be rescheduled.';
+    end if;
+    if (to_jsonb(new) - array[
+          'status', 'cancellation_reason', 'cancelled_by',
+          'start_at', 'end_at', 'guests', 'note'
+        ]) is distinct from
+        (to_jsonb(old) - array[
+          'status', 'cancellation_reason', 'cancelled_by',
+          'start_at', 'end_at', 'guests', 'note'
+        ]) then
+      raise exception 'Agencies may not change protected reservation fields.';
+    end if;
+    if new.status = 'cancelled' then
+      new.cancelled_by := caller_id;
+    end if;
+    return new;
+  end if;
+
+  raise exception 'Only a reservation participant may update this reservation.';
+end;
+$$;
+
+drop trigger if exists reservations_enforce_actor on public.reservations;
+create trigger reservations_enforce_actor
+  before update on public.reservations
+  for each row execute function public.reservations_enforce_actor();
+
 -- Backfill active_range on existing rows (a no-op update fires the trigger) so
 -- the exclusion constraint below also protects pre-migration reservations.
 update public.reservations set status = status where active_range is null;
@@ -233,7 +301,7 @@ alter table public.reservations
 -- 7) Automatic immutable audit-log on every status change
 -- ────────────────────────────────────────────────────────────────────────────
 create or replace function public.reservations_log_event()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql security definer set search_path = '' as $$
 declare
   v_type text;
 begin
@@ -279,7 +347,7 @@ create trigger trg_reservations_log_event
 -- 8) Soft-lock expiry (cron + callable). Flips timed-out pending → expired.
 -- ────────────────────────────────────────────────────────────────────────────
 create or replace function public.expire_stale_reservations()
-returns integer language plpgsql security definer set search_path = public as $$
+returns integer language plpgsql security definer set search_path = '' as $$
 declare
   v_count integer;
 begin
@@ -305,7 +373,7 @@ exception when others then null;
 end $$;
 
 create or replace function public.touch_incident_updated_at()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = '' as $$
 begin
   new.updated_at := now();
   return new;
@@ -325,21 +393,73 @@ alter table public.reservation_events     enable row level security;
 alter table public.reservation_incidents  enable row level security;
 alter table public.notifications          enable row level security;
 
--- Manual blocks: the owning host manages their own; anyone may read a listing's
--- blocks (public availability). Adjust the select policy if blocks are private.
+-- Replace the legacy broad participant policies with authenticated policies;
+-- the update trigger above limits each participant's permitted changes.
+drop policy if exists "Guest can update their own reservation" on public.reservations;
+drop policy if exists "Host can manage reservations on their listings" on public.reservations;
+drop policy if exists "Guest or host can view a reservation" on public.reservations;
+drop policy if exists "Guests can create their own reservations" on public.reservations;
+drop policy if exists res_insert on public.reservations;
+drop policy if exists res_select on public.reservations;
+drop policy if exists res_update_guest on public.reservations;
+drop policy if exists res_update_host on public.reservations;
+create policy reservations_select_participant on public.reservations
+  for select to authenticated
+  using (auth.uid() = guest_id or auth.uid() = host_id);
+create policy reservations_insert_guest on public.reservations
+  for insert to authenticated
+  with check (
+    auth.uid() = guest_id
+    and exists (
+      select 1 from public.listings l
+      where l.id = reservations.listing_id
+        and l.status in ('published', 'active')
+        and l.is_demo = false
+    )
+  );
+create policy reservations_update_participant on public.reservations
+  for update to authenticated
+  using (auth.uid() = guest_id or auth.uid() = host_id)
+  with check (auth.uid() = guest_id or auth.uid() = host_id);
+
+-- Manual blocks: hosts manage their own rows. Travellers use the sanitized
+-- view below, which intentionally omits internal host ids and block reasons.
 drop policy if exists availability_blocks_select on public.availability_blocks;
-create policy availability_blocks_select on public.availability_blocks
-  for select using (true);
 
 drop policy if exists availability_blocks_write on public.availability_blocks;
 create policy availability_blocks_write on public.availability_blocks
-  for all using (host_id = auth.uid()) with check (host_id = auth.uid());
+  for all to authenticated
+  using (
+    host_id = auth.uid()
+    and exists (
+      select 1 from public.listings l
+      where l.id = availability_blocks.listing_id and l.host_id = auth.uid()
+    )
+  )
+  with check (
+    host_id = auth.uid()
+    and exists (
+      select 1 from public.listings l
+      where l.id = availability_blocks.listing_id and l.host_id = auth.uid()
+    )
+  );
+
+-- Travellers need busy dates, not internal host ids or the agency's reason.
+-- This owner-executed view exposes only the public listing id and date range.
+create or replace view public.public_listing_availability
+  with (security_barrier = true) as
+select b.listing_id, b.start_date, b.end_date, b.id
+  from public.availability_blocks b
+  join public.listings l on l.id = b.listing_id
+ where l.status in ('published', 'active')
+   and l.is_demo = false;
+grant select on public.public_listing_availability to anon, authenticated;
 
 -- Timeline: the reservation's host or seeker can read; inserts come from the
 -- trigger (security definer context of the writing statement), never the client.
 drop policy if exists reservation_events_select on public.reservation_events;
 create policy reservation_events_select on public.reservation_events
-  for select using (
+  for select to authenticated using (
     exists (
       select 1 from public.reservations r
       where r.id = reservation_events.reservation_id
@@ -349,18 +469,24 @@ create policy reservation_events_select on public.reservation_events
 
 -- Notifications: users only see their own.
 drop policy if exists notifications_select on public.notifications;
+drop policy if exists "Users read own notifications" on public.notifications;
 create policy notifications_select on public.notifications
-  for select using (user_id = auth.uid());
+  for select to authenticated using (user_id = auth.uid());
 
 drop policy if exists notifications_update on public.notifications;
+drop policy if exists "Users update own notifications" on public.notifications;
 create policy notifications_update on public.notifications
-  for update using (user_id = auth.uid()) with check (user_id = auth.uid());
+  for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+drop policy if exists notifications_insert on public.notifications;
+create policy notifications_insert on public.notifications
+  for insert to authenticated with check (user_id = auth.uid());
 
 -- Incidents: the reporting agency creates and monitors its own; Nesty Support
 -- (super admin) sees everything and controls the lifecycle (status column).
 drop policy if exists reservation_incidents_insert on public.reservation_incidents;
 create policy reservation_incidents_insert on public.reservation_incidents
-  for insert with check (
+  for insert to authenticated with check (
     reporter_id = auth.uid()
     and exists (
       select 1 from public.reservations r
@@ -371,7 +497,7 @@ create policy reservation_incidents_insert on public.reservation_incidents
 
 drop policy if exists reservation_incidents_select on public.reservation_incidents;
 create policy reservation_incidents_select on public.reservation_incidents
-  for select using (
+  for select to authenticated using (
     reporter_id = auth.uid()
     or coalesce(public.is_super_admin(), false)
   );
@@ -380,8 +506,14 @@ create policy reservation_incidents_select on public.reservation_incidents
 -- once an incident is filed.
 drop policy if exists reservation_incidents_update on public.reservation_incidents;
 create policy reservation_incidents_update on public.reservation_incidents
-  for update using (coalesce(public.is_super_admin(), false))
+  for update to authenticated using (coalesce(public.is_super_admin(), false))
   with check (coalesce(public.is_super_admin(), false));
+
+revoke all on function public.reservations_set_derived() from public, anon, authenticated;
+revoke all on function public.reservations_enforce_actor() from public, anon, authenticated;
+revoke all on function public.reservations_log_event() from public, anon, authenticated;
+revoke all on function public.expire_stale_reservations() from public, anon, authenticated;
+grant execute on function public.expire_stale_reservations() to service_role;
 
 -- ────────────────────────────────────────────────────────────────────────────
 -- 10) Realtime (optional) — live inbox/timeline updates.

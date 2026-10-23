@@ -4,14 +4,18 @@
  */
 /**
  * Deploy URL — used for canonical, OpenGraph and JSON-LD.
- * Set NEXT_PUBLIC_SITE_URL in production to the real domain (e.g. https://nesty.tn).
- * Vercel preview builds fall back to their auto-generated URL so canonical never
- * points at a domain that isn't actually serving the page.
+ * Set NEXT_PUBLIC_SITE_URL when a custom domain is configured. Vercel preview
+ * builds use their unique deployment URL; production uses the stable public
+ * project alias instead of the per-deployment URL in VERCEL_URL.
  */
-const inferredUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
-  "https://nesty.tn";
+const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const stableProductionUrl = "https://nesty-tn.vercel.app";
+const inferredUrl = configuredUrl ||
+  (process.env.VERCEL_ENV === "production"
+    ? stableProductionUrl
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "https://nesty.tn");
 
 export const site = {
   name: "Nesty",
