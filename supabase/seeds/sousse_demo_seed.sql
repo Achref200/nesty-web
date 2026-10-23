@@ -1,8 +1,9 @@
 -- Nesty Sousse demo seed: one EXISTING provisioned agency profile + 31 listings.
 --
 -- This seed is synthetic. It contains no scraped Airbnb data, real addresses,
--- real agency contact details, reviews, or listing photos. All rows stay in
--- `draft` and are exposed only as non-bookable demo previews. Replace the agency
+-- real agency contact details, reviews, or owner-provided property photos.
+-- Stock photos are illustrative. All rows stay in `draft` and are exposed only
+-- as non-bookable demo previews. Replace the agency
 -- ID below with an existing agency authorized to use the demo data before running.
 --
 -- Prerequisites:
@@ -36,6 +37,18 @@ declare
   v_tags text[];
   v_amenities text[];
   v_gallery text[];
+  v_photo_ids text[] := array[
+    '1600585154340-be6161a56a0c',
+    '1613490493576-7fde63acd811',
+    '1580587771525-78b9dba3b914',
+    '1600607687939-ce8a6c25118c',
+    '1512917774080-9991f1c4c750',
+    '1568605114967-8130f3a36994',
+    '1600047509807-ba8f99d2cdde',
+    '1502672260266-1c1ef2d93688',
+    '1570129477492-45c003edd2be',
+    '1560448204-e02f11c3d0e2'
+  ];
 begin
   if v_agency_id = '00000000-0000-4000-8000-000000000000'::uuid then
     raise exception 'Edit v_agency_id to the authorized agency ID before running this seed';
@@ -106,13 +119,17 @@ begin
       else array['wifi', 'hotWater', 'kitchen', 'garden', 'parking']
     end;
 
-    v_gallery := array[
-      format('https://placehold.co/1200x800/jpeg?text=NESTY+DEMO+%s+PHOTO+1', v_i),
-      format('https://placehold.co/1200x800/jpeg?text=NESTY+DEMO+%s+PHOTO+2', v_i),
-      format('https://placehold.co/1200x800/jpeg?text=NESTY+DEMO+%s+PHOTO+3', v_i),
-      format('https://placehold.co/1200x800/jpeg?text=NESTY+DEMO+%s+PHOTO+4', v_i),
-      format('https://placehold.co/1200x800/jpeg?text=NESTY+DEMO+%s+PHOTO+5', v_i)
-    ];
+    -- Stock photos are illustrative only; the DEMO label and notice remain
+    -- visible because none of these images depict or verify these sample homes.
+    select array_agg(
+      format(
+        'https://images.unsplash.com/photo-%s?auto=format&fit=crop&w=1200&q=75',
+        v_photo_ids[((v_i + photo_no - 2) % array_length(v_photo_ids, 1)) + 1]
+      )
+      order by photo_no
+    )
+    into v_gallery
+    from generate_series(1, 5) as g(photo_no);
 
     insert into public.listings (
       id, host_id, title, city, address, price_per_month, currency,

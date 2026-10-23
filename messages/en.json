@@ -460,15 +460,7 @@
         "November",
         "December"
       ],
-      "weekdays": [
-        "M",
-        "T",
-        "W",
-        "T",
-        "F",
-        "S",
-        "S"
-      ],
+      "weekdays": ["M", "T", "W", "T", "F", "S", "S"],
       "prevMonth": "Previous month",
       "nextMonth": "Next month",
       "stay": "Stay",
@@ -1016,7 +1008,8 @@
     },
     "filters": {
       "title": "Explore stays",
-      "subtitle": "Currently published rental listings from local agencies.",
+      "subtitle": "Published listings and previews from the Nesty catalog.",
+      "previewNotice": "Demo catalog: the sample homes shown here are fictional. Their prices, photos and details are illustrative. They are not available to rent and cannot be booked.",
       "city": "Destination",
       "allCities": "All destinations",
       "term": "Stay type",
@@ -1041,6 +1034,7 @@
       "verified": "Preview",
       "demo": "Demo",
       "demoOnly": "Not bookable",
+      "illustrativePhoto": "Illustrative photo",
       "tour3d": "3D tour"
     },
     "empty": {

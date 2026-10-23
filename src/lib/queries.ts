@@ -67,7 +67,8 @@ function mapListing(
 ): Listing {
   const rules = (row.house_rules ?? null) as HouseRules | null;
   const pricing = (row.pricing ?? null) as Pricing | null;
-  const conditions = (row.booking_conditions ?? null) as BookingConditions | null;
+  const conditions = (row.booking_conditions ??
+    null) as BookingConditions | null;
   return {
     id: row.id,
     hostId: row.host_id,
@@ -101,7 +102,8 @@ function mapListing(
     amenities: row.amenities ?? [],
     rules: rules && Object.keys(rules).length ? rules : null,
     pricing: pricing && Object.keys(pricing).length ? pricing : null,
-    conditions: conditions && Object.keys(conditions).length ? conditions : null,
+    conditions:
+      conditions && Object.keys(conditions).length ? conditions : null,
   };
 }
 
@@ -145,7 +147,9 @@ function effectiveStatus(row: {
   return row.status as ReservationStatus;
 }
 
-function isReservedNow(rows: { status: string; start_at: string; expires_at?: string | null }[]): boolean {
+function isReservedNow(
+  rows: { status: string; start_at: string; expires_at?: string | null }[],
+): boolean {
   const grace = Date.now() - 864e5;
   return rows.some((r) => {
     const notExpired =
@@ -237,7 +241,8 @@ export async function getDashboardData(): Promise<DashboardData | null> {
   return {
     // Missing or unreadable profile data must never grant agency access.
     role: profileRes.data?.role ?? "seeker",
-    fullName: profileRes.data?.full_name ?? user.email?.split("@")[0] ?? "there",
+    fullName:
+      profileRes.data?.full_name ?? user.email?.split("@")[0] ?? "there",
     email: user.email ?? "",
     avatarUrl: profileRes.data?.avatar_url ?? null,
     listings,
@@ -291,6 +296,7 @@ export interface PublicListing {
   cover: string | null;
   tags: string[];
   agency: string | null;
+  isDemo: boolean;
 }
 
 export interface PublicListingsQuery {
@@ -326,6 +332,7 @@ type PublicRow = {
   gallery: string[] | null;
   tags: string[] | null;
   host_name: string | null;
+  is_demo: boolean;
 };
 
 function mapPublicRow(row: PublicRow): PublicListing {
@@ -341,16 +348,20 @@ function mapPublicRow(row: PublicRow): PublicListing {
     areaSqm: Number(row.area_sqm),
     cover: row.cover_image ?? row.gallery?.[0] ?? null,
     tags: row.tags ?? [],
-    agency: row.host_name ?? null,
+    agency: row.is_demo ? null : (row.host_name ?? null),
+    isDemo: row.is_demo,
   };
 }
 
 const PUBLIC_COLUMNS =
-  "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, tags, host_name";
+  "id, title, city, price_per_month, rental_term, type, bedrooms, bathrooms, area_sqm, cover_image, gallery, tags, host_name, is_demo";
+
+const PUBLIC_CATALOG_FILTER =
+  "and(status.in.(published,active),is_demo.eq.false),and(status.eq.draft,is_demo.eq.true)";
 
 /**
- * A page of published, non-demo listings for the public landing. Filtering
- * and pagination happen in the database (`.eq/.lte/.range` + an exact count) so
+ * A page of published listings plus clearly marked draft demo previews.
+ * Filtering and pagination happen in the database (`.or/.lte/.range` + an exact count) so
  * this scales past thousands of listings — the client only ever holds one page
  * at a time. Returns an empty page when Supabase isn't configured or the query
  * fails, so the UI shows an honest empty state.
@@ -370,8 +381,7 @@ export async function getPublicListings(
   let q = supabase
     .from("listings")
     .select(PUBLIC_COLUMNS, { count: "exact" })
-    .in("status", ["published", "active"])
-    .eq("is_demo", false);
+    .or(PUBLIC_CATALOG_FILTER);
 
   if (query.city && query.city !== "all") q = q.eq("city", query.city);
   if (query.term && query.term !== "all") {
@@ -408,14 +418,12 @@ export async function getListingFacets(): Promise<ListingFacets> {
     supabase
       .from("listings")
       .select("city")
-      .in("status", ["published", "active"])
-      .eq("is_demo", false)
+      .or(PUBLIC_CATALOG_FILTER)
       .limit(1000),
     supabase
       .from("listings")
       .select("price_per_month")
-      .in("status", ["published", "active"])
-      .eq("is_demo", false)
+      .or(PUBLIC_CATALOG_FILTER)
       .order("price_per_month", { ascending: false })
       .limit(1),
   ]);
@@ -459,7 +467,10 @@ export async function getListingDetail(
       .eq("id", id)
       .eq("host_id", user.id)
       .maybeSingle(),
-    supabase.from("listing_events").select("listing_id,type").eq("listing_id", id),
+    supabase
+      .from("listing_events")
+      .select("listing_id,type")
+      .eq("listing_id", id),
     supabase
       .from("reservations")
       .select("*, listings(title, city)")
@@ -772,12 +783,14 @@ export async function getAgencyIncidents(): Promise<IncidentSummary[]> {
     .order("updated_at", { ascending: false })
     .limit(100);
 
-  return ((data ?? []) as unknown as (IncidentRow & {
-    reservations?: {
-      reference: string | null;
-      listings?: { title: string | null } | null;
-    } | null;
-  })[]).map((row) => ({
+  return (
+    (data ?? []) as unknown as (IncidentRow & {
+      reservations?: {
+        reference: string | null;
+        listings?: { title: string | null } | null;
+      } | null;
+    })[]
+  ).map((row) => ({
     ...mapIncident(row),
     reservationReference: row.reservations?.reference ?? "—",
     listingTitle: row.reservations?.listings?.title ?? "Listing",

@@ -460,15 +460,7 @@
         "Novembre",
         "Décembre"
       ],
-      "weekdays": [
-        "L",
-        "M",
-        "M",
-        "J",
-        "V",
-        "S",
-        "D"
-      ],
+      "weekdays": ["L", "M", "M", "J", "V", "S", "D"],
       "prevMonth": "Mois précédent",
       "nextMonth": "Mois suivant",
       "stay": "Séjour",
@@ -1016,7 +1008,8 @@
     },
     "filters": {
       "title": "Explorer les séjours",
-      "subtitle": "Annonces de location actuellement publiées par des agences locales.",
+      "subtitle": "Annonces publiées et aperçus du catalogue Nesty.",
+      "previewNotice": "Catalogue de démonstration : les logements affichés ici sont fictifs. Leurs prix, photos et caractéristiques sont illustratifs. Ils ne sont pas disponibles à la location et ne peuvent pas être réservés.",
       "city": "Destination",
       "allCities": "Toutes les destinations",
       "term": "Type de séjour",
@@ -1041,6 +1034,7 @@
       "verified": "Aperçu",
       "demo": "Démo",
       "demoOnly": "Non réservable",
+      "illustrativePhoto": "Photo illustrative",
       "tour3d": "Visite 3D"
     },
     "empty": {
